@@ -1,0 +1,76 @@
+plugins {
+    id("android-application-convention")
+    id("android-compose-convention")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+}
+
+android {
+    defaultConfig {
+        applicationId = "com.keelim.free"
+        versionCode = 1
+        versionName = "0.0.1"
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        getByName(BuildType.DEBUG) {
+            signingConfig = signingConfigs.getByName("debug")
+            applicationIdSuffix = ".debug"
+        }
+
+        getByName(BuildType.RELEASE) {
+            isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"))
+            proguardFiles(file("proguard-rules.pro"))
+        }
+    }
+
+    lint {
+        checkOnly.add("Interoperability")
+        disable.add("ContentDescription")
+        isAbortOnError = false
+        xmlReport = true
+    }
+
+    useLibrary("android.test.mock")
+}
+
+dependencies {
+    implementation(Dep.Kotlin.stdlibJvm)
+
+    implementation(Dep.AndroidX.activity.ktx)
+    implementation(Dep.AndroidX.lifecycle.viewModelKtx)
+
+    // Android UI
+    implementation(Dep.AndroidX.UI.browser)
+    implementation(Dep.AndroidX.UI.material)
+
+    // Compose
+    implementation(Dep.AndroidX.Compose.ui)
+    implementation(Dep.AndroidX.Compose.material)
+    implementation(Dep.AndroidX.Compose.tooling)
+
+    // OkHttp
+    implementation(Dep.OkHttp.loggingInterceptor)
+
+    // Hilt
+    implementation(Dep.Dagger.Hilt.android)
+    kapt(Dep.Dagger.Hilt.compiler)
+
+    // kotlin
+    implementation(Dep.Kotlin.coroutines.core)
+    implementation(Dep.Kotlin.coroutines.android)
+
+    implementation(Dep.timber)
+    implementation(Dep.leakCanary)
+    implementation(Dep.Coil.core)
+
+    testImplementation(Dep.Test.junit)
+    testImplementation(Dep.Test.assertJ)
+    testImplementation(Dep.Test.mockito)
+}
+
+kapt {
+    useBuildCache = true
+}
