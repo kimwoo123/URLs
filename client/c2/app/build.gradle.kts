@@ -3,6 +3,7 @@ plugins {
     id("android-compose-convention")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -56,6 +57,9 @@ dependencies {
 
     // Hilt
     implementation(Dep.Dagger.Hilt.android)
+    implementation("androidx.appcompat:appcompat:1.3.1")
+    implementation("com.google.android.material:material:1.4.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     kapt(Dep.Dagger.Hilt.compiler)
 
     // kotlin
