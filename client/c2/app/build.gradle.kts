@@ -35,6 +35,11 @@ android {
     }
 
     useLibrary("android.test.mock")
+
+    buildFeatures{
+        dataBinding = true
+        compose = true
+    }
 }
 
 dependencies {
@@ -42,6 +47,7 @@ dependencies {
 
     implementation(Dep.AndroidX.activity.ktx)
     implementation(Dep.AndroidX.lifecycle.viewModelKtx)
+    implementation(Dep.AndroidX.lifecycle.runtime)
 
     // Android UI
     implementation(Dep.AndroidX.UI.browser)
