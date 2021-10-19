@@ -38,3 +38,4 @@ dependencyResolutionManagement {
 rootProject.name = "free"
 include(":app")
 include(":shared")
+include(":core")
