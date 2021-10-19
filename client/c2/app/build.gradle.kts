@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation(Dep.Kotlin.stdlibJvm)
 
     implementation(Dep.AndroidX.activity.ktx)
@@ -79,6 +80,20 @@ dependencies {
     testImplementation(Dep.Test.junit)
     testImplementation(Dep.Test.assertJ)
     testImplementation(Dep.Test.mockito)
+
+    // startup
+    implementation(Dep.AndroidX.startup)
+    // firebase
+
+    implementation(platform("com.google.firebase:firebase-bom:28.4.1"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-messaging")
+
+    implementation(Dep.AndroidX.datastore.datastore)
+    implementation(Dep.AndroidX.datastore.preferences)
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
 }
 
 kapt {
