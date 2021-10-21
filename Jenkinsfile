@@ -1,12 +1,17 @@
-podTemplate(label: 'builder',
-            containers: [
-                containerTemplate(name: 'gradle', image: 'gradle:5.6-jdk8', command: 'cat', ttyEnabled: true),
-            ]) {
-    node('builder') {
-        stage('Build') {
-            container('gradle') {
-                sh "echo pipeline test"
-            }
-        }
-    }
+podTemplate(label: 'pod-golang',
+	containers: [
+		containerTemplate(
+			name: 'golang',
+			iamge: 'golang',
+			ttyEnabled: true,
+			command: 'cat'
+		)
+	]
+) {
+	node ('pod-golang') {
+		stage 'Swtich to Utility'
+		container('golang') {
+			sh ("go version")
+		}
+	}
 }
