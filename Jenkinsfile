@@ -2,7 +2,7 @@ podTemplate(label: 'pod-golang',
 	containers: [
 		containerTemplate(
 			name: 'golang',
-			iamge: 'golang',
+			image: 'golang',
 			ttyEnabled: true,
 			command: 'cat'
 		)
