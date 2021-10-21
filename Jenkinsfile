@@ -12,6 +12,7 @@ podTemplate(label: 'pod-golang',
 		stage 'Swtich to Utility'
 		container('golang') {
 			sh ("go version")
+			sh ("minikube ip")
 		}
 	}
 }
