@@ -13,7 +13,7 @@ volumes: [
         stage('Run test') {
 			dir ('web') {
 				container('node') {
-					sh "pwd"
+					sh "ls"
 					sh "npm install"
 					sh "npm run test"
 				}
