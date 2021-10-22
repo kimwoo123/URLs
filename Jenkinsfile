@@ -14,14 +14,9 @@ volumes: [
             checkout scm
         }
 
-		stage('Checkt') {
-			sh "ls"
-		}
-
         stage('Run test') {
 			dir ('web') {
 				container('node') {
-					sh "ls"
 					sh "npm install"
 					sh "npm run build"
 				}
