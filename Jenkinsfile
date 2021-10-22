@@ -8,7 +8,7 @@ volumes: [
 ]) {
     node(POD_LABEL) {
         def uuid = UUID.randomUUID().toString()
-        def repo = "eypk9673/eagle/web-front-${uuid}"
+        def repo = "eypk9673/eagle-web-front-${uuid}"
 
         stage('Checkout github branch') {
             checkout scm
