@@ -32,6 +32,7 @@ volumes: [
 			dir ('web') {
 				container('docker') {
 					withCredentials([[
+						$class: 'UsernamePasswordMultiBinding',
 						credentialsId: 'dockerhub_creden',
 						usernameVariable: 'DOCKER_HUB_USER',
 						passwordVariable: 'DOCKER_HUB_PASSWORD'
