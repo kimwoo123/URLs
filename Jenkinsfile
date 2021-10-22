@@ -23,7 +23,7 @@ volumes: [
 				container('node') {
 					sh "ls"
 					sh "npm install"
-					sh "npm run test"
+					sh "npm run build"
 				}
 			}
         }
