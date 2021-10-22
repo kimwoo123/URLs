@@ -10,6 +10,10 @@ volumes: [
         def uuid = UUID.randomUUID().toString()
         def repo = "eypk9673/eagle/web-front-${uuid}"
 
+		stage('Checkt') {
+			sh "ls"
+		}
+
         stage('Run test') {
 			dir ('web') {
 				container('node') {
