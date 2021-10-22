@@ -26,7 +26,7 @@ volumes: [
 						sh """
 							docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
 							docker build -t ${repo} .
-							docker push ${repo}
+							docker push ${repo}:latest
 						"""
 					}
 				}
