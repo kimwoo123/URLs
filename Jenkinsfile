@@ -35,7 +35,7 @@ volumes: [
         stage('Apply kubernetes') {
             container('kubectl') {
                 sh """
-                     kubectl set image deployment web-front web-front=${repo}
+                     kubectl set image deployment web-front web-front=${repo} -n default
                 """
             }
         }
