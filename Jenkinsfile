@@ -7,7 +7,6 @@ volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
 ]) {
     node(POD_LABEL) {
-        def uuid = UUID.randomUUID().toString()
         def repo = "eypk9673/eagle-web-front"
 
         stage('Checkout github branch') {
