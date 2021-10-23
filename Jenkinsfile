@@ -8,7 +8,7 @@ volumes: [
 ]) {
     node(POD_LABEL) {
         def uuid = UUID.randomUUID().toString()
-        def repo = "eypk9673/eagle-web-front-${uuid}"
+        def repo = "eypk9673/eagle-web-front"
 
         stage('Checkout github branch') {
             checkout scm
@@ -25,7 +25,7 @@ volumes: [
 					]])  {
 						sh """
 							docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
-							docker build -t ${repo} .
+							docker build -t ${repo}:${env.BUILD_NUMBER} .
 							docker push ${repo}:${env.BUILD_NUMBER}
 						"""
 					}
@@ -35,7 +35,7 @@ volumes: [
         stage('Apply kubernetes') {
             container('kubectl') {
                 sh """
-                     kubectl set image deployment web-front web-front=${repo} -n default
+                     kubectl set image deployment web-front web-front=${repo}:${env.BUILD_NUMBER} -n default
                 """
             }
         }
