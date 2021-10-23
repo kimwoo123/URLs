@@ -23,7 +23,7 @@ volumes: [
 						passwordVariable: 'DOCKER_HUB_PASSWORD'
 					]])  {
 						sh """
-							docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
+							echo "${DOCKER_HUB_PASSWORD}" | docker login -u ${DOCKER_HUB_USER} --pssword-stdin
 							docker build -t ${repo}:${env.BUILD_NUMBER} .
 							docker push ${repo}:${env.BUILD_NUMBER}
 						"""
