@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from routes.user import user
 from routes.token import token
+from routes.tag import tag
 
 # uvicorn main:app --reload
 # source venv/Scripts/activate
@@ -9,6 +10,7 @@ from routes.token import token
 app = FastAPI()
 app.include_router(token)
 app.include_router(user)
+app.include_router(tag)
 
 
 # 400 Bad Request
