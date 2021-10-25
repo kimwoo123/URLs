@@ -6,25 +6,32 @@ volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
 ]) {
     node(POD_LABEL) {
-        def repo = "eypk9673/eagle-web-front"
+        def frontrepo = "eypk9673/eagle-web-front"
+        def backrepo = "eypk9673/eagle-back
 
-        stage('Checkout github branch') {
+        stage ('Checkout github branch') {
             checkout scm
         }
 
-        stage('Build and Push docker image') {
-            container('docker') {
+        stage ('Build and Push docker image') {
+            container ('docker') {
                 withCredentials([[
                     $class: 'UsernamePasswordMultiBinding',
                     credentialsId: 'dockerhub_creden',
                     usernameVariable: 'DOCKER_HUB_USER',
                     passwordVariable: 'DOCKER_HUB_PASSWORD'
                 ]])  {
-                    sh('echo ${DOCKER_HUB_PASSWORD} | docker login -u $DOCKER_HUB_USER --password-stdin')
+                    sh ('echo ${DOCKER_HUB_PASSWORD} | docker login -u $DOCKER_HUB_USER --password-stdin')
                     dir ('web') {
                         sh """
-                            docker build -t ${repo}:${env.BUILD_NUMBER} .
-                            docker push ${repo}:${env.BUILD_NUMBER}
+                            docker build -t ${frontrepo}:${env.BUILD_NUMBER} .
+                            docker push ${frontrepo}:${env.BUILD_NUMBER}
+                        """
+                    }
+                    dir ('backend') {
+                        sh """
+                            docker build -t ${backrepo}:${env.BUILD_NUMBER} .
+                            docker push ${backrepo}:${env.BUILD_NUMBER}
                         """
                     }
                 }
@@ -33,7 +40,8 @@ volumes: [
         stage('Apply kubernetes') {
             container('kubectl') {
                 sh """
-                     kubectl set image deployment web-front web-front=${repo}:${env.BUILD_NUMBER} -n default
+                     kubectl set image deployment web-front web-front=${frontrepo}:${env.BUILD_NUMBER} -n default
+                     kubectl set image deployment eagle-back eagle-back=${backrepo}:${env.BUILD_NUMBER} -n default
                 """
             }
         }
