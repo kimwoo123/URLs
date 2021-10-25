@@ -13,24 +13,23 @@ volumes: [
         }
 
         stage('Build and Push docker image') {
-				container('docker') {
-					withCredentials([[
-						$class: 'UsernamePasswordMultiBinding',
-						credentialsId: 'dockerhub_creden',
-						usernameVariable: 'DOCKER_HUB_USER',
-						passwordVariable: 'DOCKER_HUB_PASSWORD'
-					]])  {
-                        dir ('web') {
-                            sh('echo ${DOCKER_HUB_PASSWORD} | docker login -u $DOCKER_HUB_USER --password-stdin')
-                            sh """
-                                docker build -t ${repo}:${env.BUILD_NUMBER} .
-                                docker push ${repo}:${env.BUILD_NUMBER}
-                            """
-                        }
+            container('docker') {
+                withCredentials([[
+                    $class: 'UsernamePasswordMultiBinding',
+                    credentialsId: 'dockerhub_creden',
+                    usernameVariable: 'DOCKER_HUB_USER',
+                    passwordVariable: 'DOCKER_HUB_PASSWORD'
+                ]])  {
+                    dir ('web') {
+                        sh('echo ${DOCKER_HUB_PASSWORD} | docker login -u $DOCKER_HUB_USER --password-stdin')
+                        sh """
+                            docker build -t ${repo}:${env.BUILD_NUMBER} .
+                            docker push ${repo}:${env.BUILD_NUMBER}
+                        """
                     }
-				}
+                }
 			}
-        }
+		}
         stage('Apply kubernetes') {
             container('kubectl') {
                 sh """
