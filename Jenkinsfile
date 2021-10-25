@@ -7,7 +7,7 @@ volumes: [
 ]) {
     node(POD_LABEL) {
         def frontrepo = "eypk9673/eagle-web-front"
-        def backrepo = "eypk9673/eagle-back
+        def backrepo = "eypk9673/eagle-back"
 
         stage ('Checkout github branch') {
             checkout scm
