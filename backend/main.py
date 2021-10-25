@@ -8,9 +8,9 @@ from routes.folder import folder, url
 # pip freeze > requirements.txt
 
 app = FastAPI()
-app.include_router(token)
-app.include_router(user)
-app.include_router(tag)
+app.include_router(token, tags=["token"])
+app.include_router(user, tags=["user"])
+app.include_router(tag, tags=["tag"])
 app.include_router(folder, tags=["folder"])
 app.include_router(url, tags=["folder/url"])
 

@@ -1,11 +1,10 @@
 from fastapi import APIRouter, HTTPException, status
-from typing import List
- 
 from models.folder import Folder, User, Highlight, Url, FolderIn
 from config.db import db
 from schemas.user import serializeDict, serializeList
 from bson import ObjectId
 from pprint import pprint
+
 
 folder = APIRouter()
 url = APIRouter()

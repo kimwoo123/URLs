@@ -1,14 +1,12 @@
 from fastapi import Depends, APIRouter, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-
 from datetime import datetime, timedelta
 from typing import Optional
-
 from jose import jwt, JWTError
 from passlib.context import CryptContext
-
-from models.user import UserOut, Token
+from models.user import UserOut
 from config.db import db
+
 
 SECRET_KEY = "4ea60b27e862df027b7cc1e76c2446bca8406b8b4db2d79f0c9d19ab188de9b1"
 ALGORITHM = "HS256"
@@ -18,7 +16,6 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 token = APIRouter()
-token.tags=["token"]
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):

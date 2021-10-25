@@ -1,15 +1,12 @@
 from fastapi import APIRouter, HTTPException, status
-from typing import List
- 
 from models.user import UserIn, UserOut
 from config.db import db
 from schemas.user import serializeDict, serializeList
 from bson import ObjectId
 import bcrypt
 
-user = APIRouter()
-user.tags = ["user"]
 
+user = APIRouter()
 
 @user.get('/user',  summary="모든 유저 조회")
 async def find_all_users():
