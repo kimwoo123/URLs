@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from routes.user import user
 from routes.token import token
 from routes.tag import tag
-
+from routes.folder import folder, url
 # uvicorn main:app --reload
 # source venv/Scripts/activate
 # pip freeze > requirements.txt
@@ -11,7 +11,8 @@ app = FastAPI()
 app.include_router(token)
 app.include_router(user)
 app.include_router(tag)
-
+app.include_router(folder, tags=["folder"])
+app.include_router(url, tags=["folder/url"])
 
 # 400 Bad Request
 # 401 Unauthorized
