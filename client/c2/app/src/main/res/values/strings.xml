@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">free</string>
+    <string name="notification_channel_notice">noticechannel</string>
+    <string name="notification_channel_event">eventchannel</string>
 </resources>
