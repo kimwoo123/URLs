@@ -1,9 +1,11 @@
 from typing import List, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, HttpUrl
 
 
 class User(BaseModel):
+    email: EmailStr
     nickname: str
+    avatar: HttpUrl
     permission: Optional[int] = 0
 
 
@@ -14,8 +16,8 @@ class Highlight(BaseModel):
 
 
 class Url(BaseModel):
-    url: str
-    img: Optional[str]
+    url: HttpUrl
+    img: Optional[HttpUrl]
     tags: List[str] = []
     highlights: List[Highlight] = []
 
@@ -23,7 +25,7 @@ class Url(BaseModel):
 class Folder(BaseModel):
     folder_name: str
     users: List[User] = []
-    urls: List[Url] = []
+    urls: List[HttpUrl] = []
 
 
 class FolderIn(BaseModel):

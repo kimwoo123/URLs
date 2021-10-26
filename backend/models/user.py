@@ -1,11 +1,11 @@
 from typing import List, Optional
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, HttpUrl
 
 
 class UserBase(BaseModel):
     email: EmailStr
     nickname : str
-    avatar: str
+    avatar: HttpUrl
     folders: List[str] = []
 
 
