@@ -21,14 +21,14 @@ async def find_one_user(id):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user {id} not found")
 
 
-@user.post('/user', summary="단일 유저 생성", status_code=status.HTTP_201_CREATED)
+@user.post('/user', summary="새로운 유저 생성", status_code=status.HTTP_201_CREATED)
 async def create_user(user: UserIn):
     user.password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt()) 
     db.user.insert_one(dict(user))
     return serializeList(db.user.find())
 
 
-@user.put('/user/{id}', response_model=UserOut, summary="단일 유저 수정")
+@user.put('/user/{id}', response_model=UserOut, summary="유저 정보 수정")
 async def update_user(id, user: UserIn):
     user = db.user.find_one_and_update({"_id": ObjectId(id)}, {"$set": dict(user)})
     if user is not None:
@@ -36,7 +36,7 @@ async def update_user(id, user: UserIn):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user {id} not found")
 
 
-@user.delete('/user/{id}', response_model=UserOut, summary="단일 유저 삭제")
+@user.delete('/user/{id}', response_model=UserOut, summary="유저 삭제")
 async def delete_user(id):
     user = db.user.find_one_and_delete({"_id": ObjectId(id)})
     if user is not None:

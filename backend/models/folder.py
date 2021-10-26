@@ -7,6 +7,16 @@ class User(BaseModel):
     nickname: str
     avatar: HttpUrl
     permission: Optional[int] = 0
+    
+    class Config:
+        schema_extra = {
+            "example": {
+                "email": "ssafy@ssafy.com",
+                "nickname": "ssafy",
+                "avatar": "https://via.placeholder.com/200.jpg",
+                "permission": 0,
+            }
+        }
 
 
 class Highlight(BaseModel):

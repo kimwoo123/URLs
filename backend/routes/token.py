@@ -30,7 +30,6 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
-    print(token)
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -49,7 +48,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     return user
 
 
-@token.post("/token")
+@token.post("/token", summary="로그인 & 토큰 발급")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     # 유저 확인
     user = db.user.find_one({"email": form_data.username})
@@ -67,6 +66,6 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@token.get("/token/me/", response_model=UserOut)
+@token.get("/token/me/", response_model=UserOut, summary="토큰 유저 확인")
 async def read_users_me(current_user: UserOut = Depends(get_current_user)):
     return current_user

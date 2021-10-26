@@ -9,12 +9,33 @@ class UserBase(BaseModel):
     folders: List[str] = []
 
 
-class UserIn(UserBase):
+class UserIn(BaseModel):
     password: str
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "email": "ssafy@ssafy.com",
+                "nickname": "ssafy",
+                "avatar": "https://via.placeholder.com/200.jpg",
+                "folders": [],
+                "password": "ssafy1234"
+            }
+        }
 
 
 class UserOut(UserBase):
     pass
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "email": "ssafy@ssafy.com",
+                "nickname": "ssafy",
+                "avatar": "https://via.placeholder.com/200.jpg",
+                "folders": [],
+            }
+        }
 
 
 class Token(BaseModel):
