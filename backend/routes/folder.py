@@ -23,7 +23,7 @@ async def find_one_folder(id):
 async def create_folder(folder_in: FolderIn):
     folder = {
         "folder_name": folder_in.folder_name,
-        "uers": [dict(folder_in.user)],
+        "users": [dict(folder_in.user)],
         "urls": []
     }
     result = db.folder.insert_one(folder)
@@ -54,16 +54,35 @@ async def delete_folder(id):
 # 폴더 유저 관리
 
 @folder.post('/folder/{id}/user', summary="폴더 유저 생성")
-async def create_folder_user(folder_id):
-    pass
+async def create_folder_user(id, user: User):
+    db.folder.update_one({"_id": ObjectId(id)}, {"$push": {"users": dict(user)}})
+    folder = db.folder.find_one({"_id": ObjectId(id)})
+    if folder is not None:
+        return serializeDict(folder)
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
+
 
 @folder.put('/folder/{id}/user', summary="폴더 유저 권한 변경")
-async def update_folder_user(folder_id):
-    pass
+async def update_folder_user(id, email, permission: int):
+    db.folder.update_one(
+        {"_id": ObjectId(id), "users.email": email},
+        {"$set": {"users.$.permission": permission}}
+    )
+    folder = db.folder.find_one({"_id": ObjectId(id)})
+    if folder is not None:
+        return serializeDict(folder)
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
 
 @folder.delete('/folder/{id}/user', summary="폴더 유저 삭제")
-async def delete_folder_user(folder_id):
-    pass
+async def delete_folder_user(id, email):
+    db.folder.update_one(
+        {"_id": ObjectId(id)},
+        {"$pull": {"users": {"email": email}}}
+    )
+    folder = db.folder.find_one({"_id": ObjectId(id)})
+    if folder is not None:
+        return serializeDict(folder)
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
 
 
 
