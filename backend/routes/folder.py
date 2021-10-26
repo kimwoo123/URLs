@@ -4,7 +4,7 @@ from config.db import db
 from schemas.user import serializeDict, serializeList
 from bson import ObjectId
 from pprint import pprint
-
+from pymongo import ReturnDocument
 
 folder = APIRouter()
 url = APIRouter()
@@ -18,22 +18,25 @@ async def find_one_folder(id):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
 
 
+# 추후 체크
 @folder.post('/folder', summary="폴더 생성")
 async def create_folder(folder_in: FolderIn):
-    folder = Folder(
-        folder_name = folder_in.folder_name,
-        users = [folder_in.user],
-    )
-    folder_inDB = dict(folder)
-    folder_inDB["users"] = [dict(folder_inDB["users"][0])]
-    db.folder.insert_one(folder_inDB)
-    return serializeList(db.folder.find())
+    folder = {
+        "folder_name": folder_in.folder_name,
+        "uers": [dict(folder_in.user)],
+        "urls": []
+    }
+    result = db.folder.insert_one(folder)
+    new_folder = db.folder.find_one({"_id": ObjectId(result.inserted_id)})
+    return serializeDict(new_folder)
 
 
 @folder.put('/folder/{id}', summary="폴더명 변경")
 async def update_folder(id, folder_name):
-    db.folder.find_one_and_update({"_id": ObjectId(id)}, {"$set": {"folder_name": folder_name}})
-    folder = db.folder.find_one({"_id": ObjectId(id)})
+    folder = db.folder.find_one_and_update(
+        {"_id": ObjectId(id)}, {"$set": {"folder_name": folder_name}}, 
+        return_document=ReturnDocument.AFTER
+    )
     if folder is not None:
         return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
