@@ -2,8 +2,10 @@ plugins {
     id("android-application-convention")
     id("android-compose-convention")
     kotlin("kapt")
+    id("com.google.firebase.crashlytics")
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -16,8 +18,7 @@ android {
 
     buildTypes {
         getByName(BuildType.DEBUG) {
-            signingConfig = signingConfigs.getByName("debug")
-            applicationIdSuffix = ".debug"
+
         }
 
         getByName(BuildType.RELEASE) {
@@ -26,18 +27,11 @@ android {
             proguardFiles(file("proguard-rules.pro"))
         }
     }
-
-    lint {
-        checkOnly.add("Interoperability")
-        disable.add("ContentDescription")
-        isAbortOnError = false
-        xmlReport = true
-    }
-
     useLibrary("android.test.mock")
 
     buildFeatures{
         dataBinding = true
+        viewBinding = true
         compose = true
     }
 }
@@ -74,8 +68,9 @@ dependencies {
     implementation(Dep.Kotlin.coroutines.android)
 
     implementation(Dep.timber)
-    implementation(Dep.leakCanary)
+    debugImplementation(Dep.leakCanary)
     implementation(Dep.Coil.core)
+
 
     testImplementation(Dep.Test.junit)
     testImplementation(Dep.Test.assertJ)
@@ -94,6 +89,9 @@ dependencies {
     implementation(Dep.AndroidX.datastore.preferences)
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
+
+    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
 }
 
 kapt {

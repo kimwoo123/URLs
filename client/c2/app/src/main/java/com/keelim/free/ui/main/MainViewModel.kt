@@ -1,4 +1,4 @@
-package com.keelim.free.ui
+package com.keelim.free.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
