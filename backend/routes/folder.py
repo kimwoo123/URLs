@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from models.folder import Folder, User, Highlight, Url, FolderIn
 from config.db import db
-from schemas.user import serializeDict, serializeList
+from serializers.common import serializeDict, serializeList
 from bson import ObjectId
 from pprint import pprint
 from pymongo import ReturnDocument

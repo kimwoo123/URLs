@@ -7,7 +7,40 @@ from routes.tag import tag
 from routes.folder import folder, folder_url, folder_user
 
 
-app = FastAPI()
+tags_metadata = [
+    {
+        "name": "token",
+        "description": "토큰 발급. **로그인** 포함",
+    },
+    {
+        "name": "user",
+        "description": "유저 CRUD. **회원가입** 포함",
+    },
+    {
+        "name": "tag",
+        "description": "태그 CRUD",
+    },
+    {
+        "name": "folder",
+        "description": "폴더 CRUD (**폴더 자체)**",
+    },
+    {
+        "name": "folder/user",
+        "description": "폴더 user CUD (폴더 내의 **user 필드**)",
+    },
+    {
+        "name": "folder/url",
+        "description": "구현X | 폴더 url 관련",
+    },
+]
+
+
+app = FastAPI(
+    title="Project Urls",
+    description="팀 이글아이 SSAFY 자율 프로젝트 Urls",
+    version="0.0.1",
+    openapi_tags=tags_metadata
+)
 
 origins = [
     "http://localhost",

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from models.tag import Tag
 from config.db import db
-from schemas.user import serializeDict, serializeList
+from serializers.common import serializeDict, serializeList
 from bson import ObjectId
 
 
