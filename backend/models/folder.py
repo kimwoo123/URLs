@@ -10,6 +10,11 @@ class User(BaseModel):
     permission: Optional[int] = 0
 
 
+class UserIn(BaseModel):
+    email: EmailStr
+    permission: Optional[int] = 0
+
+
 class Url(BaseModel):
     url: HttpUrl
     added_by: User
