@@ -13,6 +13,14 @@ class User(BaseModel):
 class UserIn(BaseModel):
     email: EmailStr
     permission: Optional[int] = 0
+    class Config:
+        schema_extra = {
+            "example": {
+                "email": "ssafy@ssafy.com",
+                "permission": 0
+            }
+        }
+
 
 
 class Url(BaseModel):
@@ -20,7 +28,7 @@ class Url(BaseModel):
     added_by: User
     thumbnail: Optional[HttpUrl]
     tags: List[str] = []
-    memo_id: Optional[PyObjectId]
+    memo_id: PyObjectId
 
     class Config:
         arbitrary_types_allowed = True
@@ -29,8 +37,33 @@ class Url(BaseModel):
         }
 
 
+class UrlIn(BaseModel):
+    url: HttpUrl
+    thumbnail: Optional[HttpUrl]
+    tags: List[str] = []
+    class Config:
+        schema_extra = {
+            "example": {
+                "url": "https://www.naver.com/",
+                "thumbnail": "https://via.placeholder.com/200.jpg",
+                "tags": [],
+            }
+        }
+
+
+class UrlInDB(Url):
+    pass
+
+
+
 class FolderIn(BaseModel):
     folder_name: str
+    class Config:
+        schema_extra = {
+            "example": {
+                "folder_name": "folder1",
+            }
+        }
 
 
 class FolderInDB(BaseModel):
