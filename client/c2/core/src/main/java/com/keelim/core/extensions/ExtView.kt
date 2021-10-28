@@ -69,7 +69,7 @@ fun TextView.asyncText(text: CharSequence?) {
     }
 }
 
-inline fun View.animateVisible(
+fun View.animateVisible(
     isVisible: Boolean,
     startDelay: Long = 0,
     duration: Long = 30
@@ -81,7 +81,7 @@ inline fun View.animateVisible(
         .withEndAction { this.isVisible = isVisible }
 }
 
-inline fun View.animateInvisible(
+fun View.animateInvisible(
     isInvisible: Boolean,
     startDelay: Long = 0,
     duration: Long = 30
@@ -93,7 +93,7 @@ inline fun View.animateInvisible(
         .withEndAction { this.isInvisible = isInvisible }
 }
 
-inline fun View.animateGone(
+fun View.animateGone(
     isGone: Boolean,
     startDelay: Long = 0,
     duration: Long = 300
@@ -105,11 +105,11 @@ inline fun View.animateGone(
         .withEndAction { this.isGone = isGone }
 }
 
-inline fun View.toCacheFile(folderName: String? = null, fileName: String): File {
+fun View.toCacheFile(folderName: String? = null, fileName: String): File {
     return drawToBitmap().toCacheFile(context, folderName = folderName, fileName = fileName)
 }
 
-inline fun Bitmap.toCacheFile(
+fun Bitmap.toCacheFile(
     context: Context,
     folderName: String? = null,
     fileName: String

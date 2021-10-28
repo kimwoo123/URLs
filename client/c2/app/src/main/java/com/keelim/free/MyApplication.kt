@@ -20,5 +20,6 @@ class MyApplication: Application(){
         super.onCreate()
         themeManager.applyTheme(ThemeType.DEFAULT)
         NotificationChannels.init(this)
+        componentLogger.initialize(this)
     }
 }
