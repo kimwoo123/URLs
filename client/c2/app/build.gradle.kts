@@ -1,3 +1,6 @@
+import BuildTypeRelease.isMinifyEnabled
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("android-application-convention")
     id("android-compose-convention")
@@ -8,6 +11,9 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+val key: String = gradleLocalProperties(rootDir).getProperty("KAKAO")
+
+
 android {
     defaultConfig {
         applicationId = "com.keelim.free"
@@ -17,22 +23,29 @@ android {
     }
 
     buildTypes {
-        getByName(BuildType.DEBUG) {
-
+        debug {
+            buildConfigField("String", "key", key)
         }
 
-        getByName(BuildType.RELEASE) {
+        release {
             isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"))
-            proguardFiles(file("proguard-rules.pro"))
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro")
         }
     }
     useLibrary("android.test.mock")
 
-    buildFeatures{
+    buildFeatures {
         dataBinding = true
         viewBinding = true
         compose = true
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
     }
 }
 
@@ -58,10 +71,13 @@ dependencies {
 
     // Hilt
     implementation(Dep.Dagger.Hilt.android)
+    kapt(Dep.Dagger.Hilt.compiler)
+
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
-    kapt(Dep.Dagger.Hilt.compiler)
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
 
     // kotlin
     implementation(Dep.Kotlin.coroutines.core)
@@ -92,6 +108,8 @@ dependencies {
 
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
+
+    implementation("com.firebaseui:firebase-ui-auth:7.2.0")
 }
 
 kapt {
