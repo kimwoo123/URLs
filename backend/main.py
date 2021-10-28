@@ -4,8 +4,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from routes.user import user
 from routes.token import token
 from routes.tag import tag
-from routes.folder import folder, folder_url, folder_user
-
+from routes.folder import folder 
+from routes.folder_url import folder_url 
+from routes.folder_user import folder_user 
+from routes.memo import memo
 
 tags_metadata = [
     {
@@ -30,7 +32,11 @@ tags_metadata = [
     },
     {
         "name": "folder/url",
-        "description": "구현X | 폴더 url 관련",
+        "description": "폴더 url 관련 CUD (폴더 url, tag, thumbnail)",
+    },
+    {
+        "name": "memo",
+        "description": "폴더의 url에 달리는 memo CRUD",
     },
 ]
 
@@ -61,6 +67,7 @@ app.include_router(tag, tags=["tag"])
 app.include_router(folder, tags=["folder"])
 app.include_router(folder_user, tags=["folder/user"])
 app.include_router(folder_url, tags=["folder/url"])
+app.include_router(memo, tags=["memo"])
 
 
 # uvicorn main:app --reload
