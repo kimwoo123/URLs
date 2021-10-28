@@ -7,5 +7,10 @@ module.exports = {
   },
   transpileDependencies: [
     'quasar'
-  ]
+  ],
+  lintOnSave: true,
+  filenameHashing: false,
+  output: {
+    filename: '[name].[hash].bundle.js'
+  }
 }
