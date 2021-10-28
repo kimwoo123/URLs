@@ -10,7 +10,4 @@ module.exports = {
   ],
   lintOnSave: true,
   filenameHashing: false,
-  output: {
-    filename: '[name].[hash].bundle.js'
-  }
 }
