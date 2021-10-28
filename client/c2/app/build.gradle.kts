@@ -51,6 +51,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":domain"))
     implementation(Dep.Kotlin.stdlibJvm)
 
     implementation(Dep.AndroidX.activity.ktx)
