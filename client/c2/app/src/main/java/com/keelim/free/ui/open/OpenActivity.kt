@@ -1,4 +1,4 @@
-package com.keelim.free.ui.main
+package com.keelim.free.ui.open
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-    private val mainViewModel: MainViewModel by viewModels()
+class OpenActivity : AppCompatActivity() {
+    private val openViewModel: OpenViewModel by viewModels()
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() = with(binding){
         lifecycleScope.launch {
-            mainViewModel.openText.collect {
+            openViewModel.openText.collect {
                 btn.text = it
             }
 //            repeatOnLifecycle(Lifecycle.State.STARTED){

@@ -1,4 +1,4 @@
-package com.keelim.free.ui.main
+package com.keelim.free.ui.open
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class OpenViewModel @Inject constructor(
     private val parser: OpenGraphParser
 ):ViewModel() {
     private val _openText = MutableSharedFlow<String>()
