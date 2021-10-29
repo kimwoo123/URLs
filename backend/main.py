@@ -57,6 +57,13 @@ app.add_middleware(
 app.include_router(api_router)
 
 
+@app.get('/')
+async def test():
+    return "am 11:40 테스트"
+
+
 # uvicorn main:app --reload
+# python -m venv venv
 # source venv/Scripts/activate
 # pip freeze > requirements.txt
+# pip install -r requirements.txt
