@@ -3,7 +3,10 @@ package com.keelim.free.ui.auth
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -14,10 +17,14 @@ import com.keelim.free.databinding.ActivityAuthBinding
 import com.keelim.free.ui.main.MenuActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import java.util.concurrent.Executor
 
 @AndroidEntryPoint
 class AuthActivity : AppCompatActivity() {
     private val binding by lazy { ActivityAuthBinding.inflate(layoutInflater) }
+
+    private lateinit var executor: Executor
+    private lateinit var biometricPrompt: BiometricPrompt
     val providers = arrayListOf(
         AuthUI.IdpConfig.GoogleBuilder().build(),
     )
@@ -31,6 +38,7 @@ class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        initBio()
         tokenCheck()
         initViews()
     }
@@ -41,8 +49,11 @@ class AuthActivity : AppCompatActivity() {
         val pref = getSharedPreferences("token", MODE_PRIVATE)
         val token = pref.getString("token", "")
         if (token != "") {
-            startActivity(Intent(this, MenuActivity::class.java))
-            finish()
+            biometricPrompt.authenticate(BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Biometric login for my app")
+                .setSubtitle("Log in using your biometric credential")
+                .setNegativeButtonText("Use account password")
+                .build())
         }
     }
 
@@ -81,9 +92,41 @@ class AuthActivity : AppCompatActivity() {
             }
     }
 
-    private fun initViews() = with(binding){
+    private fun initViews() = with(binding) {
         signInButton.setOnClickListener {
             signIn()
         }
+    }
+
+    private fun initBio() {
+        executor = ContextCompat.getMainExecutor(this)
+        biometricPrompt =
+            BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationError(
+                    errorCode: Int,
+                    errString: CharSequence,
+                ) {
+                    super.onAuthenticationError(errorCode, errString)
+                    Toast.makeText(this@AuthActivity,
+                        "Authentication error: $errString",
+                        Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    Toast.makeText(this@AuthActivity,
+                        "Authentication succeeded!",
+                        Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@AuthActivity, MenuActivity::class.java))
+                    finish()
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    Toast.makeText(this@AuthActivity, "Authentication failed",
+                        Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
     }
 }

@@ -1,4 +1,3 @@
-import BuildTypeRelease.isMinifyEnabled
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
@@ -113,6 +112,7 @@ dependencies {
     implementation("com.firebaseui:firebase-ui-auth:7.2.0")
 
     implementation("com.google.android.gms:play-services-oss-licenses:17.0.0")
+    implementation("androidx.biometric:biometric:1.0.1")
 }
 
 kapt {
