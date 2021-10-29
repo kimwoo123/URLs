@@ -15,7 +15,30 @@ folder_url = APIRouter()
 
 # 폴더 url 관리
 
-@folder_url.post('/folder/{id}/url', summary="폴더 url 생성")
+@folder_url.get('/folder/url', summary="내 모든 폴더에서 특정 url 검색 | 구현 X")
+async def find_one_folder_url(url, user: User = Depends(get_current_user)):
+    pass
+    # folder = db.folder.find_one(
+    #     {"_id": ObjectId(id), "urls.url": url},
+    #     {"urls.$":1}
+    # )
+    # if folder is not None:
+    #     return serializeDict(folder)
+    # raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
+
+
+@folder_url.get('/folder/{id}/url', summary="폴더 내 특정 url 검색")
+async def find_one_folder_url(id, url):
+    folder = db.folder.find_one(
+        {"_id": ObjectId(id), "urls.url": url},
+        {"urls.$":1}
+    )
+    if folder is not None:
+        return serializeDict(folder)
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
+
+
+@folder_url.post('/folder/{id}/url', summary="폴더 내 새로운 url 생성")
 async def create_folder_url(id, url_in: UrlIn, user: User = Depends(get_current_user)):
     oid = ObjectId()
     url = UrlInDB(
@@ -33,7 +56,7 @@ async def create_folder_url(id, url_in: UrlIn, user: User = Depends(get_current_
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
 
 
-@folder_url.put('/folder/{id}/url', summary="폴더 url 수정")
+@folder_url.put('/folder/{id}/url', summary="폴더 내 특정 url을 찾아, 해당 url의 썸네일, 태그 수정")
 async def update_folder_url(id, url_in: UrlIn, user: User = Depends(get_current_user)):
     folder = db.folder.find_one_and_update(
         {"_id": ObjectId(id), "urls.url": url_in.url}, 
@@ -45,7 +68,7 @@ async def update_folder_url(id, url_in: UrlIn, user: User = Depends(get_current_
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
 
 
-@folder_url.delete('/folder/{id}/url', summary="폴더 url 삭제")
+@folder_url.delete('/folder/{id}/url', summary="폴더 내 특정 url 삭제")
 async def delete_folder_url(id, url_in: UrlIn):
     tmp = db.folder.find_one(
         {"_id": ObjectId(id), "urls.url": url_in.url},
@@ -64,12 +87,3 @@ async def delete_folder_url(id, url_in: UrlIn):
         return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
 
-
-@folder_url.put('/folder/{id}/url/tag', summary="폴더 url 태그 추가 및 삭제 | 구현X")
-async def update_folder_url_tag(id):
-    pass
-
-
-@folder_url.put('/folder/{id}/url/thumbnail', summary="폴더 url 썸네일 변경 | 구현X")
-async def update_folder_url_thumbnail(id):
-    pass
