@@ -15,12 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.Free">
         <activity
-            android:name=".ui.main2.MenuActivity"
+            android:name=".ui.main.MenuActivity"
             android:exported="false"
             android:label="@string/title_activity_menu" />
         <activity
 
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.open.OpenActivity"
             android:exported="true" />
         <activity
             android:name=".ui.splash.SplashActivity"

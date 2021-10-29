@@ -14,6 +14,7 @@ buildscript {
         classpath("com.diffplug.spotless:spotless-plugin-gradle:5.17.0")
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.39.1")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5")
+        classpath("com.google.android.gms:oss-licenses-plugin:0.10.4")
     }
 }
 
