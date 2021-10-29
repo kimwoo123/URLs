@@ -12,14 +12,16 @@ import androidx.navigation.ui.setupWithNavController
 import coil.load
 import com.google.android.material.snackbar.Snackbar
 import com.keelim.free.R
+import com.keelim.free.databinding.ActivityMenuBinding
+import com.keelim.free.databinding.NavHeaderMenuBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MenuActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private val binding: com.keelim.free.databinding.ActivityMenuBinding by lazy { ActivityMenuBinding.inflate(layoutInflater) }
-    private val headerBinding: com.keelim.free.databinding.NavHeaderMenuBinding by lazy {
+    private val binding: ActivityMenuBinding by lazy { ActivityMenuBinding.inflate(layoutInflater) }
+    private val headerBinding: NavHeaderMenuBinding by lazy {
         NavHeaderMenuBinding.bind(binding.navView.getHeaderView(0))
     }
 
