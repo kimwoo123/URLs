@@ -1,4 +1,4 @@
-package com.keelim.free.ui.main2.slideshow
+package com.keelim.free.ui.main.slideshow
 
 import android.os.Bundle
 import android.view.LayoutInflater

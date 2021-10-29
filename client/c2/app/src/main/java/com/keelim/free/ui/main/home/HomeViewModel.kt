@@ -1,4 +1,4 @@
-package com.keelim.free.ui.main2.home
+package com.keelim.free.ui.main.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

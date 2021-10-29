@@ -1,4 +1,4 @@
-package com.keelim.free.ui.main2.slideshow
+package com.keelim.free.ui.main.gallery
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,12 +7,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SlideshowViewModel @Inject constructor(
+class GalleryViewModel @Inject constructor(
 
-) : ViewModel() {
+): ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is slideshow Fragment"
+        value = "This is gallery Fragment"
     }
     val text: LiveData<String> = _text
 }
