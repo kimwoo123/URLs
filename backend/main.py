@@ -1,13 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from api.api_v1 import router as api_router
 
-from routes.user import user
-from routes.token import token
-from routes.tag import tag
-from routes.folder import folder 
-from routes.folder_url import folder_url 
-from routes.folder_user import folder_user 
-from routes.memo import memo
 
 tags_metadata = [
     {
@@ -40,7 +34,6 @@ tags_metadata = [
     },
 ]
 
-
 app = FastAPI(
     title="Project Urls",
     description="팀 이글아이 SSAFY 자율 프로젝트 Urls",
@@ -61,13 +54,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(token, tags=["token"])
-app.include_router(user, tags=["user"])
-app.include_router(tag, tags=["tag"])
-app.include_router(folder, tags=["folder"])
-app.include_router(folder_user, tags=["folder/user"])
-app.include_router(folder_url, tags=["folder/url"])
-app.include_router(memo, tags=["memo"])
+app.include_router(api_router)
 
 
 # uvicorn main:app --reload
