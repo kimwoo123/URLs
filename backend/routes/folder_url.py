@@ -44,13 +44,13 @@ async def create_folder_url(id, url_in: UrlIn, user: User = Depends(get_current_
     url = UrlInDB(
         **url_in.dict(), 
         added_by=User(**user),
-        memo_id=oid
+        memos_id=oid
         )
     folder = db.folder.find_one_and_update(
         {"_id": ObjectId(id)}, {"$push": {"urls": jsonable_encoder(url)}},
         return_document=ReturnDocument.AFTER
     )
-    db.memo.insert(jsonable_encoder(MemoGroup(_id=oid)))
+    db.memo.insert(jsonable_encoder(Memos(_id=oid)))
     if folder is not None:
         return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
@@ -74,14 +74,14 @@ async def delete_folder_url(id, url_in: UrlIn):
         {"_id": ObjectId(id), "urls.url": url_in.url},
         {"urls.$":1}
     )
-    memo_id = tmp["urls"][0]["memo_id"]
+    memos_id = tmp["urls"][0]["memos_id"]
     
     folder = db.folder.find_one_and_update(
         {"_id": ObjectId(id)},
         {"$pull": {"urls": {"url": url_in.url}}}, 
         return_document=ReturnDocument.AFTER
     )
-    db.memo.delete_one({"_id": memo_id})
+    db.memo.delete_one({"_id": memos_id})
     
     if folder is not None:
         return serializeDict(folder)
