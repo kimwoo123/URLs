@@ -5,12 +5,10 @@ import android.content.Context
 import android.content.Intent
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.keelim.core.extensions.getColorCompat
-import com.keelim.free.R
 import com.keelim.free.notification.NotificationSpecs
 import com.keelim.free.notification.NotificationSpecs.TYPE_EVENT
 import com.keelim.free.notification.NotificationSpecs.TYPE_NOTICE
-import com.keelim.free.ui.main.MainActivity
+import com.keelim.free.ui.open.OpenActivity
 import timber.log.Timber
 
 class MessagingService : FirebaseMessagingService() {
@@ -57,7 +55,7 @@ class MessagingService : FirebaseMessagingService() {
     }
 
     private fun createLauncherIntent(): PendingIntent {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, OpenActivity::class.java)
         return PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
     }
 }
