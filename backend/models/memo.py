@@ -12,11 +12,18 @@ class MemoUser(BaseModel):
 
 
 class Memo(BaseModel):
+    id: PyObjectId = Field(alias='_id')
     user: MemoUser
     highlight: Optional[str]
     content: str
     created_at: datetime
-    updated_at: datetime
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            ObjectId: str
+        }
 
 
 class MemoIn(BaseModel):
@@ -28,9 +35,9 @@ class MemoInDB(Memo):
     pass
 
 
-class MemoGroup(BaseModel):
+class Memos(BaseModel):
     id: PyObjectId = Field(alias='_id')
-    memo: List[Memo] = []
+    memos: List[Memo] = []
 
     class Config:
         arbitrary_types_allowed = True
