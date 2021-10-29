@@ -1,9 +1,11 @@
 FROM python:3.7
 
-COPY ./ ./app
 WORKDIR /app
+COPY ./requirements.txt /app/requirements.txt
 
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
+
+COPY ./ /app
 
 EXPOSE 4000
 
