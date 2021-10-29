@@ -28,7 +28,7 @@ class Url(BaseModel):
     added_by: User
     thumbnail: Optional[HttpUrl]
     tags: List[str] = []
-    memo_id: PyObjectId
+    memos_id: PyObjectId
 
     class Config:
         arbitrary_types_allowed = True

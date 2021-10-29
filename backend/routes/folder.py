@@ -15,7 +15,7 @@ folder = APIRouter()
 # 내 모든 폴더 조회 만들기
 
 
-@folder.get('/folder', summary="내 모든 폴더 조회 | 구현X", response_model=FolderOut)
+@folder.get('/folder', summary="내 모든 폴더 조회 | 구현X (필요한가?)", response_model=FolderOut)
 async def find_all_folder():
     pass
 

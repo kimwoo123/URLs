@@ -54,10 +54,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(api_router)
+app.include_router(api_router, prefix="/api")
 
 
-@app.get('/')
+@app.get('/api')
 async def test():
     return "am 11:40 테스트"
 
