@@ -11,9 +11,7 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 import com.keelim.free.R
 import com.keelim.free.databinding.ActivityAuthBinding
-import com.keelim.free.ui.main.MainActivity
-import com.keelim.free.ui.main2.MenuActivity
-import com.keelim.shared.toast
+import com.keelim.free.ui.main.MenuActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
