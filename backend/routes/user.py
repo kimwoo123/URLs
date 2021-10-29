@@ -5,7 +5,7 @@ from config.db import db
 from serializers.common import serializeDict, serializeList
 from bson import ObjectId
 import bcrypt
-
+from pymongo import ReturnDocument
 
 user = APIRouter()
 
@@ -25,18 +25,22 @@ async def find_one_user(id):
 @user.post('/user', summary="새로운 유저 생성", response_model=UserOut, status_code=status.HTTP_201_CREATED)
 async def create_user(user: UserIn):
     user.password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
-    new_user = db.user.insert_one(dict(user))
-    user = db.user.find_one({"_id": ObjectId(new_user.inserted_id)})
-    if user is not None:
-        return serializeDict(user)
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user {new_user.inserted_id} not found")
+    tmp = db.user.insert_one(dict(user))
+    create_user = db.user.find_one({"_id": ObjectId(tmp.inserted_id)})
+    if create_user is not None:
+        return serializeDict(create_user)
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user {tmp.inserted_id} not found")
 
 
 @user.put('/user/{id}', response_model=UserOut, summary="유저 정보 수정")
 async def update_user(id, user: UserIn):
-    user = db.user.find_one_and_update({"_id": ObjectId(id)}, {"$set": dict(user)})
-    if user is not None:
-        return serializeDict(db.user.find_one({"_id": ObjectId(id)}))
+    user.password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
+    update_user = db.user.find_one_and_update(
+        {"_id": ObjectId(id)}, {"$set": dict(user)},
+        return_document=ReturnDocument.AFTER
+    )
+    if update_user is not None:
+        return serializeDict(update_user)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user {id} not found")
 
 
