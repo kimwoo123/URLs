@@ -7,12 +7,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.keelim.free.R
 import com.keelim.free.databinding.ActivityAuthBinding
 import com.keelim.free.ui.main.MenuActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,8 +41,6 @@ class AuthActivity : AppCompatActivity() {
         tokenCheck()
         initViews()
     }
-
-    private fun navController() = findNavController(R.id.nav_host_fragment_activity_auth)
 
     private fun tokenCheck() {
         val pref = getSharedPreferences("token", MODE_PRIVATE)
@@ -93,8 +90,24 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun initViews() = with(binding) {
+        val tv = signInButton.getChildAt(0) as (android.widget.TextView)
+        tv.text = "Please Add Google Login"
         signInButton.setOnClickListener {
             signIn()
+        }
+
+        btnFinger.setOnClickListener{
+            val pref = getSharedPreferences("token", MODE_PRIVATE)
+            val token = pref.getString("token", "")
+            if(token !=""){
+                biometricPrompt.authenticate(BiometricPrompt.PromptInfo.Builder()
+                    .setTitle("Biometric login for my app")
+                    .setSubtitle("Log in using your biometric credential")
+                    .setNegativeButtonText("Use account password")
+                    .build())
+            } else{
+                Snackbar.make(binding.root, "최초 인증은 간편로그인을 사용하시기 바랍니다.", Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -107,9 +120,7 @@ class AuthActivity : AppCompatActivity() {
                     errString: CharSequence,
                 ) {
                     super.onAuthenticationError(errorCode, errString)
-                    Toast.makeText(this@AuthActivity,
-                        "Authentication error: $errString",
-                        Toast.LENGTH_SHORT).show()
+
                 }
 
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
@@ -123,9 +134,7 @@ class AuthActivity : AppCompatActivity() {
 
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
-                    Toast.makeText(this@AuthActivity, "Authentication failed",
-                        Toast.LENGTH_SHORT)
-                        .show()
+                    Snackbar.make(binding.root, "인증을 실패하였습니다.", Snackbar.LENGTH_SHORT).show()
                 }
             })
     }
