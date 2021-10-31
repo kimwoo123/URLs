@@ -1,4 +1,4 @@
-package com.keelim.free.ui.main.slideshow
+package com.keelim.free.ui.main.inject
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SlideshowViewModel @Inject constructor(
+class InjectViewModel @Inject constructor(
 
 ) : ViewModel() {
 
