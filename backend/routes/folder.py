@@ -1,4 +1,5 @@
 from fastapi import Depends, APIRouter, HTTPException, status
+from pydantic.utils import Obj
 from models.folder import User, UserIn, Url, UrlIn, UrlInDB, FolderIn, FolderInDB, FolderOut
 from models.memo import MemoIn, MemoInDB, MemoGroup
 from config.db import db
@@ -29,8 +30,19 @@ async def find_one_folder(id):
 
 
 @folder.post('/folder', summary="단일 폴더 생성", response_model=FolderOut)
-async def create_folder(folder_in: FolderIn, user: User = Depends(get_current_user)):
-    result = db.folder.insert_one(jsonable_encoder(FolderInDB(**folder_in.dict(), users=[User(**user)])))
+async def create_folder(folder_in: FolderIn, current_user: User = Depends(get_current_user)):
+    if db.user.find_one({"folders.name": folder_in.folder_name}):
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+
+    result = db.folder.insert_one(jsonable_encoder(FolderInDB(**folder_in.dict(), users=[User(**current_user)])))
+
+    user_folder = {
+      "folder_id": result.inserted_id,
+      "name": folder_in.folder_name,
+      "shared": False
+    }
+    db.user.find_one_and_update({"_id": ObjectId(current_user["_id"])}, {"$push": {"folders": user_folder}})
+    
     new_folder = db.folder.find_one({"_id": ObjectId(result.inserted_id)})
     return serializeDict(new_folder)
 
