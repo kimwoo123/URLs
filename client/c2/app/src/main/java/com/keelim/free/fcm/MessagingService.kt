@@ -8,7 +8,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.keelim.free.notification.NotificationSpecs
 import com.keelim.free.notification.NotificationSpecs.TYPE_EVENT
 import com.keelim.free.notification.NotificationSpecs.TYPE_NOTICE
-import com.keelim.free.ui.open.OpenActivity
+import com.keelim.free.ui.main.open.OpenActivity
 import timber.log.Timber
 
 class MessagingService : FirebaseMessagingService() {

@@ -18,10 +18,14 @@
         <activity
             android:name=".ui.main.MenuActivity"
             android:exported="false"
-            android:label="@string/title_activity_menu" />
+            android:label="@string/title_activity_menu">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity
 
-            android:name=".ui.open.OpenActivity"
+            android:name="com.keelim.free.ui.main.open.OpenActivity"
             android:exported="true" />
         <activity
             android:name=".ui.splash.SplashActivity"
@@ -38,6 +42,9 @@
         <activity
             android:name=".ui.splash.TutorialActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.main.search.SearchResultsActivity"
+            android:exported="true" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

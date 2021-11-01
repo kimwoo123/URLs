@@ -51,6 +51,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":data"))
     implementation(project(":domain"))
     implementation(Dep.Kotlin.stdlibJvm)
 
@@ -100,6 +101,8 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.android.gms:play-services-auth:19.2.0")
 
     implementation(Dep.AndroidX.datastore.datastore)
     implementation(Dep.AndroidX.datastore.preferences)
@@ -115,6 +118,7 @@ dependencies {
     implementation("androidx.biometric:biometric:1.0.1")
 
     implementation("com.github.fornewid:neumorphism:0.3.0")
+    implementation("org.jsoup:jsoup:1.13.1")
 }
 
 kapt {

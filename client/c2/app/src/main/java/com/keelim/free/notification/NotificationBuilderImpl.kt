@@ -9,7 +9,7 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import com.keelim.core.notification.NotificationBuilder
 import com.keelim.free.R
-import com.keelim.free.ui.open.OpenActivity
+import com.keelim.free.ui.main.open.OpenActivity
 
 class NotificationBuilderImpl(context: Context) : NotificationBuilder {
 

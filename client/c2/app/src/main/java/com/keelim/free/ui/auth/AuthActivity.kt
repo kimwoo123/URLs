@@ -10,8 +10,10 @@ import androidx.core.content.ContextCompat
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.keelim.free.R
 import com.keelim.free.databinding.ActivityAuthBinding
 import com.keelim.free.ui.main.MenuActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +56,13 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
+    private fun logout(){
+        AuthUI.getInstance()
+            .signOut(this)
+            .addOnCompleteListener {
+            }
+    }
+
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
         Timber.d("onSignInResult: ${response?.idpToken}")
@@ -70,7 +79,7 @@ class AuthActivity : AppCompatActivity() {
             startActivity(Intent(this@AuthActivity, MenuActivity::class.java))
             finish()
         } else {
-            Timber.e("onSignInResult ${response!!.error}")
+            Timber.e("onSignInResult ${response?.error}")
         }
     }
 
@@ -82,18 +91,15 @@ class AuthActivity : AppCompatActivity() {
         signInLauncher.launch(signInIntent)
     }
 
-    private fun logout(){
-        AuthUI.getInstance()
-            .signOut(this)
-            .addOnCompleteListener {
-            }
-    }
-
     private fun initViews() = with(binding) {
         val tv = signInButton.getChildAt(0) as (android.widget.TextView)
         tv.text = "Please Add Google Login"
         signInButton.setOnClickListener {
             signIn()
+        }
+
+        authTitle.setOnClickListener{
+            startActivity(Intent(this@AuthActivity, MenuActivity::class.java))
         }
 
         btnFinger.setOnClickListener{
