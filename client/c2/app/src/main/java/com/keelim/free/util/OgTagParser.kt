@@ -2,15 +2,19 @@ package com.keelim.free.util
 
 import com.keelim.core.open.LinkViewCallback
 import com.keelim.data.model.open.LinkSourceContent
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 
-class OgTagParser {
+class OgTagParser @Inject constructor(
+
+){
 
     private var callback: LinkViewCallback? = null
 
@@ -36,7 +40,8 @@ class OgTagParser {
             if (!urlToParse.contains("http")) {
                 urlToParse = "http://$urlToParse"
             }
-            try {
+
+            val result = runCatching {
                 val response = Jsoup.connect(urlToParse)
                     .ignoreContentType(true)
                     .userAgent("Mozilla")
@@ -73,13 +78,18 @@ class OgTagParser {
                             }
                         }
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
-            return@withContext linkSourceContent
+            when {
+                result.isSuccess -> {
+                    return@withContext linkSourceContent
+                }
+                else -> {
+                    return@withContext  LinkSourceContent()
+                }
+            }
         }
 
-        private fun onPostExecute(linkSourceContent: LinkSourceContent) {
+        private fun onPostExecute(linkSourceContent: LinkSourceContent) = launch{
             callback?.onAfterLoading(linkSourceContent)
         }
     }
