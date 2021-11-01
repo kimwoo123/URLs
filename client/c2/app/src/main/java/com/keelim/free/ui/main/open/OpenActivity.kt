@@ -8,8 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.google.android.material.snackbar.Snackbar
 import com.keelim.core.extensions.showToast
-import com.keelim.core.open.LinkViewCallback
-import com.keelim.data.model.open.LinkSourceContent
 import com.keelim.free.databinding.ActivityOpenBinding
 import com.keelim.free.util.OgTagParser
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,38 +63,26 @@ class OpenActivity : AppCompatActivity() {
             } else {
                 val linkArray = getUrls(editText.text.toString().trim())
 
-                OgTagParser()
-                    .getContents(
-                        linkArray[0],
-                        object : LinkViewCallback {
-                            override suspend fun onAfterLoading(linkSourceContent: LinkSourceContent) {
-                                textView2.text = String.format(
-                                    "R.string.display_data",
-                                    linkSourceContent.ogTitle,
-                                    linkSourceContent.ogDescription,
-                                    linkSourceContent.ogUrl,
-                                    linkSourceContent.ogSiteName,
-                                    linkSourceContent.ogType,
-                                    linkSourceContent.images
-                                )
-                                tvTitle.text = linkSourceContent.ogTitle
-                                tvUrl.text = linkSourceContent.ogUrl
-                                tvDescription.text = linkSourceContent.ogDescription
-                                tvSiteName.text = linkSourceContent.ogSiteName
-                                ivImage.load(linkSourceContent.images)
-                            }
-                        }
+                OgTagParser {
+                    val linkSourceContent = it
+                    textView2.text = String.format(
+                        "R.string.display_data",
+                        linkSourceContent.ogTitle,
+                        linkSourceContent.ogDescription,
+                        linkSourceContent.ogUrl,
+                        linkSourceContent.ogSiteName,
+                        linkSourceContent.ogType,
+                        linkSourceContent.images
                     )
+                    tvTitle.text = linkSourceContent.ogTitle
+                    tvUrl.text = linkSourceContent.ogUrl
+                    tvDescription.text = linkSourceContent.ogDescription
+                    tvSiteName.text = linkSourceContent.ogSiteName
+                    ivImage.load(linkSourceContent.images)
+                }
+                    .getContents(linkArray[0])
             }
         }
-//        button.setOnClickListener {
-//            if (TextUtils.isEmpty(editText.text.toString())) {
-//                showToast("Please Enter URL")
-//            } else {
-//                val linkArray = getUrls(editText.text.toString().trim())
-//                viewModel.getContent(linkArray[0])
-//            }
-//        }
     }
 
     private fun observeData() = lifecycleScope.launchWhenStarted {

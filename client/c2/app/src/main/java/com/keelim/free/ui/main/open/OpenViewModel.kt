@@ -2,9 +2,6 @@ package com.keelim.free.ui.main.open
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.keelim.core.open.LinkViewCallback
-import com.keelim.data.model.open.LinkSourceContent
-import com.keelim.free.util.OgTagParser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +10,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class OpenViewModel @Inject constructor(
-    private val ogTagParser: OgTagParser
+//    private val ogTagParser: OgTagParser
 ):ViewModel() {
     private val _state: MutableStateFlow<OpenState> = MutableStateFlow(OpenState.UnInitialized)
     val state:StateFlow<OpenState> get() = _state
@@ -21,14 +18,14 @@ class OpenViewModel @Inject constructor(
     fun getContent(linkArray:String) = viewModelScope.launch {
         _state.emit(OpenState.Loading)
         val result = runCatching {
-            ogTagParser.getContents(
-                linkArray,
-                object : LinkViewCallback {
-                    override suspend fun onAfterLoading(linkSourceContent: LinkSourceContent){
-                        _state.emit(OpenState.Success(linkSourceContent))
-                    }
-                }
-            )
+//            ogTagParser.getContents(
+//                linkArray,
+//                object : LinkViewCallback {
+//                    override suspend fun onAfterLoading(linkSourceContent: LinkSourceContent){
+//                        _state.emit(OpenState.Success(linkSourceContent))
+//                    }
+//                }
+//            )
         }
         when {
             result.isFailure -> {

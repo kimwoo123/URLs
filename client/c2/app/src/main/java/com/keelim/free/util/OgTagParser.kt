@@ -1,31 +1,24 @@
 package com.keelim.free.util
 
-import com.keelim.core.open.LinkViewCallback
 import com.keelim.data.model.open.LinkSourceContent
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
+import timber.log.Timber
 
 class OgTagParser @Inject constructor(
-
+    private val call: (LinkSourceContent) -> Unit
 ){
-
-    private var callback: LinkViewCallback? = null
-
-    // This is the entry point of the library which gets url and the callback
-    fun getContents(urlToParse: String, callback: LinkViewCallback) {
-        this.callback = callback
+    fun getContents(urlToParse: String) {
         JsoupOgTagParser(urlToParse).execute()
     }
 
     inner class JsoupOgTagParser(var urlToParse: String) : CoroutineScope {
-
         private val linkSourceContent = LinkSourceContent()
         private val job: Job = Job()
         override val coroutineContext: CoroutineContext
@@ -33,7 +26,7 @@ class OgTagParser @Inject constructor(
 
         fun execute() = launch {
             val result = doInBackground()
-            onPostExecute(result)
+            call.invoke(result)
         }
 
         private suspend fun doInBackground(): LinkSourceContent = withContext(Dispatchers.IO) {
@@ -83,14 +76,14 @@ class OgTagParser @Inject constructor(
                 result.isSuccess -> {
                     return@withContext linkSourceContent
                 }
+                result.isFailure ->{
+                    Timber.e("LinkSourceContent is Error")
+                    return@withContext  LinkSourceContent()
+                }
                 else -> {
                     return@withContext  LinkSourceContent()
                 }
             }
-        }
-
-        private fun onPostExecute(linkSourceContent: LinkSourceContent) = launch{
-            callback?.onAfterLoading(linkSourceContent)
         }
     }
 }
