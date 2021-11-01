@@ -48,10 +48,14 @@ async def create_folder(folder_in: FolderIn, current_user: User = Depends(get_cu
 
 
 @folder.put('/folder/{id}', summary="폴더명 변경", response_model=FolderOut)
-async def update_folder(id, folder_in: FolderIn):
+async def update_folder(id, folder_in: FolderIn, current_user: User = Depends(get_current_user)):
     folder = db.folder.find_one_and_update(
         {"_id": ObjectId(id)}, {"$set": {"folder_name": folder_in.folder_name}}, 
         return_document=ReturnDocument.AFTER
+    )
+    db.user.find_one_and_update(
+        {"_id": ObjectId(current_user["_id"]), "folders.folder_id": ObjectId(id)},
+        {"$set": {"folders.$.name": folder_in.folder_name}}
     )
     if folder is not None:
         return serializeDict(folder)
