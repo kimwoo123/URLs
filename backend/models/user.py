@@ -1,7 +1,19 @@
-from typing import List, Optional
+from typing import List, Optional, Dict
 from pydantic import BaseModel, EmailStr, HttpUrl, Field
 from bson import ObjectId
 from .common import PyObjectId
+
+
+CategoryItem = {
+    "category1": 0,
+    "category2": 0,
+    "category3": 0,
+    "category4": 0,
+    "category5": 0,
+    "category6": 0,
+    "category7": 0,
+    "category8": 0,
+}
 
 
 class UserBase(BaseModel):
@@ -10,6 +22,7 @@ class UserBase(BaseModel):
     avatar: HttpUrl
     tags: List[str] = []
     folders: List[str] = []
+    categories: Dict = CategoryItem
 
 
 class UserIn(UserBase):
@@ -21,8 +34,6 @@ class UserIn(UserBase):
                 "email": "ssafy@ssafy.com",
                 "nickname": "ssafy",
                 "avatar": "https://via.placeholder.com/200.jpg",
-                "tags": [],
-                "folders": [],
                 "password": "ssafy1234"
             }
         }
