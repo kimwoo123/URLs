@@ -15,13 +15,34 @@ CategoryItem = {
     "category8": 0,
 }
 
+class UserTag(BaseModel):
+    id: PyObjectId = Field(alias='_id')
+    tag_name: str
+    count: int
+
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            ObjectId: str
+        }
+
+class UserFolder(BaseModel):
+    id: PyObjectId = Field(alias='_id')
+    name: str
+    shared: bool
+
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            ObjectId: str
+        }
 
 class UserBase(BaseModel):
     email: EmailStr
     nickname : str
     avatar: HttpUrl
-    tags: List[str] = []
-    folders: List[str] = []
+    tags: List[UserTag] = []
+    folders: List[UserFolder] = []
     categories: Dict = CategoryItem
 
 
