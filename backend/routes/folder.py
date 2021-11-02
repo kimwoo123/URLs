@@ -31,7 +31,7 @@ async def find_one_folder(id):
 
 @folder.post('/folder', summary="단일 폴더 생성", response_model=FolderOut)
 async def create_folder(folder_in: FolderIn, current_user: User = Depends(get_current_user)):
-    if db.user.find_one({"folders.name": folder_in.folder_name}):
+    if db.user.find_one({"_id": ObjectId(current_user["_id"]), "folders.name": folder_in.folder_name}):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
     result = db.folder.insert_one(jsonable_encoder(FolderInDB(**folder_in.dict(), users=[User(**current_user)])))
