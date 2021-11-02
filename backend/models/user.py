@@ -32,16 +32,6 @@ class UserOut(UserBase):
     id: PyObjectId = Field(alias='_id')
 
     class Config:
-        schema_extra = {
-            "example": {
-                "_id": "",
-                "email": "ssafy@ssafy.com",
-                "nickname": "ssafy",
-                "avatar": "https://via.placeholder.com/200.jpg",
-                "tags": [],
-                "folders": [],
-            }
-        }
         arbitrary_types_allowed = True
         json_encoders = {
             ObjectId: str

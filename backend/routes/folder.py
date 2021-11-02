@@ -63,8 +63,14 @@ async def update_folder(id, folder_in: FolderIn, current_user: User = Depends(ge
 
 
 @folder.delete('/folder/{id}', summary="폴더 삭제", response_model=FolderOut)
-async def delete_folder(id):
-    folder = db.folder.find_one_and_delete({"_id": ObjectId(id)})
-    if folder is not None:
-        return serializeDict(folder)
+async def delete_folder(id, current_user: User = Depends(get_current_user)):
+    if db.user.find_one({"_id": ObjectId(current_user["_id"]), "folders.folder_id": ObjectId(id)}):
+        db.user.find_one_and_update(
+            {"_id": ObjectId(current_user["_id"])},
+            {"$pull": {"folders": {"folder_id": ObjectId(id)}}},
+            return_document=ReturnDocument.AFTER
+        )
+        folder = db.folder.find_one_and_delete({"_id": ObjectId(id)})
+        if folder is not None:
+            return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
