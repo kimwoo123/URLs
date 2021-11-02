@@ -1,6 +1,7 @@
 package com.keelim.domain.di
 
 import com.keelim.data.repository.notification.NotificationRepository
+import com.keelim.data.repository.url.UrlRepository
 import com.keelim.domain.domain.NotificationUseCase
 import com.keelim.domain.domain.url.UrlUseCase
 import dagger.Module
@@ -25,7 +26,7 @@ object UseCaseModule {
   @Provides
   @ViewModelScoped
   fun provideUrlUseCase(
-    urlRepository: URLRepository,
+    urlRepository: UrlRepository,
   ): UrlUseCase {
     return UrlUseCase(
       urlRepository
