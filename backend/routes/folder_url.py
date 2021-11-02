@@ -1,6 +1,6 @@
 from fastapi import Depends, APIRouter, HTTPException, status
 from models.folder import User, UserIn, Url, UrlIn, UrlInDB, FolderIn, FolderInDB, FolderOut
-from models.memo import MemoIn, MemoInDB, MemoGroup
+from models.memo import MemoIn, MemoInDB, MemoGroup, Memos
 from config.db import db
 from serializers.common import serializeDict, serializeList
 from fastapi.encoders import jsonable_encoder
@@ -39,11 +39,14 @@ async def find_one_folder_url(id, url):
 
 
 @folder_url.post('/folder/{id}/url', summary="폴더 내 새로운 url 생성")
-async def create_folder_url(id, url_in: UrlIn, user: User = Depends(get_current_user)):
+async def create_folder_url(id, url_in: UrlIn, current_user: User = Depends(get_current_user)):
+    if db.folder.find_one({"_id": ObjectId(id), "urls.url": url_in.url}):
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+
     oid = ObjectId()
     url = UrlInDB(
         **url_in.dict(), 
-        added_by=User(**user),
+        added_by=User(**current_user),
         memos_id=oid
         )
     folder = db.folder.find_one_and_update(
@@ -51,6 +54,8 @@ async def create_folder_url(id, url_in: UrlIn, user: User = Depends(get_current_
         return_document=ReturnDocument.AFTER
     )
     db.memo.insert(jsonable_encoder(Memos(_id=oid)))
+
+
     if folder is not None:
         return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")

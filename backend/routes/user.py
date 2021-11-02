@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import Depends,APIRouter, HTTPException, status
 from models.user import UserIn, UserOut
 from typing import List
 from config.db import db
@@ -6,6 +6,7 @@ from serializers.common import serializeDict, serializeList
 from bson import ObjectId
 import bcrypt
 from pymongo import ReturnDocument
+from .token import get_current_user
 
 user = APIRouter()
 
@@ -24,6 +25,9 @@ async def find_one_user(id):
 
 @user.post('/user', summary="새로운 유저 생성", response_model=UserOut, status_code=status.HTTP_201_CREATED)
 async def create_user(user: UserIn):
+    if db.user.find_one({"email": user.email}):
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+
     user.password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
     tmp = db.user.insert_one(dict(user))
     create_user = db.user.find_one({"_id": ObjectId(tmp.inserted_id)})
@@ -33,7 +37,10 @@ async def create_user(user: UserIn):
 
 
 @user.put('/user/{id}', response_model=UserOut, summary="유저 정보 수정")
-async def update_user(id, user: UserIn):
+async def update_user(id, user: UserIn, current_user: UserOut = Depends(get_current_user)):
+    if not id == str(current_user["_id"]):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+
     user.password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
     update_user = db.user.find_one_and_update(
         {"_id": ObjectId(id)}, {"$set": dict(user)},
@@ -45,7 +52,10 @@ async def update_user(id, user: UserIn):
 
 
 @user.delete('/user/{id}', response_model=UserOut, summary="유저 삭제")
-async def delete_user(id):
+async def delete_user(id, current_user: UserOut = Depends(get_current_user)):
+    if id != current_user["_id"]:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+
     user = db.user.find_one_and_delete({"_id": ObjectId(id)})
     if user is not None:
         return serializeDict(user)
