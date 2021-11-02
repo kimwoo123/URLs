@@ -1,6 +1,4 @@
-package com.keelim.free.ui.main.open
-
-import com.keelim.data.model.open.LinkSourceContent
+package com.keelim.data.model.open
 
 sealed class OpenState{
     object UnInitialized : OpenState()

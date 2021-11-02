@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.google.android.material.snackbar.Snackbar
 import com.keelim.core.extensions.showToast
+import com.keelim.data.model.open.OpenState
 import com.keelim.free.databinding.ActivityOpenBinding
 import com.keelim.free.util.OgTagParser
 import dagger.hilt.android.AndroidEntryPoint
