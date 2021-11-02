@@ -1,5 +1,6 @@
 package com.keelim.data.api
 
+import com.mocklets.pluto.PlutoInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,7 +21,11 @@ class ApiRequestFactory @Inject constructor() {
           HttpLoggingInterceptor().apply {
             this.level = HttpLoggingInterceptor.Level.BODY
           }
-        ).build()
+        )
+        .addInterceptor(
+          PlutoInterceptor()
+        )
+        .build()
     )
     .build()
     .create()

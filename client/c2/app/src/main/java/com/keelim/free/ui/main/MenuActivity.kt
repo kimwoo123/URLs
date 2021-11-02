@@ -23,6 +23,7 @@ import com.keelim.free.databinding.AppBarMenuBinding
 import com.keelim.free.databinding.NavHeaderMenuBinding
 import com.keelim.free.ui.main.open.OpenActivity
 import com.keelim.free.ui.main.search.SearchResultsActivity
+import com.mocklets.pluto.Pluto
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,7 +43,7 @@ class MenuActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMenu.toolbar)
         initViews()
-
+        Pluto.initialize(this)
         appBarConfiguration = AppBarConfiguration(setOf(
             R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), binding.drawerLayout)
 

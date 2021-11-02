@@ -1,8 +1,8 @@
 package com.keelim.di
 
 import com.keelim.data.api.ApiRequestFactory
-import com.keelim.data.repository.NotificationRepository
-import com.keelim.data.repository.NotificationRepositoryImpl
+import com.keelim.data.repository.notification.NotificationRepository
+import com.keelim.data.repository.notification.NotificationRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

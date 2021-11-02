@@ -119,6 +119,7 @@ dependencies {
 
     implementation("com.github.fornewid:neumorphism:0.3.0")
     implementation("org.jsoup:jsoup:1.13.1")
+    implementation("com.mocklets:pluto:1.1.1")
 }
 
 kapt {

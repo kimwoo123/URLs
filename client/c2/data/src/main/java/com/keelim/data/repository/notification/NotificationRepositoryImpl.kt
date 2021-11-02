@@ -1,8 +1,7 @@
-package com.keelim.data.repository
+package com.keelim.data.repository.notification
 
 import com.keelim.data.api.ApiRequestFactory
 import com.keelim.data.model.notification.Notification
-import com.keelim.data.model.notification.NotificationType
 import com.keelim.di.IoDispatcher
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher

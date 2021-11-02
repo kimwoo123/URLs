@@ -1,4 +1,4 @@
-package com.keelim.data.repository
+package com.keelim.data.repository.notification
 
 import com.keelim.data.model.notification.Notification
 

@@ -48,6 +48,8 @@ dependencies {
     implementation(Dep.SquareUp.retrofit)
     implementation(Dep.SquareUp.retrofit_gson)
 
+    implementation("com.mocklets:pluto:1.1.1")
+
 }
 
 kapt {
