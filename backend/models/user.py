@@ -16,15 +16,9 @@ CategoryItem = {
 }
 
 class UserTag(BaseModel):
-    id: PyObjectId = Field(alias='_id')
     tag_name: str
     count: int
 
-    class Config:
-        arbitrary_types_allowed = True
-        json_encoders = {
-            ObjectId: str
-        }
 
 class UserFolder(BaseModel):
     id: PyObjectId = Field(alias='_id')

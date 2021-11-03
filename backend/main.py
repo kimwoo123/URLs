@@ -13,10 +13,6 @@ tags_metadata = [
         "description": "유저 CRUD. **회원가입** 포함",
     },
     {
-        "name": "tag",
-        "description": "태그 CRUD",
-    },
-    {
         "name": "folder",
         "description": "폴더 CRUD (**폴더 자체)**",
     },
