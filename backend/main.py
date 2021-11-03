@@ -32,6 +32,10 @@ tags_metadata = [
         "name": "memo",
         "description": "폴더의 url에 달리는 memo CRUD",
     },
+    {
+        "name": "recommend",
+        "description": "유저의 category 성향에 맞는 url 추천",
+    },
 ]
 
 app = FastAPI(
