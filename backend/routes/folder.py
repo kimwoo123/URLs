@@ -32,7 +32,7 @@ async def find_one_folder(id):
 @folder.post('/folder', summary="단일 폴더 생성", response_model=FolderOut)
 async def create_folder(folder_in: FolderIn, current_user: User = Depends(get_current_user)):
     if db.user.find_one({"_id": ObjectId(current_user["_id"]), "folders.name": folder_in.folder_name}):
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"folder {folder_in.folder_name} is already exists")
 
     result = db.folder.insert_one(jsonable_encoder(FolderInDB(**folder_in.dict(), users=[User(**current_user)])))
 
@@ -49,16 +49,21 @@ async def create_folder(folder_in: FolderIn, current_user: User = Depends(get_cu
 
 @folder.put('/folder/{id}', summary="폴더명 변경", response_model=FolderOut)
 async def update_folder(id, folder_in: FolderIn, current_user: User = Depends(get_current_user)):
-    folder = db.folder.find_one_and_update(
-        {"_id": ObjectId(id)}, {"$set": {"folder_name": folder_in.folder_name}}, 
-        return_document=ReturnDocument.AFTER
-    )
-    db.user.find_one_and_update(
-        {"_id": ObjectId(current_user["_id"]), "folders.folder_id": ObjectId(id)},
-        {"$set": {"folders.$.name": folder_in.folder_name}}
-    )
-    if folder is not None:
-        return serializeDict(folder)
+    if db.user.find_one({"_id": ObjectId(current_user["_id"]), "folders.folder_id": ObjectId(id)}):
+        
+        if db.user.find_one({"_id": ObjectId(current_user["_id"]), "folders.name": folder_in.folder_name}):
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"folder {folder_in.folder_name} is already exists")
+
+        db.user.find_one_and_update(
+            {"_id": ObjectId(current_user["_id"]), "folders.folder_id": ObjectId(id)},
+            {"$set": {"folders.$.name": folder_in.folder_name}}
+        )
+        folder = db.folder.find_one_and_update(
+            {"_id": ObjectId(id)}, {"$set": {"folder_name": folder_in.folder_name}}, 
+            return_document=ReturnDocument.AFTER
+        )
+        if folder is not None:
+            return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
 
 
