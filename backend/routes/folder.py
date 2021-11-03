@@ -1,7 +1,5 @@
 from fastapi import Depends, APIRouter, HTTPException, status
-from pydantic.utils import Obj
-from models.folder import User, UserIn, Url, UrlIn, UrlInDB, FolderIn, FolderInDB, FolderOut
-from models.memo import MemoIn, MemoInDB, MemoGroup
+from models.folder import User, FolderIn, FolderInDB, FolderOut
 from config.db import db
 from serializers.common import serializeDict, serializeList
 from fastapi.encoders import jsonable_encoder
