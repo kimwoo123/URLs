@@ -1,5 +1,6 @@
 from fastapi import Depends,APIRouter, HTTPException, status
 from models.user import UserIn, UserOut
+from models.recommend import UrlIn
 from typing import List
 from config.db import db
 from serializers.common import serializeDict, serializeList
@@ -49,6 +50,24 @@ async def update_user(id, user: UserIn, current_user: UserOut = Depends(get_curr
     if update_user is not None:
         return serializeDict(update_user)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user {id} not found")
+
+
+@user.put('/user/{id}/category', summary="유저 카테고리 정보 업데이트")
+async def update_user_category(id, url: UrlIn, current_user: UserOut = Depends(get_current_user)):
+    if not id == str(current_user["_id"]):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+
+    user = db.user.find_one({"_id": ObjectId(id)})
+    prefer_category = ''
+    for category in url.categories:
+        if url.categories[category] == 1:
+            prefer_category = category
+            break
+    
+    user["categories"][prefer_category] += 1
+    db.user.find_one_and_update({"_id": ObjectId(id)}, {"$set": dict(user)})
+
+    return serializeDict(user)
 
 
 @user.delete('/user/{id}', response_model=UserOut, summary="유저 삭제")
