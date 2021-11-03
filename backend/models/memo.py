@@ -44,6 +44,3 @@ class Memos(BaseModel):
         json_encoders = {
             ObjectId: str
         }
-
-class MemoGroup(BaseModel):
-    pass
