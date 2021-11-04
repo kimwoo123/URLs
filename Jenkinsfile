@@ -10,11 +10,11 @@ volumes: [
         def backrepo = "eypk9673/eagle-back"
 
         stage ('Checkout github branch') {
-            checkout scm
             mattermostSend (
                 color: "good", 
                 message: "Build START: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
             )
+            checkout scm
         }
 
         stage ('Build and Push docker image') {
@@ -36,6 +36,7 @@ volumes: [
                             mattermostSend (
                                 color: "danger", 
                                 message: "Frontend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                                error "Frontend Build failed"
                             )
                         }
                     }
@@ -49,6 +50,7 @@ volumes: [
                             mattermostSend (
                                 color: "danger", 
                                 message: "Backend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                                error "Backtend Build failed"
                             )
                         }
                     }
