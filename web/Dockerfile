@@ -1,9 +1,9 @@
 FROM node:alpine as builder
-ENV QENV="development"
 
 COPY ./package.json ./
 RUN npm install
 COPY . .
+ENV QENV="development"
 RUN npm run build
 
 FROM nginx:stable-alpine
