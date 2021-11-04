@@ -9,7 +9,7 @@ from config.db import db
 
 
 SECRET_KEY = "4ea60b27e862df027b7cc1e76c2446bca8406b8b4db2d79f0c9d19ab188de9b1"
-ALGORITHM = "HS256"
+ALGORITHM = "RS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
