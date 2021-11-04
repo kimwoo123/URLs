@@ -7,8 +7,8 @@ from .common import PyObjectId
 
 class MemoUser(BaseModel):
     email: EmailStr
-    nickname : str
-    avatar: HttpUrl
+    name : str
+    picture: HttpUrl
 
 
 class Memo(BaseModel):

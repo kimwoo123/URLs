@@ -3,9 +3,9 @@
 #     return {
 #         "id": str(item["_id"]),
 #         "email": item["email"],
-#         "nickname": item["nickname"],
+#         "name": item["name"],
 #         "password": item["password"],
-#         "avatar": item["avatar"],
+#         "picture": item["picture"],
 #         "folders": item["folders"],
 #     }
 

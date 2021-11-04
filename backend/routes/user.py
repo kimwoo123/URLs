@@ -1,14 +1,15 @@
-from fastapi import Depends,APIRouter, HTTPException, status
-from models.user import UserIn, UserOut
+from fastapi import Depends, APIRouter, HTTPException, status
+from models.user import UserIn, UserInDB, UserOut
 from models.recommend import UrlIn
 from typing import List
 from config.db import db
 from serializers.common import serializeDict, serializeList
+from fastapi.encoders import jsonable_encoder
 from bson import ObjectId
 import bcrypt
 from pymongo import ReturnDocument
 from .token import get_current_user
-
+from pprint import pprint
 user = APIRouter()
 
 @user.get('/user', summary="모든 유저 조회", response_model=List[UserOut])
@@ -24,32 +25,24 @@ async def find_one_user(id):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user {id} not found")
 
 
-@user.post('/user', summary="새로운 유저 생성", response_model=UserOut, status_code=status.HTTP_201_CREATED)
-async def create_user(user: UserIn):
-    if db.user.find_one({"email": user.email}):
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
-
-    user.password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
-    tmp = db.user.insert_one(dict(user))
-    create_user = db.user.find_one({"_id": ObjectId(tmp.inserted_id)})
-    if create_user is not None:
-        return serializeDict(create_user)
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user {tmp.inserted_id} not found")
-
-
-@user.put('/user/{id}', response_model=UserOut, summary="유저 정보 수정")
-async def update_user(id, user: UserIn, current_user: UserOut = Depends(get_current_user)):
-    if not id == str(current_user["_id"]):
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
-
-    user.password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
+# 토큰 추가 예정
+@user.post('/user', summary="유저 정보 업데이트 혹은 회원가입", response_model=UserOut, status_code=status.HTTP_201_CREATED)
+async def create_update_user(user_in: UserIn):
+    # 유저 있을 때 정보 업데이트
     update_user = db.user.find_one_and_update(
-        {"_id": ObjectId(id)}, {"$set": dict(user)},
+        {"email": user_in.email}, {"$set": {"name": user_in.name, "picture": user_in.picture}},
         return_document=ReturnDocument.AFTER
     )
-    if update_user is not None:
-        return serializeDict(update_user)
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user {id} not found")
+    # 유저 없으면 생성
+    if update_user is None:
+        user = UserInDB(**dict(user_in))
+        tmp = db.user.insert_one(jsonable_encoder(user))
+        create_user = db.user.find_one({"_id": ObjectId(tmp.inserted_id)})
+        if create_user is not None:
+            return serializeDict(create_user)
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user {tmp.inserted_id} not found")
+    
+    return serializeDict(update_user)
 
 
 @user.put('/user/{id}/category', summary="유저 카테고리 정보 업데이트")
@@ -72,10 +65,7 @@ async def update_user_category(id, url: UrlIn, current_user: UserOut = Depends(g
 
 @user.delete('/user/{id}', response_model=UserOut, summary="유저 삭제")
 async def delete_user(id, current_user: UserOut = Depends(get_current_user)):
-    if id != current_user["_id"]:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
-
-    user = db.user.find_one_and_delete({"_id": ObjectId(id)})
+    user = db.user.find_one_and_delete({"_id": ObjectId(current_user["_id"])})
     if user is not None:
         return serializeDict(user)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user {id} not found")
