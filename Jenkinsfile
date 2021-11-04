@@ -36,8 +36,8 @@ volumes: [
                             mattermostSend (
                                 color: "danger", 
                                 message: "Frontend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                                error "Frontend Build failed"
                             )
+                            error "Frontend Build failed"
                         }
                     }
                     dir ('backend') {
@@ -50,8 +50,8 @@ volumes: [
                             mattermostSend (
                                 color: "danger", 
                                 message: "Backend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                                error "Backtend Build failed"
                             )
+                            error "Backtend Build failed"
                         }
                     }
                 }
