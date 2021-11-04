@@ -1,8 +1,8 @@
 FROM node:alpine as builder
 
 COPY ./package.json ./
-RUN npm install
 COPY . .
+RUN npm install
 RUN npm run combined
 
 FROM nginx:stable-alpine
