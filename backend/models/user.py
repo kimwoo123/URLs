@@ -16,7 +16,7 @@ CategoryItem = {
 }
 
 class UserTag(BaseModel):
-    tag_name: str
+    name: str
     count: int
 
 
@@ -31,30 +31,29 @@ class UserFolder(BaseModel):
             ObjectId: str
         }
 
-class UserBase(BaseModel):
+
+class UserIn(BaseModel):
     email: EmailStr
-    nickname : str
-    avatar: HttpUrl
-    tags: List[UserTag] = []
-    folders: List[UserFolder] = []
-    categories: Dict = CategoryItem
-
-
-class UserIn(UserBase):
-    password: str
+    name : str
+    picture: HttpUrl
 
     class Config:
         schema_extra = {
             "example": {
                 "email": "ssafy@ssafy.com",
-                "nickname": "ssafy",
-                "avatar": "https://via.placeholder.com/200.jpg",
-                "password": "ssafy1234"
+                "name": "ssafy",
+                "picture": "https://via.placeholder.com/200.jpg",
             }
         }
 
 
-class UserOut(UserBase):
+class UserInDB(UserIn):
+    tags: List[UserTag] = []
+    folders: List[UserFolder] = []
+    categories: Dict = CategoryItem
+    
+
+class UserOut(UserInDB):
     id: PyObjectId = Field(alias='_id')
 
     class Config:
