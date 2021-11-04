@@ -23,16 +23,30 @@ volumes: [
                 ]])  {
                     sh ('echo ${DOCKER_HUB_PASSWORD} | docker login -u $DOCKER_HUB_USER --password-stdin')
                     dir ('web') {
-                        sh """
-                            docker build -t ${frontrepo}:${env.BUILD_NUMBER} .
-                            docker push ${frontrepo}:${env.BUILD_NUMBER}
-                        """
+                        try {
+                            sh """
+                                docker build -t ${frontrepo}:${env.BUILD_NUMBER} .
+                                docker push ${frontrepo}:${env.BUILD_NUMBER}
+                            """
+                        } catch (e) {
+                            mattermostSend (
+                                color: "danger", 
+                                message: "Frontend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                            )
+                        }
                     }
                     dir ('backend') {
-                        sh """
-                            docker build -t ${backrepo}:${env.BUILD_NUMBER} .
-                            docker push ${backrepo}:${env.BUILD_NUMBER}
-                        """
+                        try {
+                            sh """
+                                docker build -t ${backrepo}:${env.BUILD_NUMBER} .
+                                docker push ${backrepo}:${env.BUILD_NUMBER}
+                            """
+                        } catch (e) {
+                            mattermostSend (
+                                color: "danger", 
+                                message: "Backend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                            )
+                        }
                     }
                 }
 			}
@@ -44,6 +58,12 @@ volumes: [
                      kubectl set image deployment eagle-back eagle-back=${backrepo}:${env.BUILD_NUMBER} -n default
                 """
             }
+        }
+        stage('done') {
+            mattermostSend (
+                color: "good", 
+                message: "Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+            )
         }
     }
 }
