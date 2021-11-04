@@ -1,4 +1,5 @@
 FROM node:alpine as builder
+ENV QENV="development"
 
 COPY ./package.json ./
 RUN npm install
