@@ -11,6 +11,10 @@ volumes: [
 
         stage ('Checkout github branch') {
             checkout scm
+            mattermostSend (
+                color: "good", 
+                message: "Build START: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+            )
         }
 
         stage ('Build and Push docker image') {
