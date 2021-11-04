@@ -3,6 +3,8 @@ import { createStore } from 'vuex'
 import moduleExample from './module-example'
 import user from './user'
 
+let vuexStore = null;
+
 export default store(function (/* { ssrContext } */) {
   const Store = createStore({
     modules: {
@@ -15,5 +17,8 @@ export default store(function (/* { ssrContext } */) {
     strict: process.env.DEBUGGING
   })
 
+  vuexStore = Store
   return Store
 })
+
+export { vuexStore };

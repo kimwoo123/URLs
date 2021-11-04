@@ -1,5 +1,6 @@
 import { boot } from 'quasar/wrappers'
 import axios from 'axios'
+import { setInterceptors } from 'src/api/common/interceptors'
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -7,7 +8,16 @@ import axios from 'axios'
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: 'http://k5b201.p.ssafy.io:4000/api' })
+
+function createApi() {
+  const instance = axios.create({
+    baseURL: process.env.VUE_APP_API_URL,
+  })
+  return setInterceptors(instance)
+}
+
+const api = createApi();
+
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
@@ -21,4 +31,4 @@ export default boot(({ app }) => {
   //       so you can easily perform requests against your app's API
 })
 
-export { api }
+export { axios, api }

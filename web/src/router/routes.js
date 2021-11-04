@@ -2,7 +2,7 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/StartLayout.vue'),
-    // meta: {authRequired: false},
+    meta: {authRequired: false},
     children: [
       { path: '', component: () => import('pages/NotLogined/Start.vue') }
     ]
@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/user',
     component: () => import('layouts/MainLayout.vue'),
-    // meta: {authRequired: true},
+    meta: {authRequired: true},
     children: [
       {
         path: '',

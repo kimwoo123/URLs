@@ -11,8 +11,6 @@
 </template>
 
 <script>
-// import * as firebaseui from 'firebaseui'
-// import { initializeApp } from 'firebase/app'
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -27,14 +25,24 @@ export default {
       const auth = getAuth()
 
       signInWithPopup(auth, provider)
-        .then((result) => {
+        .then(async(result) => {
           const credential = GoogleAuthProvider.credentialFromResult(result);
           const token = credential.accessToken;
-          const user = result.user;
           const useremail = result.user.email;
-          $store.commit("user/setUsername", useremail)
+          const uid = result.user.uid
+          console.log('credential', credential)
+          console.log(token)
+          console.log('result',result)
+          // $store.commit("user/setUsername", useremail)
+          const userData = {
+            'token' : token,
+            'useremail': useremail,
+            'uid': uid
+          }
+          await $store.dispatch('user/LOGIN', userData);
           $router.push('/user')
         }).catch((error) => {
+          console.log('팝업로그인실패', error)
           const errorCode = error.code;
           const errorMessage = error.errorMessage;
           const email = error.email;

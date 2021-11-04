@@ -1,4 +1,4 @@
-import { route } from 'quasar/wrappers'
+import { route, store } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
 
@@ -17,17 +17,15 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
   })
 
-  // // 전역가드
-  // Router.beforeEach(function (to, from, next) {
-  //   if (to.matched.some(function (routeInfo) {
-  //     return routeInfo.meta.authRequired;
-  //   })) {
-  //     window.alert('login please')
-  //   }
-  //   else {
-  //     next()
-  //   }
-  // })
+  // 전역가드
+  Router.beforeEach(function (to, from, next) {
+    if (to.meta.auth && !store.getters.islogin) {
+      console.log('store 동작?', store.getters.islogin)
+      alert('로그인이 필요합니다.')
+      return;
+    }
+    next()
+  })
 
   return Router
 })

@@ -1,5 +1,4 @@
 
-export function isLogin(state) {
-  return state.username !== ''
+export function isLoggedIn(state) {
+  return state.username !== '';
 }
-
