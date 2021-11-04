@@ -1,4 +1,3 @@
-import BuildTypeRelease.isMinifyEnabled
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
@@ -9,6 +8,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("com.google.android.gms.oss-licenses-plugin")
 }
 
 val key: String = gradleLocalProperties(rootDir).getProperty("KAKAO")
@@ -51,6 +51,8 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
     implementation(Dep.Kotlin.stdlibJvm)
 
     implementation(Dep.AndroidX.activity.ktx)
@@ -73,8 +75,7 @@ dependencies {
     implementation(Dep.Dagger.Hilt.android)
     kapt(Dep.Dagger.Hilt.compiler)
 
-    implementation("androidx.appcompat:appcompat:1.3.1")
-    implementation("com.google.android.material:material:1.4.0")
+    implementation(Dep.AndroidX.appcompat)
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
@@ -100,6 +101,8 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.android.gms:play-services-auth:19.2.0")
 
     implementation(Dep.AndroidX.datastore.datastore)
     implementation(Dep.AndroidX.datastore.preferences)
@@ -110,6 +113,13 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
 
     implementation("com.firebaseui:firebase-ui-auth:7.2.0")
+
+    implementation("com.google.android.gms:play-services-oss-licenses:17.0.0")
+    implementation("androidx.biometric:biometric:1.0.1")
+
+    implementation("com.github.fornewid:neumorphism:0.3.0")
+    implementation("org.jsoup:jsoup:1.13.1")
+    implementation("com.mocklets:pluto:1.1.1")
 }
 
 kapt {

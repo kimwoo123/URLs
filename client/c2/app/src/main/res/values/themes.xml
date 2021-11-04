@@ -19,7 +19,27 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.Free.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Free.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
 
     <style name="Theme.Free.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/jetbrainsmono_regular</item>
+    </style>
+
+    <style name="MINI.TEXT" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textAppearance">@style/Caption</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="CustomShapeAppearance">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">32dp</item>
+
+        <!-- Or if wants different radii depending on the corner. -->
+        <item name="neumorph_cornerSizeTopLeft">16dp</item>
+        <item name="neumorph_cornerSizeTopRight">16dp</item>
+        <item name="neumorph_cornerSizeBottomLeft">16dp</item>
+        <item name="neumorph_cornerSizeBottomRight">16dp</item>
+    </style>
 </resources>

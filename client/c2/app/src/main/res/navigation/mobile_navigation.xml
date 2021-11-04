@@ -4,22 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_home">
-
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.keelim.free.ui.main2.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
-
+        android:name="com.keelim.free.ui.main.personal.PersonalFragment"
+        android:label="@string/menu_personal"
+        tools:layout="@layout/fragment_personal" />
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.keelim.free.ui.main2.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
+        android:name="com.keelim.free.ui.main.team.TeamFragment"
+        android:label="@string/menu_team"
+        tools:layout="@layout/fragment_team" />
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.keelim.free.ui.main2.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:name="com.keelim.free.ui.main.inject.InjectFragment"
+        android:label="@string/menu_inject"
+        tools:layout="@layout/fragment_inject" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.keelim.free.ui.setting.AboutFragment"
+        android:label="AboutFragment" />
+
+    <dialog
+        android:id="@+id/settingFragment"
+        android:name="com.keelim.free.ui.setting.SettingFragment"
+        android:label="SettingFragment" />
+    <activity
+        android:id="@+id/openActivity"
+        android:name="com.keelim.free.ui.main.open.OpenActivity"
+        android:label="activity_open"
+        tools:layout="@layout/activity_open" />
 </navigation>

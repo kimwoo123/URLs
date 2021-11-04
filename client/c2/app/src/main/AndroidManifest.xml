@@ -4,6 +4,7 @@
     package="com.keelim.free">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
 
     <application
         android:name=".MyApplication"
@@ -15,12 +16,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.Free">
         <activity
-            android:name=".ui.main2.MenuActivity"
+            android:name=".ui.main.MenuActivity"
             android:exported="false"
-            android:label="@string/title_activity_menu" />
+            android:label="@string/title_activity_menu">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity
 
-            android:name=".ui.main.MainActivity"
+            android:name="com.keelim.free.ui.main.open.OpenActivity"
             android:exported="true" />
         <activity
             android:name=".ui.splash.SplashActivity"
@@ -37,6 +42,9 @@
         <activity
             android:name=".ui.splash.TutorialActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.main.search.SearchResultsActivity"
+            android:exported="true" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

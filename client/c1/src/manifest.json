@@ -1,0 +1,26 @@
+{
+  "author": "ssafy",
+  "name": "Project Urls",
+  "description": "Url 을 가장 스마트 하게 저장하는 방법",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "browser_action": {
+    "default_title": "Urls",
+    "default_popup": "popup/popup.html"
+  },
+  "applications": {
+    "gecko": {
+      "id": "",
+      "strict_min_version": "68.0"
+    }
+  },
+  "permissions": ["storage"],
+  "background": {
+    "scripts": ["background.js"]
+  }
+}

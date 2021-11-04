@@ -1,10 +1,12 @@
 package com.keelim.free
 
 import android.app.Application
+import com.google.android.material.color.DynamicColors
 import com.keelim.free.notification.NotificationChannels
 import com.keelim.free.util.ComponentLogger
 import com.keelim.free.util.ThemeManager
 import com.keelim.free.util.ThemeType
+import com.mocklets.pluto.Pluto
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -21,5 +23,6 @@ class MyApplication: Application(){
         themeManager.applyTheme(ThemeType.DEFAULT)
         NotificationChannels.init(this)
         componentLogger.initialize(this)
+        DynamicColors.applyToActivitiesIfAvailable(this)
     }
 }

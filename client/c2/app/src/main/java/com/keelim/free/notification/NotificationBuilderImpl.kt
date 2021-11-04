@@ -4,15 +4,12 @@ package com.keelim.free.notification;
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Movie
-import androidx.appcompat.resources.Compatibility.Api18Impl.setAutoCancel
 import androidx.core.app.NotificationCompat
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import com.keelim.core.extensions.getColorCompat
 import com.keelim.core.notification.NotificationBuilder
 import com.keelim.free.R
-import com.keelim.free.ui.main.MainActivity
+import com.keelim.free.ui.main.open.OpenActivity
 
 class NotificationBuilderImpl(context: Context) : NotificationBuilder {
 
@@ -43,7 +40,7 @@ class NotificationBuilderImpl(context: Context) : NotificationBuilder {
     }
 
     private fun Context.createLauncherIntent(): PendingIntent {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, OpenActivity::class.java)
         return PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
     }
 }

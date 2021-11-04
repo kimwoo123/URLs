@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 plugins {
     id("android-library-convention")
     id("dagger.hilt.android.plugin")
@@ -22,15 +20,6 @@ android {
     buildFeatures {
         dataBinding = true
         viewBinding = true
-        compose = true
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
     }
 }
 
@@ -58,6 +47,8 @@ dependencies {
     implementation(Dep.SquareUp.urlconnection)
     implementation(Dep.SquareUp.retrofit)
     implementation(Dep.SquareUp.retrofit_gson)
+
+    implementation("com.mocklets:pluto:1.1.1")
 
 }
 

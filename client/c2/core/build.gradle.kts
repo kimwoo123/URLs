@@ -13,6 +13,7 @@ android {
 
 
 dependencies {
+    implementation(project(":data"))
     // Compose
     implementation(Dep.AndroidX.Compose.ui)
     implementation(Dep.AndroidX.Compose.material)
