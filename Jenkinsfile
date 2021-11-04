@@ -22,32 +22,32 @@ volumes: [
                     passwordVariable: 'DOCKER_HUB_PASSWORD'
                 ]])  {
                     sh ('echo ${DOCKER_HUB_PASSWORD} | docker login -u $DOCKER_HUB_USER --password-stdin')
-                        dir ('web') {
-                            try {
-                                sh """
-                                    docker build -t ${frontrepo}:${env.BUILD_NUMBER} .
-                                    docker push ${frontrepo}:${env.BUILD_NUMBER}
-                                """
-                            } catch (e) {
-                                mattermostSend (
-                                    color: "danger", 
-                                    message: "Frontend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                                )
-                            }
+                    dir ('web') {
+                        try {
+                            sh """
+                                docker build -t ${frontrepo}:${env.BUILD_NUMBER} .
+                                docker push ${frontrepo}:${env.BUILD_NUMBER}
+                            """
+                        } catch (e) {
+                            mattermostSend (
+                                color: "danger", 
+                                message: "Frontend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                            )
                         }
-                        dir ('backend') {
-                            try {
-                                sh """
-                                    docker build -t ${backrepo}:${env.BUILD_NUMBER} .
-                                    docker push ${backrepo}:${env.BUILD_NUMBER}
-                                """
-                            } catch (e) {
-                                mattermostSend (
-                                    color: "danger", 
-                                    message: "Backend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                                )
-                            }
+                    }
+                    dir ('backend') {
+                        try {
+                            sh """
+                                docker build -t ${backrepo}:${env.BUILD_NUMBER} .
+                                docker push ${backrepo}:${env.BUILD_NUMBER}
+                            """
+                        } catch (e) {
+                            mattermostSend (
+                                color: "danger", 
+                                message: "Backend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                            )
                         }
+                    }
                 }
 			}
 		}
