@@ -2,24 +2,30 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/StartLayout.vue'),
-    meta: {authRequired: false},
+    meta: {auth: false},
     children: [
-      { path: '', component: () => import('pages/NotLogined/Start.vue') }
+      {
+        path: '',
+        name: 'BeforeLogin',
+        component: () => import('pages/NotLogined/Start.vue'),
+      }
     ]
   },
 
 
   {
-    path: '/user',
+    path: '/:id',
     component: () => import('layouts/MainLayout.vue'),
-    meta: {authRequired: true},
+    meta: {auth: true},
     children: [
       {
         path: '',
+        name: 'Recommendation',
         component: () => import('src/pages/Logined/Recommendation.vue'),
       },
       {
         path: 'allurls',
+        name: 'AllUrls',
         component: () => import('pages/Logined/AllUrls.vue')
       },
     ]

@@ -1,8 +1,8 @@
-import { route, store } from 'quasar/wrappers'
+import { route } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
 
-export default route(function (/* { store, ssrContext } */) {
+export default route(function ({ store }) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory)
@@ -19,13 +19,16 @@ export default route(function (/* { store, ssrContext } */) {
 
   // 전역가드
   Router.beforeEach(function (to, from, next) {
-    if (to.meta.auth && !store.getters.islogin) {
-      console.log('store 동작?', store.getters.islogin)
-      alert('로그인이 필요합니다.')
-      return;
+    // 로그인을 요구하는 페이지로 이동하는데 로그인이 안되어있으면
+    if (to.meta.auth && !store.getters['user/isLogin']) {
+      next({ name: 'BeforeLogin' })
+    } else if (!to.meta.auth && store.getters['user/isLogin']) {
+      next({ name : 'Recommendation' })
+    } else {
+      next()
     }
-    next()
   })
+
 
   return Router
 })

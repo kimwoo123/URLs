@@ -1,11 +1,13 @@
 import {
 	getUserFromCookie,
   getAuthFromCookie,
+  getUseridFromCookie,
 } from 'src/utils/cookies'
 
 export default function () {
   return {
-    useremail: getUserFromCookie() || '',
+    username: getUserFromCookie() || '',
     token: getAuthFromCookie() || '',
+    userid: getUseridFromCookie() || '',
   }
 }
