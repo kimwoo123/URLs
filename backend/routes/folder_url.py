@@ -13,18 +13,14 @@ from .token import get_current_user
 folder_url = APIRouter()
 
 
-# 폴더 url 관리
+# 필터 수정 예정
+@folder_url.get('/folder/url/me', summary="내 모든 폴더에서 내가 작성한 url 검색")
+async def find_all_folder_url_me(user: User = Depends(get_current_user)):
+    my_urls = db.folder.find({"urls.added_by.email": user["email"]})
+    if my_urls is not None:
+        return serializeList(my_urls)
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
-@folder_url.get('/folder/url', summary="내 모든 폴더에서 특정 url 검색 | 구현 X")
-async def find_one_folder_url(url, user: User = Depends(get_current_user)):
-    pass
-    # folder = db.folder.find_one(
-    #     {"_id": ObjectId(id), "urls.url": url},
-    #     {"urls.$":1}
-    # )
-    # if folder is not None:
-    #     return serializeDict(folder)
-    # raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
 
 
 @folder_url.get('/folder/{folder_id}/url', summary="폴더 내 특정 url 검색")

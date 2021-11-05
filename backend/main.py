@@ -6,7 +6,7 @@ from api.api_v1 import router as api_router
 tags_metadata = [
     {
         "name": "token",
-        "description": "토큰 발급. **로그인** 포함",
+        "description": "토큰으로 유저 정보 확인",
     },
     {
         "name": "user",

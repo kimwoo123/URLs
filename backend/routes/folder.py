@@ -2,6 +2,7 @@ from fastapi import Depends, APIRouter, HTTPException, status
 from models.folder import User, FolderIn, FolderInDB, FolderOut
 from config.db import db
 from serializers.common import serializeDict, serializeList
+from serializers.common import serializeList_folder
 from fastapi.encoders import jsonable_encoder
 # from fastapi.responses import JSONResponse
 from bson import ObjectId
@@ -14,9 +15,12 @@ folder = APIRouter()
 # 내 모든 폴더 조회 만들기
 
 
-@folder.get('/folder', summary="내 모든 폴더 조회 | 구현X (필요한가?)", response_model=FolderOut)
-async def find_all_folder():
-    pass
+@folder.get('/folder/me', summary="내 모든 폴더 조회")
+async def find_all_folder(current_user: User = Depends(get_current_user)):
+    me = db.user.find_one({"_id": ObjectId(current_user["_id"])})
+    if me is not None:
+        return serializeList_folder(me["folders"])
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
 
 @folder.get('/folder/{id}', summary="폴더 상세 조회", response_model=FolderOut)
