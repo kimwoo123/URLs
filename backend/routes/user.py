@@ -65,6 +65,9 @@ async def update_user_category(id, url: UrlIn, current_user: UserOut = Depends(g
 
 @user.delete('/user/{id}', response_model=UserOut, summary="유저 삭제")
 async def delete_user(id, current_user: UserOut = Depends(get_current_user)):
+    if not id == str(current_user["_id"]):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+        
     user = db.user.find_one_and_delete({"_id": ObjectId(current_user["_id"])})
     if user is not None:
         return serializeDict(user)
