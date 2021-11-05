@@ -36,11 +36,4 @@ class MemoInDB(Memo):
 
 
 class Memos(BaseModel):
-    id: PyObjectId = Field(alias='_id')
     memos: List[Memo] = []
-
-    class Config:
-        arbitrary_types_allowed = True
-        json_encoders = {
-            ObjectId: str
-        }
