@@ -5,8 +5,8 @@ from .common import PyObjectId
 
 class User(BaseModel):
     email: EmailStr
-    name: str
-    picture: HttpUrl
+    nickname: str
+    avatar: HttpUrl
     permission: Optional[int] = 0
 
 

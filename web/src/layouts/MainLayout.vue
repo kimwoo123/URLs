@@ -15,10 +15,11 @@
           <q-avatar size="36px">
             <img src="https://cdn.quasar.dev/img/avatar2.jpg">
           </q-avatar>
-          <div>{{ useremail }}</div>
+          <div>{{ username }}</div>
         </q-btn>
 
-        <q-btn @click="logoutUser">로그아웃</q-btn>
+        <logout-button/>
+
       </q-toolbar>
     </q-header>
 
@@ -71,6 +72,7 @@
 import { defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import LogoutButton from 'components/buttons/LogoutButton.vue'
 
 const menuList = [
   {
@@ -90,23 +92,17 @@ const menuList = [
 export default defineComponent({
   name: 'MainLayout',
 
-  components: {},
+  components: {LogoutButton},
 
   setup () {
     const $store = useStore()
-    const $router = useRouter()
-    const useremail = $store.state.user.useremail
-    
-    const logoutUser = async() => {
-      $store.commit('user/clearUsername')
-      $router.push('/')
-    } 
+    // const $router = useRouter()
+    const username = $store.state.user.username
 
     return {
       drawer: ref(false),
       menuList,
-      useremail,
-      logoutUser
+      username
     }
   }
 })

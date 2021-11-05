@@ -21,4 +21,4 @@ export default store(function (/* { ssrContext } */) {
   return Store
 })
 
-export { vuexStore };
+export { vuexStore }

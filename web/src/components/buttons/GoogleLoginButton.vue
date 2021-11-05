@@ -27,20 +27,19 @@ export default {
       signInWithPopup(auth, provider)
         .then(async(result) => {
           const credential = GoogleAuthProvider.credentialFromResult(result);
-          const token = credential.accessToken;
+          const token = credential.idToken;
           const useremail = result.user.email;
-          const uid = result.user.uid
-          console.log('credential', credential)
-          console.log(token)
-          console.log('result',result)
-          // $store.commit("user/setUsername", useremail)
+          const nickname = result.user.displayName;
+          const photoURL = result.user.photoURL;
           const userData = {
             'token' : token,
             'useremail': useremail,
-            'uid': uid
+            'nickname': nickname,
+            'avatar': photoURL,
           }
           await $store.dispatch('user/LOGIN', userData);
-          $router.push('/user')
+          const userid = $store.state.user.userid
+          await $router.push({ name: 'Recommendation', params: { id: userid }})
         }).catch((error) => {
           console.log('팝업로그인실패', error)
           const errorCode = error.code;

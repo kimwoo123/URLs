@@ -7,8 +7,8 @@ from .common import PyObjectId
 
 class MemoUser(BaseModel):
     email: EmailStr
-    name : str
-    picture: HttpUrl
+    nickname : str
+    avatar: HttpUrl
 
 
 class Memo(BaseModel):
@@ -36,9 +36,11 @@ class MemoInDB(Memo):
 
 
 class Memos(BaseModel):
-    id: PyObjectId = Field(alias='_id')
     memos: List[Memo] = []
 
+class MemosOut(Memos):
+    id: PyObjectId = Field(alias='_id')
+    
     class Config:
         arbitrary_types_allowed = True
         json_encoders = {
