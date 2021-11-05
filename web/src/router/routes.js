@@ -28,6 +28,11 @@ const routes = [
         name: 'AllUrls',
         component: () => import('pages/Logined/AllUrls.vue')
       },
+      {
+        path: 'settings',
+        name: 'Settings',
+        component: () => import('pages/Logined/Settings.vue')
+      }
     ]
   },
 
