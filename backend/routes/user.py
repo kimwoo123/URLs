@@ -30,7 +30,7 @@ async def find_one_user(id):
 async def create_update_user(user_in: UserIn):
     # 유저 있을 때 정보 업데이트
     update_user = db.user.find_one_and_update(
-        {"email": user_in.email}, {"$set": {"name": user_in.name, "picture": user_in.picture}},
+        {"email": user_in.email}, {"$set": {"nickname": user_in.nickname, "avatar": user_in.avatar}},
         return_document=ReturnDocument.AFTER
     )
     # 유저 없으면 생성
@@ -65,6 +65,9 @@ async def update_user_category(id, url: UrlIn, current_user: UserOut = Depends(g
 
 @user.delete('/user/{id}', response_model=UserOut, summary="유저 삭제")
 async def delete_user(id, current_user: UserOut = Depends(get_current_user)):
+    if not id == str(current_user["_id"]):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+        
     user = db.user.find_one_and_delete({"_id": ObjectId(current_user["_id"])})
     if user is not None:
         return serializeDict(user)
