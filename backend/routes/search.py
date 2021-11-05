@@ -7,11 +7,14 @@ es = Elasticsearch(hosts="k5b201.p.ssafy.io", port=9200)
 @search.get('/search', summary="검색")
 async def search_tag():
   res = es.search(
-    index="users_v3",
+    index="users_v5",
     body={
       "query": {
-        "fuzzy": {
-          "email": "rmlf"
+        "match": {
+          "email": {
+            "query": "rmlfml",
+            "fuzziness": "auto"
+          }
         }
       }
     },
@@ -19,5 +22,3 @@ async def search_tag():
   for hit in res['hits']['hits']:
     print(hit['_source']['email'])
   return res
-  
-  
