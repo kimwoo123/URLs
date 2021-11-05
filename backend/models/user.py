@@ -16,13 +16,13 @@ CategoryItem = {
 }
 
 class UserTag(BaseModel):
-    name: str
+    tag_name: str
     count: int
 
 
 class UserFolder(BaseModel):
-    id: PyObjectId = Field(alias='_id')
-    name: str
+    id: PyObjectId = Field(alias='folder_id')
+    folder_name: str
     shared: bool
 
     class Config:
@@ -34,15 +34,15 @@ class UserFolder(BaseModel):
 
 class UserIn(BaseModel):
     email: EmailStr
-    name : str
-    picture: HttpUrl
+    nickname : str
+    avatar: HttpUrl
 
     class Config:
         schema_extra = {
             "example": {
                 "email": "ssafy@ssafy.com",
-                "name": "ssafy",
-                "picture": "https://via.placeholder.com/200.jpg",
+                "avatar": "https://via.placeholder.com/200.jpg",
+                "nickname": "ssafy",
             }
         }
 

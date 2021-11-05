@@ -29,14 +29,14 @@ async def find_one_folder(id):
 
 @folder.post('/folder', summary="단일 폴더 생성", response_model=FolderOut)
 async def create_folder(folder_in: FolderIn, current_user: User = Depends(get_current_user)):
-    if db.user.find_one({"_id": ObjectId(current_user["_id"]), "folders.name": folder_in.folder_name}):
+    if db.user.find_one({"_id": ObjectId(current_user["_id"]), "folders.folder_name": folder_in.folder_name}):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"folder {folder_in.folder_name} is already exists")
 
     result = db.folder.insert_one(jsonable_encoder(FolderInDB(**folder_in.dict(), users=[User(**current_user)])))
 
     user_folder = {
       "folder_id": result.inserted_id,
-      "name": folder_in.folder_name,
+      "folder_name": folder_in.folder_name,
       "shared": False
     }
     db.user.find_one_and_update({"_id": ObjectId(current_user["_id"])}, {"$push": {"folders": user_folder}})
@@ -49,12 +49,12 @@ async def create_folder(folder_in: FolderIn, current_user: User = Depends(get_cu
 async def update_folder(id, folder_in: FolderIn, current_user: User = Depends(get_current_user)):
     if db.user.find_one({"_id": ObjectId(current_user["_id"]), "folders.folder_id": ObjectId(id)}):
         
-        if db.user.find_one({"_id": ObjectId(current_user["_id"]), "folders.name": folder_in.folder_name}):
+        if db.user.find_one({"_id": ObjectId(current_user["_id"]), "folders.folder_name": folder_in.folder_name}):
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"folder {folder_in.folder_name} is already exists")
 
         db.user.find_one_and_update(
             {"_id": ObjectId(current_user["_id"]), "folders.folder_id": ObjectId(id)},
-            {"$set": {"folders.$.name": folder_in.folder_name}}
+            {"$set": {"folders.$.folder_name": folder_in.folder_name}}
         )
         folder = db.folder.find_one_and_update(
             {"_id": ObjectId(id)}, {"$set": {"folder_name": folder_in.folder_name}}, 

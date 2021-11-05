@@ -29,7 +29,7 @@ async def create_folder_user(folder_id, user_in: UserIn):
     # 유저의 폴더에 폴더 push
     taget_user_folder = {
       "folder_id": folder["_id"],
-      "name": folder["folder_name"],
+      "folder_name": folder["folder_name"],
       "shared": folder["shared"]
     }
     db.user.find_one_and_update({"_id": ObjectId(target_user["_id"])}, {"$push": {"folders": taget_user_folder}})

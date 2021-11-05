@@ -30,7 +30,7 @@ async def find_one_user(id):
 async def create_update_user(user_in: UserIn):
     # 유저 있을 때 정보 업데이트
     update_user = db.user.find_one_and_update(
-        {"email": user_in.email}, {"$set": {"name": user_in.name, "picture": user_in.picture}},
+        {"email": user_in.email}, {"$set": {"nickname": user_in.nickname, "avatar": user_in.avatar}},
         return_document=ReturnDocument.AFTER
     )
     # 유저 없으면 생성
