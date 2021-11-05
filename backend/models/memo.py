@@ -17,7 +17,7 @@ class Memo(BaseModel):
     highlight: Optional[str]
     content: str
     created_at: datetime
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime
 
     class Config:
         arbitrary_types_allowed = True
