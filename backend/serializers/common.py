@@ -17,3 +17,9 @@ def serializeDict(item) -> dict:
 
 def serializeList(entity) -> list:
     return [serializeDict(a) for a in entity]
+
+def serializeDict_folder(item) -> dict:
+    return {**{i:str(item[i]) for i in item if i=='folder_id'}, **{i:item[i] for i in item if i!='folder_id'}}
+
+def serializeList_folder(entity) -> list:
+    return [serializeDict_folder(a) for a in entity]

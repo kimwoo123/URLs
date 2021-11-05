@@ -10,6 +10,9 @@ from pprint import pprint
 from pymongo import ReturnDocument
 from .token import get_current_user
 from datetime import datetime
+from pytz import timezone
+
+KST = timezone('Asia/Seoul')
 
 memo = APIRouter()
 
@@ -24,11 +27,13 @@ async def find_folder_url_memo(memos_id):
 
 @memo.post('/memo/{memos_id}', summary="url memos 리스트에 memo 생성")
 async def create_folder_url_memo(memos_id, memo_in: MemoIn, user: User = Depends(get_current_user)):
+    now_time = datetime.now().astimezone(KST).strftime('%Y-%m-%d %H:%M:%S')
     memo_inDB = MemoInDB(
         **memo_in.dict(),
         _id = ObjectId(),
         user = MemoUser(**user),
-        created_at = datetime.utcnow()
+        created_at = now_time,
+        updated_at = now_time
     )
     memo = db.memo.find_one_and_update(
         {"_id": ObjectId(memos_id)}, {"$push": {"memos": jsonable_encoder(memo_inDB)}},
@@ -41,9 +46,10 @@ async def create_folder_url_memo(memos_id, memo_in: MemoIn, user: User = Depends
 
 @memo.put('/memo/{memos_id}/{memo_id}', summary="url memos 리스트에 있는 memo 수정")
 async def update_folder_url_memo(memos_id, memo_id, memo_in: MemoIn, user: User = Depends(get_current_user)):
+    now_time = datetime.now().astimezone(KST).strftime('%Y-%m-%d %H:%M:%S')
     memo = db.memo.find_one_and_update(
         {"_id": ObjectId(memos_id), "memos._id": memo_id}, 
-        {"$set": {"memos.$.highlight": memo_in.highlight, "memos.$.content": memo_in.content}},
+        {"$set": {"memos.$.highlight": memo_in.highlight, "memos.$.content": memo_in.content, "memos.$.updated_at": now_time}},
         return_document=ReturnDocument.AFTER
     )
     if memo is not None:
