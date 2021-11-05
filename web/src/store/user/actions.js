@@ -12,12 +12,12 @@ export async function LOGIN({ commit }, userData) {
     'nickname': userData.nickname,
     'avatar': userData.avatar,
   }
-  console.log(userData.token);
   commit('setToken', userData.token);
   commit('setUserName', userData.nickname)
   saveAuthToCookie(userData.token)
   saveUserToCookie(userData.nickname)
   const { data } = await loginToken(loginData);
+  console.log(data)
   commit('setUserid', data['_id'])
   saveUseridToCookie(data['_id'])
 }
