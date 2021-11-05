@@ -43,18 +43,16 @@ async def create_folder_url(folder_id, url_in: UrlIn, current_user: User = Depen
     if db.folder.find_one({"_id": ObjectId(folder_id), "urls.url": url_in.url}):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
-    oid = ObjectId()
+    tmp = db.memo.insert_one(jsonable_encoder(Memos()))
     url = UrlInDB(
         **url_in.dict(), 
         added_by=User(**current_user),
-        memos_id=oid
-        )
+        memos_id=tmp.inserted_id
+    )
     folder = db.folder.find_one_and_update(
         {"_id": ObjectId(folder_id)}, {"$push": {"urls": jsonable_encoder(url)}},
         return_document=ReturnDocument.AFTER
     )
-    db.memo.insert(jsonable_encoder(Memos(_id=oid)))
-
 
     if folder is not None:
         return serializeDict(folder)

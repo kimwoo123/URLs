@@ -71,6 +71,6 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Security(
 #     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@token.get("/token/me/", response_model=UserOut, summary="토큰 유저 확인")
+@token.get("/token/me", response_model=UserOut, summary="토큰 유저 확인")
 async def read_users_me(current_user: UserOut = Depends(get_current_user)):
     return current_user
