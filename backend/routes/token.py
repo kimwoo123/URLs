@@ -3,7 +3,7 @@ from fastapi.security import OAuth2AuthorizationCodeBearer
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import jwt, JWTError
-# from google.auth import jwt as google_jwt
+from google.auth import jwt as google_jwt
 from passlib.context import CryptContext
 from models.user import UserOut
 from config.db import db
@@ -41,8 +41,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Security(
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        # payload = google_jwt.decode(token, verify=False)
-        payload = '32'
+        payload = google_jwt.decode(token, verify=False)
         email: str = payload.get("email")
         if email is None:
             raise credentials_exception
