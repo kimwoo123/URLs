@@ -11,15 +11,17 @@
           <q-badge floating color="red">2</q-badge>
         </q-btn>
 
-        <q-btn flat no-caps class="q-mx-xs">
+        <q-btn 
+          flat 
+          no-caps 
+          class="q-mx-xs"
+          @click="goToSettings"
+        >
           <q-avatar size="36px">
             <img src="https://cdn.quasar.dev/img/avatar2.jpg">
           </q-avatar>
           <div>{{ username }}</div>
         </q-btn>
-
-        <logout-button/>
-
       </q-toolbar>
     </q-header>
 
@@ -34,7 +36,7 @@
         <q-scroll-area class="fit">
           <q-list>
 
-              <router-link to="/user">
+              <router-link :to="{ name: 'Recommendation', params: {id: `${userid}`}}">
                 <q-item clickable v-ripple>
                   <q-item-section avatar>
                     <q-icon name="inbox" />
@@ -47,7 +49,7 @@
 
               <q-separator/>
 
-              <router-link to="/user/allurls">
+              <router-link :to="{ name: 'AllUrls', params: {id: `${userid}`}}">
                 <q-item clickable v-ripple>
                   <q-item-section avatar>
                     <q-icon name="home" />
@@ -72,37 +74,25 @@
 import { defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import LogoutButton from 'components/buttons/LogoutButton.vue'
 
-const menuList = [
-  {
-    icon: 'inbox',
-    label: '추천 URLs',
-    link: '/',
-    separator: true
-  },
-  {
-    icon: 'home',
-    label: '모든 URLs',
-    link: '/allurls',
-    separator: false
-  },
-]
 
 export default defineComponent({
   name: 'MainLayout',
-
-  components: {LogoutButton},
-
   setup () {
     const $store = useStore()
-    // const $router = useRouter()
+    const $router = useRouter()
     const username = $store.state.user.username
+    const userid = $store.state.user.userid
+    
+    const goToSettings = () => {
+      $router.push({ name: 'Settings', params: { id: userid }})
+    }
 
     return {
       drawer: ref(false),
-      menuList,
-      username
+      username,
+      userid,
+      goToSettings,
     }
   }
 })
