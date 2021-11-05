@@ -6,9 +6,8 @@ export function setInterceptors(instance) {
     function(config) {
       // Do something before request is sent
       const accessToken = vuexStore.state.user.token;
-      console.log('액세스토큰 찾았니?', accessToken)
+      console.log('ㅎㅇ 액세스 토큰',accessToken)
       config.headers.Authorization = accessToken;
-      console.log(config)
       return config;
     },
     function(error) {

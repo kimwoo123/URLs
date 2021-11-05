@@ -17,8 +17,6 @@
 
 <script>
 import GoogleLoginButton from '../components/buttons/GoogleLoginButton.vue'
-import { loginToken } from 'src/api/auth'
-import { api } from 'src/boot/axios'
 
 export default {
   components: { GoogleLoginButton },
