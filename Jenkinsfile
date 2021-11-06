@@ -44,7 +44,7 @@ volumes: [
                         }
                       },
                       "Backend": {
-                        dir ('Backend') {
+                        dir ('backend') {
                             try {
                                 sh """
                                     docker build -t ${backrepo}:${env.BUILD_NUMBER} .
