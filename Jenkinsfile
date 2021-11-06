@@ -47,7 +47,6 @@ volumes: [
                       }
                       stage('BackEnd') {
                         steps{
-                          {
                             dir ('Backend') {
                                 try {
                                     sh """
@@ -62,13 +61,13 @@ volumes: [
                                     error "Backtend Build failed"
                                 }
                             }
-                          }
                         }
                       }
                     }
-                 }
-			      }
-		    }
+                  }
+            }
+			  }
+		    
         stage('Apply kubernetes') {
             container('kubectl') {
                 sh """
