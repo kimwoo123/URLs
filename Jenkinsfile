@@ -43,7 +43,7 @@ volumes: [
                             }
                         }
                       }
-                      "Backend"{
+                      "Backend": {
                         dir ('Backend') {
                             try {
                                 sh """
