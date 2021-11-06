@@ -11,7 +11,7 @@ volumes: [
 
         stage ('Checkout github branch') {
             mattermostSend (
-                color: "good", 
+                color: "#439FE0",
                 message: "Build START: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
             )
             checkout scm
@@ -26,37 +26,49 @@ volumes: [
                     passwordVariable: 'DOCKER_HUB_PASSWORD'
                 ]])  {
                     sh ('echo ${DOCKER_HUB_PASSWORD} | docker login -u $DOCKER_HUB_USER --password-stdin')
-                    dir ('web') {
-                        try {
-                            sh """
-                                docker build -t ${frontrepo}:${env.BUILD_NUMBER} .
-                                docker push ${frontrepo}:${env.BUILD_NUMBER}
-                            """
-                        } catch (e) {
-                            mattermostSend (
-                                color: "danger", 
-                                message: "Frontend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                            )
-                            error "Frontend Build failed"
+                    parallel{
+                      stage('Frontend') {
+                        steps{
+                          dir ('web') {
+                              try {
+                                  sh """
+                                      docker build -t ${frontrepo}:${env.BUILD_NUMBER} .
+                                      docker push ${frontrepo}:${env.BUILD_NUMBER}
+                                  """
+                              } catch (e) {
+                                  mattermostSend (
+                                      color: "danger", 
+                                      message: "Frontend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                                  )
+                                  error "Frontend Build failed"
+                              }
+                          }
                         }
-                    }
-                    dir ('backend') {
-                        try {
-                            sh """
-                                docker build -t ${backrepo}:${env.BUILD_NUMBER} .
-                                docker push ${backrepo}:${env.BUILD_NUMBER}
-                            """
-                        } catch (e) {
-                            mattermostSend (
-                                color: "danger", 
-                                message: "Backend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                            )
-                            error "Backtend Build failed"
+                      }
+                      stage('BackEnd') {
+                        steps{
+                          {
+                            dir ('Backend') {
+                                try {
+                                    sh """
+                                        docker build -t ${backrepo}:${env.BUILD_NUMBER} .
+                                        docker push ${backrepo}:${env.BUILD_NUMBER}
+                                    """
+                                } catch (e) {
+                                    mattermostSend (
+                                        color: "danger", 
+                                        message: "Backend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                                    )
+                                    error "Backtend Build failed"
+                                }
+                            }
+                          }
                         }
+                      }
                     }
-                }
-			}
-		}
+                 }
+			      }
+		    }
         stage('Apply kubernetes') {
             container('kubectl') {
                 sh """
