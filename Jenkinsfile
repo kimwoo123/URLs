@@ -26,7 +26,7 @@ volumes: [
                     passwordVariable: 'DOCKER_HUB_PASSWORD'
                 ]])  {
                     sh ('echo ${DOCKER_HUB_PASSWORD} | docker login -u $DOCKER_HUB_USER --password-stdin')
-                    parallel(
+                    parallel([
                       "Frontend": {
                         dir ('web') {
                             try {
@@ -42,7 +42,7 @@ volumes: [
                                 error "Frontend Build failed"
                             }
                         }
-                      }
+                      },
                       "Backend": {
                         dir ('Backend') {
                             try {
@@ -58,8 +58,8 @@ volumes: [
                                 error "Backtend Build failed"
                             }
                         }
-                        }
-                    )
+                      }
+                    ])
                   }
             }
 			  }
