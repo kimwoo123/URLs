@@ -6,6 +6,14 @@
         <q-toolbar-title>
           율스
         </q-toolbar-title>
+
+        <q-input rounded outlined v-model="text">
+          <template v-slot:append>
+            <q-avatar>
+              <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
+            </q-avatar>
+          </template>
+        </q-input>
         
         <q-btn flat round dense icon="fas fa-bell" class="q-mr-md">
           <q-badge floating color="red">2</q-badge>
@@ -71,10 +79,13 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { 
+  defineComponent, 
+  ref,
+} from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-
+import { urls } from 'src/api/index'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -88,8 +99,14 @@ export default defineComponent({
       $router.push({ name: 'Settings', params: { id: userid }})
     }
 
+    urls.folderMe()
+      .then(async(result) => {
+        console.log(result)
+      })
+
     return {
       drawer: ref(false),
+      text: ref(''),
       username,
       userid,
       goToSettings,

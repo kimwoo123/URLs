@@ -6,7 +6,7 @@ export function setInterceptors(instance) {
     function(config) {
       // Do something before request is sent
       const accessToken = vuexStore.state.user.token;
-      config.headers.Authorization = accessToken;
+      config.headers.Authorization = 'Bearer ' + accessToken;
       return config;
     },
     function(error) {
