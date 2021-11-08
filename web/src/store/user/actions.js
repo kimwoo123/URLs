@@ -1,4 +1,4 @@
-import { loginToken } from 'src/api/auth'
+import { auth } from 'src/api/index'
 import {
 	saveAuthToCookie,
   saveUserToCookie,
@@ -16,7 +16,7 @@ export async function LOGIN({ commit }, userData) {
   commit('setUserName', userData.nickname)
   saveAuthToCookie(userData.token)
   saveUserToCookie(userData.nickname)
-  const { data } = await loginToken(loginData);
+  const { data } = await auth.user(loginData);
   console.log(data)
   commit('setUserid', data['_id'])
   saveUseridToCookie(data['_id'])
@@ -26,6 +26,7 @@ export async function LOGOUT({ commit }) {
   commit('clearUsername')
   commit('clearToken')
   commit('clearUserid')
-  deleteCookie('til-auth')
-  deleteCookie('til-user')
+  deleteCookie('til_auth')
+  deleteCookie('til_user')
+  deleteCookie('til_userid')
 }
