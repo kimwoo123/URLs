@@ -1,9 +1,10 @@
 import { api } from "src/boot/axios";
 
-function loginToken(loginData) {
+export function user(loginData) {
   return api.post('/user', loginData)
 }
 
-export {
-  loginToken,
+export function tokenMe() {
+  console.log('토큰미')
+  return api.get('/token/me')
 }
