@@ -22,9 +22,9 @@ export default {
 
     const googleLogin = async() => {
       const provider = new GoogleAuthProvider()
-      const auth = getAuth()
+      const gooleAuth = getAuth()
 
-      signInWithPopup(auth, provider)
+      signInWithPopup(gooleAuth, provider)
         .then(async(result) => {
           const credential = GoogleAuthProvider.credentialFromResult(result);
           const token = credential.idToken;
