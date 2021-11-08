@@ -36,7 +36,7 @@ async def create_folder(folder_in: FolderIn, current_user: User = Depends(get_cu
     if db.user.find_one({"_id": ObjectId(current_user["_id"]), "folders.folder_name": folder_in.folder_name}):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"folder {folder_in.folder_name} is already exists")
 
-    result = db.folder.insert_one(jsonable_encoder(FolderInDB(**folder_in.dict(), users=[User(**current_user)])))
+    result = db.folder.insert_one(jsonable_encoder(FolderInDB(**folder_in.dict(), users=[User(**current_user, permission=2)])))
 
     user_folder = {
       "folder_id": result.inserted_id,
