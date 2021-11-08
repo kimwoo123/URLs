@@ -26,6 +26,7 @@ export async function LOGOUT({ commit }) {
   commit('clearUsername')
   commit('clearToken')
   commit('clearUserid')
-  deleteCookie('til-auth')
-  deleteCookie('til-user')
+  deleteCookie('til_auth')
+  deleteCookie('til_user')
+  deleteCookie('til_userid')
 }
