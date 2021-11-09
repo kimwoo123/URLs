@@ -11,6 +11,7 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.keelim.free.R
 import com.keelim.free.databinding.FragmentSettingBinding
+import com.keelim.free.ui.inject.InjectActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,9 +49,9 @@ class SettingFragment: BottomSheetDialogFragment() {
             findNavController().navigate(R.id.aboutFragment)
         }
 
-        binding.login.setOnClickListener {
+        binding.inject.setOnClickListener {
             dismiss()
-//            findNavController().navigate(R.id.profileFragment)
+            startActivity(Intent(requireActivity(), InjectActivity::class.java))
         }
 
         binding.openSourceLicensesButton.setOnClickListener {
