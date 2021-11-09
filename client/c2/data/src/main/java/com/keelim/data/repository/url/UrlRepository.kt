@@ -22,4 +22,5 @@ interface UrlRepository {
     suspend fun urlNewMemo(mid:String, highlight:String, content:String): CallResult
     suspend fun urlChangeMemo(mid:String, highlight:String, content:String): CallResult
     suspend fun urlDeleteMemo(msid:String,mid:String): CallResult
+    suspend fun submitUrl(token:String, url:String): CallResult
 }

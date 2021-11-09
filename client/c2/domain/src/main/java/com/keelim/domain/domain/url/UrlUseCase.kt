@@ -14,4 +14,8 @@ class UrlUseCase(
     suspend fun inject(token:String, url:String): CallResult{
         return urlRepository.inject(token, url)
     }
+
+    suspend fun submitUrl(token:String, url:String): CallResult{
+        return urlRepository.submitUrl(token, url)
+    }
 }

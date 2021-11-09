@@ -73,6 +73,7 @@ dependencies {
 
     // Hilt
     implementation(Dep.Dagger.Hilt.android)
+    implementation("androidx.appcompat:appcompat:1.3.1")
     kapt(Dep.Dagger.Hilt.compiler)
 
     implementation(Dep.AndroidX.appcompat)

@@ -119,4 +119,13 @@ class UrlRepositoryImpl @Inject constructor(
         withContext(dispatcher) {
             TODO("Not yet implemented")
         }
+
+    override suspend fun submitUrl(token: String, url: String): CallResult  = withContext(dispatcher){
+        val response = apiRequestFactory.retrofit.submitUrl(token, url)
+        return@withContext if(response.isSuccessful){
+            CallResult.Success
+        } else{
+            CallResult.Error
+        }
+    }
 }

@@ -68,11 +68,9 @@ class AuthActivity : AppCompatActivity() {
         Timber.d("onSignInResult: ${response?.idpToken}")
         if (result.resultCode == RESULT_OK) {
             // Successfully signed in
-            val user = FirebaseAuth.getInstance().currentUser
-
             val pref = getSharedPreferences("token",Context.MODE_PRIVATE)
             with (pref.edit()) {
-                putString("token", user!!.email)
+                putString("token", response?.idpToken)
                 commit()
             }
 
