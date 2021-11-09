@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
 from models.recommend import Recommend, UrlIn
-from typing import List
 from config.db import db
 from serializers.common import serializeDict, serializeList
 from bson import ObjectId
@@ -8,6 +7,7 @@ import numpy as np
 
 
 recommend = APIRouter()
+
 
 @recommend.get('/recommend', summary="전체 url DB 속 url 있는지 조회")
 async def find_one_url(url):

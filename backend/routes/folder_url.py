@@ -6,9 +6,9 @@ from serializers.common import serializeDict, serializeList
 from fastapi.encoders import jsonable_encoder
 # from fastapi.responses import JSONResponse
 from bson import ObjectId
-from pprint import pprint
 from pymongo import ReturnDocument
 from .token import get_current_user
+
 
 folder_url = APIRouter()
 

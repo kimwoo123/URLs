@@ -6,13 +6,11 @@ from serializers.common import serializeList_folder
 from fastapi.encoders import jsonable_encoder
 # from fastapi.responses import JSONResponse
 from bson import ObjectId
-from pprint import pprint
 from pymongo import ReturnDocument
 from .token import get_current_user
 
-folder = APIRouter()
 
-# 내 모든 폴더 조회 만들기
+folder = APIRouter()
 
 
 @folder.get('/folder/me', summary="내 모든 폴더 조회")

@@ -1,11 +1,10 @@
 from fastapi import Depends, APIRouter, HTTPException, status
 from models.folder import User, UserIn, FolderOut
 from config.db import db
-from serializers.common import serializeDict, serializeList
+from serializers.common import serializeDict
 from fastapi.encoders import jsonable_encoder
 # from fastapi.responses import JSONResponse
 from bson import ObjectId
-from pprint import pprint
 from pymongo import ReturnDocument
 from .token import get_current_user
 
