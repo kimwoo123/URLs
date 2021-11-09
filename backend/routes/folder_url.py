@@ -13,14 +13,40 @@ from .token import get_current_user
 folder_url = APIRouter()
 
 
-# 필터 수정 예정
+async def tag_count_increase(increase_tags, current_user):
+    user = db.user.find_one({"_id": ObjectId(current_user["_id"])})
+    user_tags = [item["tag_name"] for item in user["tags"]]
+    for tag in increase_tags:
+        if tag in user_tags:
+            db.user.find_one_and_update(
+                {"_id": ObjectId(current_user["_id"]), "tags.tag_name": tag},
+                {"$inc": {"tags.$.count": 1}}
+            )
+        else:
+            db.user.find_one_and_update(
+                {"_id": ObjectId(current_user["_id"])},
+                {"$push": {"tags": {"tag_name": tag, "count": 1}}}
+            )
+
+async def tag_count_decrease(decrease_tags, current_user):
+    db.user.find_one({"_id": ObjectId(current_user["_id"])})
+    for tag in decrease_tags:
+        db.user.find_one_and_update(
+            {"_id": ObjectId(current_user["_id"]), "tags.tag_name": tag},
+            {"$inc": {"tags.$.count": -1}}
+        )
+    db.user.find_one_and_update(
+        {"_id": ObjectId(current_user["_id"])},
+        {"$pull": {"tags": {"count": 0}}}
+    )
+
+
 @folder_url.get('/folder/url/me', summary="내 모든 폴더에서 내가 작성한 url 검색")
 async def find_all_folder_url_me(user: User = Depends(get_current_user)):
     my_urls = db.folder.find({"urls.added_by.email": user["email"]})
     if my_urls is not None:
         return serializeList(my_urls)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-
 
 
 @folder_url.get('/folder/{folder_id}/url', summary="폴더 내 특정 url 검색")
@@ -38,6 +64,8 @@ async def find_one_folder_url(folder_id, url):
 async def create_folder_url(folder_id, url_in: UrlIn, current_user: User = Depends(get_current_user)):
     if db.folder.find_one({"_id": ObjectId(folder_id), "urls.url": url_in.url}):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+    
+    await tag_count_increase(url_in.tags, current_user)
 
     tmp = db.memo.insert_one(jsonable_encoder(Memos()))
     url = UrlInDB(
@@ -58,24 +86,34 @@ async def create_folder_url(folder_id, url_in: UrlIn, current_user: User = Depen
 @folder_url.put('/folder/{folder_id}/url', summary="폴더 내 특정 url을 찾아, 해당 url의 썸네일, 태그 수정")
 async def update_folder_url(folder_id, url_in: UrlIn, current_user: User = Depends(get_current_user)):
     if db.folder.find_one({"_id": ObjectId(folder_id), "users.email": current_user["email"]}):
+        old_folder = db.folder.find_one({"_id": ObjectId(folder_id), "urls.url": url_in.url}, {"urls.$":1})
         folder = db.folder.find_one_and_update(
             {"_id": ObjectId(folder_id), "urls.url": url_in.url}, 
             {"$set": {"urls.$.thumbnail": url_in.thumbnail, "urls.$.tags": url_in.tags}},
             return_document=ReturnDocument.AFTER
         )
         if folder is not None:
+            # 기존에 있던 태그 count 감소
+            await tag_count_decrease(old_folder["urls"][0]["tags"], current_user)
+            # 새로 생기는 태그 count 증가
+            await tag_count_increase(url_in.tags, current_user)
+
             return serializeDict(folder)
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder or url not found")
     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
 
 @folder_url.delete('/folder/{folder_id}/url', summary="폴더 내 특정 url 삭제")
-async def delete_folder_url(folder_id, url_in: UrlIn):
+async def delete_folder_url(folder_id, url_in: UrlIn, current_user: User = Depends(get_current_user)):
     tmp = db.folder.find_one(
         {"_id": ObjectId(folder_id), "urls.url": url_in.url},
         {"urls.$":1}
     )
+    if tmp is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {url_in.url} not found")
+
     memos_id = tmp["urls"][0]["memos_id"]
+    await tag_count_decrease(tmp["urls"][0]["tags"], current_user)
     
     folder = db.folder.find_one_and_update(
         {"_id": ObjectId(folder_id)},
