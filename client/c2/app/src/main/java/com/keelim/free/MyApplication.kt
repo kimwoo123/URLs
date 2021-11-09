@@ -6,12 +6,11 @@ import com.keelim.free.notification.NotificationChannels
 import com.keelim.free.util.ComponentLogger
 import com.keelim.free.util.ThemeManager
 import com.keelim.free.util.ThemeType
-import com.mocklets.pluto.Pluto
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-class MyApplication: Application(){
+class MyApplication : Application() {
     @Inject
     lateinit var themeManager: ThemeManager
 

@@ -12,10 +12,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TutorialFragment(
-    @DrawableRes private val image:Int?,
-    private val title_string:String,
-    private val sub_string:String,
-):Fragment(){
+    @DrawableRes private val image: Int?,
+    private val title_string: String,
+    private val sub_string: String,
+) : Fragment() {
     private var _binding: FragmentTutorialBinding? = null
     private val binding get() = _binding!!
 
@@ -24,7 +24,7 @@ class TutorialFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTutorialBinding.inflate(inflater,container, false)
+        _binding = FragmentTutorialBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,7 +38,7 @@ class TutorialFragment(
         _binding = null
     }
 
-    private fun initViews() = with(binding){
+    private fun initViews() = with(binding) {
         image?.let {
             root.background = ResourcesCompat.getDrawable(resources, image, null)
         }

@@ -11,9 +11,10 @@ import com.keelim.free.databinding.ItemUrlBinding
 
 class PersonalAdapter(
     private val longClick: (Url) -> Unit,
-): ListAdapter<Url, PersonalAdapter.ViewHolder>(diffUtil) {
-    inner class ViewHolder(private val binding: ItemUrlBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(item:Url){
+) : ListAdapter<Url, PersonalAdapter.ViewHolder>(diffUtil) {
+    inner class ViewHolder(private val binding: ItemUrlBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: Url) {
             binding.root.setOnLongClickListener {
                 longClick(item)
                 return@setOnLongClickListener true
@@ -22,14 +23,20 @@ class PersonalAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemUrlBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(
+            ItemUrlBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
     }
 
-    companion object{
+    companion object {
         val diffUtil = object : DiffUtil.ItemCallback<Url>() {
             override fun areItemsTheSame(oldItem: Url, newItem: Url): Boolean {
                 return oldItem == newItem

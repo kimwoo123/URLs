@@ -59,7 +59,12 @@ class AboutFragment : Fragment() {
         }
 
         openSourceLicensesCard.setOnClickListener {
-            requireActivity().startActivity(Intent(requireActivity(), OssLicensesMenuActivity::class.java))
+            requireActivity().startActivity(
+                Intent(
+                    requireActivity(),
+                    OssLicensesMenuActivity::class.java
+                )
+            )
         }
     }
 }

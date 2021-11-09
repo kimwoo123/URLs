@@ -43,7 +43,7 @@ class PersonalFragment : Fragment() {
                 setMessage("어떤 팀에 공유를 하시겠습니까?")
                 setPositiveButton("R.string.personal_delete_positive") { _, _ ->
 //                    viewModel.share()
-                    
+
                 }
                 setNegativeButton("R.string.personal_delete_negative") { _, _ -> }
                 show()

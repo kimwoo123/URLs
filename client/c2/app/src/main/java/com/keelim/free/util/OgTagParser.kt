@@ -13,7 +13,7 @@ import timber.log.Timber
 
 class OgTagParser @Inject constructor(
     private val call: (LinkSourceContent) -> Unit
-){
+) {
     fun getContents(urlToParse: String) {
         JsoupOgTagParser(urlToParse).execute()
     }
@@ -76,12 +76,12 @@ class OgTagParser @Inject constructor(
                 result.isSuccess -> {
                     return@withContext linkSourceContent
                 }
-                result.isFailure ->{
+                result.isFailure -> {
                     Timber.e("LinkSourceContent is Error")
-                    return@withContext  LinkSourceContent()
+                    return@withContext LinkSourceContent()
                 }
                 else -> {
-                    return@withContext  LinkSourceContent()
+                    return@withContext LinkSourceContent()
                 }
             }
         }

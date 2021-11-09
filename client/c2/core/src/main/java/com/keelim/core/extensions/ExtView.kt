@@ -2,6 +2,7 @@ package com.keelim.core.extensions
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Bitmap.CompressFormat.JPEG
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.BitmapDrawable
@@ -11,6 +12,7 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.PrecomputedTextCompat
+import androidx.core.view.drawToBitmap
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -20,8 +22,6 @@ import coil.load
 import coil.request.ImageRequest
 import java.io.File
 import java.io.FileOutputStream
-import android.graphics.Bitmap.CompressFormat.JPEG
-import androidx.core.view.drawToBitmap
 
 fun ImageView.loadAsync(url: String?, @DrawableRes placeholder: Int? = null) {
     if (url == null) {

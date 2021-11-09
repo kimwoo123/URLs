@@ -12,11 +12,11 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class SettingViewModel @Inject constructor(
 
-):ViewModel() {
+) : ViewModel() {
     private val _loading = MutableStateFlow(false)
-    val loading:StateFlow<Boolean> = _loading
+    val loading: StateFlow<Boolean> = _loading
 
-    fun loading() = viewModelScope.launch{
+    fun loading() = viewModelScope.launch {
         delay(1_000L)
         _loading.value = true
         delay(500L)

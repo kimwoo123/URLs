@@ -12,10 +12,10 @@ class UrlRepositoryImpl @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
     private val apiRequestFactory: ApiRequestFactory,
 ) : UrlRepository {
-    override suspend fun share(token: String): List<Url>  = withContext(dispatcher) {
+    override suspend fun share(token: String): List<Url> = withContext(dispatcher) {
         val response = apiRequestFactory.retrofit.share(token)
         if (response.isSuccessful) {
-            response.body()?.mapIndexed{ index, url ->
+            response.body()?.mapIndexed { index, url ->
 
             }
             return@withContext response.body() ?: emptyList()
@@ -120,12 +120,13 @@ class UrlRepositoryImpl @Inject constructor(
             TODO("Not yet implemented")
         }
 
-    override suspend fun submitUrl(token: String, url: String): CallResult  = withContext(dispatcher){
-        val response = apiRequestFactory.retrofit.submitUrl(token, url)
-        return@withContext if(response.isSuccessful){
-            CallResult.Success
-        } else{
-            CallResult.Error
+    override suspend fun submitUrl(token: String, url: String): CallResult =
+        withContext(dispatcher) {
+            val response = apiRequestFactory.retrofit.submitUrl(token, url)
+            return@withContext if (response.isSuccessful) {
+                CallResult.Success
+            } else {
+                CallResult.Error
+            }
         }
-    }
 }

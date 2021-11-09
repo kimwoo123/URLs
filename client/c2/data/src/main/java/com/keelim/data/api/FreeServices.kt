@@ -1,6 +1,5 @@
 package com.keelim.data.api
 
-import com.keelim.data.model.CallResult
 import com.keelim.data.model.open.Url
 import com.keelim.data.response.notification.NotificationResponse
 import retrofit2.Response
@@ -11,7 +10,7 @@ import retrofit2.http.POST
 interface FreeServices {
     @Headers("Content-Type: application/json")
     @POST("other1")
-    fun share(token:String): Response<List<Url>>
+    fun share(token: String): Response<List<Url>>
 
     @Headers("Content-Type: application/json")
     @POST("other1")
@@ -23,7 +22,7 @@ interface FreeServices {
 
     @Headers("Content-Type: application/json")
     @POST("submitUrl")
-    fun submitUrl(token:String, url:String): Response<Any>
+    fun submitUrl(token: String, url: String): Response<Any>
 
 //
 //  @Headers("Content-Type: application/json")

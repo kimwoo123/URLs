@@ -12,9 +12,6 @@ import android.webkit.URLUtil
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import com.google.android.gms.auth.api.Auth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.keelim.free.databinding.ActivityInjectBinding
 import com.keelim.free.ui.auth.AuthActivity
 import showToast
@@ -41,8 +38,8 @@ class InjectActivity : AppCompatActivity() {
         intentControl()
     }
 
-    private fun tokenCheck(){
-        token?: run{
+    private fun tokenCheck() {
+        token ?: run {
             showToast("로그인을 위한 서비스 입니다.")
             finishAffinity()
             startActivity(Intent(this, AuthActivity::class.java))
@@ -95,12 +92,12 @@ class InjectActivity : AppCompatActivity() {
     private fun intentControl() {
         when (intent?.action) {
             ACTION_SEND -> {
-                if(intent.type?.startsWith("text/") == true){
+                if (intent.type?.startsWith("text/") == true) {
                     handleText(intent)
                 }
             }
-            ACTION_PROCESS_TEXT ->{
-                if(intent.type?.startsWith("text/") == true){
+            ACTION_PROCESS_TEXT -> {
+                if (intent.type?.startsWith("text/") == true) {
                     handleProcessText(intent)
                 }
             }
@@ -108,14 +105,14 @@ class InjectActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleText(intent: Intent){
-        intent.getStringExtra(Intent.EXTRA_TEXT)?.let{
+    private fun handleText(intent: Intent) {
+        intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
             binding.injectField.setText(it)
         }
     }
 
-    private fun handleProcessText(intent:Intent){
-        intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT)?.let{
+    private fun handleProcessText(intent: Intent) {
+        intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT)?.let {
             binding.injectField.setText(it)
         }
     }

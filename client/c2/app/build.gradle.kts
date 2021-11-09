@@ -29,8 +29,10 @@ android {
 
         release {
             isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     useLibrary("android.test.mock")

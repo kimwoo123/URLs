@@ -15,7 +15,7 @@ class PersonalViewModel @Inject constructor(
     private val urlUseCase: UrlUseCase
 ) : ViewModel() {
     private val _state: MutableStateFlow<UrlState> = MutableStateFlow(UrlState.UnInitialized)
-    val state:StateFlow<UrlState> get() = _state
+    val state: StateFlow<UrlState> get() = _state
 
     fun share(token: String) = viewModelScope.launch {
         _state.emit(UrlState.Loading)

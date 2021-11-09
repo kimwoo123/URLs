@@ -1,7 +1,5 @@
 package com.keelim.free.ui.inject
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.keelim.data.model.UrlState
@@ -38,7 +36,7 @@ class InjectViewModel @Inject constructor(
         }
     }
 
-    fun submitUrl(token:String, url: String) = viewModelScope.launch {
+    fun submitUrl(token: String, url: String) = viewModelScope.launch {
         _state.emit(UrlState.Loading)
         val result = kotlin.runCatching { urlUseCase.submitUrl(token, url) }
         when {

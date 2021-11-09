@@ -13,23 +13,23 @@ import dagger.hilt.android.scopes.ViewModelScoped
 @Module
 @InstallIn(ViewModelComponent::class)
 object UseCaseModule {
-  @Provides
-  @ViewModelScoped
-  fun provideNotificationUseCase(
-    notificationRepository: NotificationRepository,
-  ): NotificationUseCase {
-    return NotificationUseCase(
-      notificationRepository
-    )
-  }
+    @Provides
+    @ViewModelScoped
+    fun provideNotificationUseCase(
+        notificationRepository: NotificationRepository,
+    ): NotificationUseCase {
+        return NotificationUseCase(
+            notificationRepository
+        )
+    }
 
-  @Provides
-  @ViewModelScoped
-  fun provideUrlUseCase(
-    urlRepository: UrlRepository,
-  ): UrlUseCase {
-    return UrlUseCase(
-      urlRepository
-    )
-  }
+    @Provides
+    @ViewModelScoped
+    fun provideUrlUseCase(
+        urlRepository: UrlRepository,
+    ): UrlUseCase {
+        return UrlUseCase(
+            urlRepository
+        )
+    }
 }

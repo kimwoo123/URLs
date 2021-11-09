@@ -5,10 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -16,7 +14,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import coil.load
 import com.google.android.material.snackbar.Snackbar
-import com.keelim.core.extensions.showToast
 import com.keelim.free.R
 import com.keelim.free.databinding.ActivityMenuBinding
 import com.keelim.free.databinding.AppBarMenuBinding
@@ -44,8 +41,11 @@ class MenuActivity : AppCompatActivity() {
         setSupportActionBar(binding.appBarMenu.toolbar)
         initViews()
         Pluto.initialize(this)
-        appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), binding.drawerLayout)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+            ), binding.drawerLayout
+        )
 
         setupActionBarWithNavController(navController(), appBarConfiguration)
         binding.navView.setupWithNavController(navController())
@@ -59,8 +59,10 @@ class MenuActivity : AppCompatActivity() {
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     val query = "Hello"
-                    startActivity(Intent(this@MenuActivity,
-                        SearchResultsActivity::class.java).apply {
+                    startActivity(Intent(
+                        this@MenuActivity,
+                        SearchResultsActivity::class.java
+                    ).apply {
                         action = Intent.ACTION_SEARCH
                         putExtra(SearchManager.QUERY, query)
                     })

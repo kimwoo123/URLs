@@ -15,17 +15,17 @@ import com.keelim.free.ui.inject.InjectActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingFragment: BottomSheetDialogFragment() {
-    private var _binding:FragmentSettingBinding? = null
+class SettingFragment : BottomSheetDialogFragment() {
+    private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
-    private val settingViewModel:SettingViewModel by viewModels()
+    private val settingViewModel: SettingViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding  = FragmentSettingBinding.inflate(inflater, container, false)
+        _binding = FragmentSettingBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -56,7 +56,12 @@ class SettingFragment: BottomSheetDialogFragment() {
 
         binding.openSourceLicensesButton.setOnClickListener {
             dismiss()
-            requireActivity().startActivity(Intent(requireActivity(), OssLicensesMenuActivity::class.java))
+            requireActivity().startActivity(
+                Intent(
+                    requireActivity(),
+                    OssLicensesMenuActivity::class.java
+                )
+            )
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.keelim.free.ui.main.inject
 
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,15 +16,15 @@ import kotlinx.coroutines.launch
 class InjectViewModel @Inject constructor(
     private val urlUseCase: UrlUseCase
 ) : ViewModel() {
-    private val _state:MutableStateFlow<UrlState> = MutableStateFlow(UrlState.UnInitialized)
-    val state:StateFlow<UrlState> get() = _state
+    private val _state: MutableStateFlow<UrlState> = MutableStateFlow(UrlState.UnInitialized)
+    val state: StateFlow<UrlState> get() = _state
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is slideshow Fragment"
     }
     val text: LiveData<String> = _text
 
-    fun inject(token: String, url:String) = viewModelScope.launch {
+    fun inject(token: String, url: String) = viewModelScope.launch {
         _state.emit(UrlState.Loading)
         val result = kotlin.runCatching { urlUseCase.share(token) }
 

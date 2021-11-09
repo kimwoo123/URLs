@@ -9,7 +9,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TeamViewModel @Inject constructor(
 
-): ViewModel() {
+) : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is gallery Fragment"

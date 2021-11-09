@@ -7,15 +7,15 @@ import com.keelim.data.repository.url.UrlRepository
 class UrlUseCase(
     private val urlRepository: UrlRepository
 ) {
-    suspend fun share(token:String): List<Url> {
+    suspend fun share(token: String): List<Url> {
         return urlRepository.share(token)
     }
 
-    suspend fun inject(token:String, url:String): CallResult{
+    suspend fun inject(token: String, url: String): CallResult {
         return urlRepository.inject(token, url)
     }
 
-    suspend fun submitUrl(token:String, url:String): CallResult{
+    suspend fun submitUrl(token: String, url: String): CallResult {
         return urlRepository.submitUrl(token, url)
     }
 }

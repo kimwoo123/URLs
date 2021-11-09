@@ -6,5 +6,5 @@ data class Url(
     val description: String,
     val created: String,
     val date: String,
-    val image:String,
+    val image: String,
 )
