@@ -1,5 +1,6 @@
 package com.keelim.data.api
 
+import com.keelim.data.model.auth.User
 import com.keelim.data.model.open.Url
 import com.keelim.data.response.notification.NotificationResponse
 import retrofit2.Response
@@ -24,6 +25,10 @@ interface FreeServices {
     @POST("submitUrl")
     fun submitUrl(token: String, url: String): Response<Any>
 
+    @Headers("Content-Type: application/json")
+    @GET("/token/me")
+    suspend fun tokenCheck(): Response<User>
+
 //
 //  @Headers("Content-Type: application/json")
 //  @POST("other/sue/")
@@ -47,10 +52,6 @@ interface FreeServices {
 //    @Query("uid") uid: String,
 //  ): Response<ResultResponse>
 //
-//  @GET("friends/{myid}")
-//  fun getFriends(
-//    @Query("myid") id: String,
-//  ): Response<FriendsResponse>
 //
 //
 //  @POST

@@ -18,4 +18,8 @@ class UrlUseCase(
     suspend fun submitUrl(token: String, url: String): CallResult {
         return urlRepository.submitUrl(token, url)
     }
+
+    suspend fun tokenCheck(token:String): Boolean{
+        return urlRepository.tokenCheck(token).email.isNotEmpty()
+    }
 }

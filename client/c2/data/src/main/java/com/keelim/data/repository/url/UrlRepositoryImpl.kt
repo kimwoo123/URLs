@@ -2,11 +2,13 @@ package com.keelim.data.repository.url
 
 import com.keelim.data.api.ApiRequestFactory
 import com.keelim.data.model.CallResult
+import com.keelim.data.model.auth.User
 import com.keelim.data.model.open.Url
 import com.keelim.di.IoDispatcher
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class UrlRepositoryImpl @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
@@ -129,4 +131,14 @@ class UrlRepositoryImpl @Inject constructor(
                 CallResult.Error
             }
         }
+
+    override suspend fun tokenCheck(token: String): User  = withContext(dispatcher){
+        try{
+            val response = apiRequestFactory.retrofit.tokenCheck()
+            return@withContext response.body() ?: User("", "", "")
+        } catch (e:Exception){
+            Timber.e(e)
+        }
+        return@withContext User("", "", "")
+    }
 }

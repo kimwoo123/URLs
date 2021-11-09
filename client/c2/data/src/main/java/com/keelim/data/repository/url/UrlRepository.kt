@@ -1,6 +1,7 @@
 package com.keelim.data.repository.url
 
 import com.keelim.data.model.CallResult
+import com.keelim.data.model.auth.User
 import com.keelim.data.model.open.Url
 
 interface UrlRepository {
@@ -29,4 +30,5 @@ interface UrlRepository {
     suspend fun urlChangeMemo(mid: String, highlight: String, content: String): CallResult
     suspend fun urlDeleteMemo(msid: String, mid: String): CallResult
     suspend fun submitUrl(token: String, url: String): CallResult
+    suspend fun tokenCheck(token:String): User
 }
