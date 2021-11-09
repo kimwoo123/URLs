@@ -1,8 +1,10 @@
 package com.keelim.domain.domain.url
 
 import com.keelim.data.model.CallResult
+import com.keelim.data.model.Folder
 import com.keelim.data.model.open.Url
 import com.keelim.data.repository.url.UrlRepository
+import timber.log.Timber
 
 class UrlUseCase(
     private val urlRepository: UrlRepository
@@ -21,5 +23,11 @@ class UrlUseCase(
 
     suspend fun tokenCheck(token:String): Boolean{
         return urlRepository.tokenCheck(token).email.isNotEmpty()
+    }
+
+    suspend fun myFolder(): List<Folder>{
+        val result = urlRepository.allFolder()
+        Timber.i("들어온 값 $result")
+        return result
     }
 }

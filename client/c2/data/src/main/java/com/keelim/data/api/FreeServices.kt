@@ -2,6 +2,7 @@ package com.keelim.data.api
 
 import com.keelim.data.model.auth.User
 import com.keelim.data.model.open.Url
+import com.keelim.data.response.URLResponse
 import com.keelim.data.response.notification.NotificationResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -28,6 +29,10 @@ interface FreeServices {
     @Headers("Content-Type: application/json")
     @GET("/token/me")
     suspend fun tokenCheck(): Response<User>
+
+    @Headers("Content-Type: application/json")
+    @GET("/folder/me")
+    suspend fun allFolder(): Response<List<URLResponse>>
 
 //
 //  @Headers("Content-Type: application/json")

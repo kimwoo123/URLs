@@ -2,6 +2,7 @@ package com.keelim.data.repository.url
 
 import com.keelim.data.api.ApiRequestFactory
 import com.keelim.data.model.CallResult
+import com.keelim.data.model.Folder
 import com.keelim.data.model.auth.User
 import com.keelim.data.model.open.Url
 import com.keelim.di.IoDispatcher
@@ -30,8 +31,20 @@ class UrlRepositoryImpl @Inject constructor(
         return@withContext CallResult.Success
     }
 
-    override suspend fun allFolder(token: String): List<Url> = withContext(dispatcher) {
-        TODO("Not yet implemented")
+    override suspend fun allFolder(): List<Folder> = withContext(dispatcher) {
+        val response = apiRequestFactory.retrofit.allFolder()
+        Timber.d("들어온 값 1 ${response.body()}")
+        if (response.isSuccessful) {
+            response.body()?.toList()!!.map {
+                Folder(
+                    it.folderId,
+                    it.folderName,
+                    it.shared
+                )
+            }
+        } else {
+            emptyList()
+        }
     }
 
     override suspend fun newOneFolder(token: String): CallResult = withContext(dispatcher) {

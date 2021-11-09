@@ -83,9 +83,8 @@ class AuthActivity : AppCompatActivity() {
             val pref = getSharedPreferences("token", Context.MODE_PRIVATE)
             with(pref.edit()) {
                 putString("token", response?.idpToken)
-                commit()
+                apply()
             }
-
             startActivity(Intent(this@AuthActivity, MenuActivity::class.java))
             finish()
         } else {

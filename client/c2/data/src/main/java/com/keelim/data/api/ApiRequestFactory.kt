@@ -28,7 +28,7 @@ class ApiRequestFactory @Inject constructor(
             OkHttpClient.Builder()
                 .addInterceptor(
                     HttpLoggingInterceptor().apply {
-                        this.level = HttpLoggingInterceptor.Level.HEADERS
+                        this.level = HttpLoggingInterceptor.Level.BODY
                     }
                 )
                 .addInterceptor(

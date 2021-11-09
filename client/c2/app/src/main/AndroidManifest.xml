@@ -72,6 +72,9 @@
             <meta-data
                 android:name="com.keelim.free.initializer.CoilInitializer"
                 android:value="androidx.startup" />
+            <meta-data
+                android:name="com.keelim.free.initializer.PlutoInitializer"
+                android:value="androidx.startup" />
         </provider>
     </application>
 

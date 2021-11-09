@@ -1,13 +1,14 @@
 package com.keelim.data.repository.url
 
 import com.keelim.data.model.CallResult
+import com.keelim.data.model.Folder
 import com.keelim.data.model.auth.User
 import com.keelim.data.model.open.Url
 
 interface UrlRepository {
     suspend fun share(token: String): List<Url>
     suspend fun inject(token: String, url: String): CallResult
-    suspend fun allFolder(token: String): List<Url>
+    suspend fun allFolder(): List<Folder>
     suspend fun newOneFolder(token: String): CallResult
     suspend fun detailFolder(fid: String): CallResult
     suspend fun renameFolder(fid: String, name: String): CallResult
