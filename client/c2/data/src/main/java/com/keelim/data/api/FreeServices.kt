@@ -1,6 +1,5 @@
 package com.keelim.data.api
 
-import com.keelim.data.model.notification.Notification
 import com.keelim.data.model.open.Url
 import com.keelim.data.response.notification.NotificationResponse
 import retrofit2.Response
@@ -19,7 +18,7 @@ interface FreeServices {
 
     @Headers("Content-Type: application/json")
     @GET("notifications")
-    fun getNotificationList(userId:String): Response<List<NotificationResponse>>
+    fun getNotificationList(userId: Int): Response<List<NotificationResponse>>
 
 //
 //  @Headers("Content-Type: application/json")

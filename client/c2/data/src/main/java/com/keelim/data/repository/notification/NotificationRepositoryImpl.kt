@@ -12,7 +12,7 @@ class NotificationRepositoryImpl @Inject constructor(
   @IoDispatcher private val dispatcher: CoroutineDispatcher,
   private val apiRequestFactory: ApiRequestFactory,
 ) : NotificationRepository {
-  override suspend fun getAllNotificationList(userId: String): List<Notification> = withContext(dispatcher) {
+  override suspend fun getAllNotificationList(userId: Int): List<Notification> = withContext(dispatcher) {
     val response = apiRequestFactory.retrofit.getNotificationList(
       userId = userId
     )
