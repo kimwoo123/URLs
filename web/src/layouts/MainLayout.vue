@@ -7,17 +7,7 @@
           율스
         </q-toolbar-title>
 
-        <q-input rounded outlined v-model="text">
-          <template v-slot:append>
-            <q-avatar>
-              <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
-            </q-avatar>
-          </template>
-        </q-input>
-        
-        <q-btn flat round dense icon="fas fa-bell" class="q-mr-md">
-          <q-badge floating color="red">2</q-badge>
-        </q-btn>
+        <AutoComplete></AutoComplete>
 
         <q-btn 
           flat 
@@ -86,15 +76,16 @@ import {
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { urls } from 'src/api/index'
+import AutoComplete from '../components/AutoComplete.vue'
 
 export default defineComponent({
   name: 'MainLayout',
+  components: { AutoComplete },
   setup () {
     const $store = useStore()
     const $router = useRouter()
     const username = $store.state.user.username
     const userid = $store.state.user.userid
-    
     const goToSettings = () => {
       $router.push({ name: 'Settings', params: { id: userid }})
     }
@@ -106,7 +97,7 @@ export default defineComponent({
 
     return {
       drawer: ref(false),
-      text: ref(''),
+      text: ref('blah'),
       username,
       userid,
       goToSettings,
