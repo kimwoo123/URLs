@@ -18,13 +18,14 @@ mecab = Mecab()
 recommend = APIRouter()
 
 @recommend.get('/tags', summary="해당 url 의 tags 추천")
-async def find_tags(url, count):
+async def find_tags(url, count: int):
     if url is not None:
         try:
             headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
             }
             res = requests.get(url, headers=headers)
+            print('\nrequest succeed\n')
             res = res.content
 
             soup = BeautifulSoup(res, 'html.parser')
@@ -32,7 +33,7 @@ async def find_tags(url, count):
             soup_1 = [h.string.strip() if h.string else '' for h in soup.find_all('h1')]
             soup_2 = [h.string.strip() if h.string else '' for h in soup.find_all('h3')]
             soup_3 = [p.string.strip() if p.string else '' for p in soup.find_all('p')]
-
+            print('\nBeautifulsoup parsing succeed\n')
             # Some domain need specific headers
             try:
                 # Naver
@@ -43,7 +44,7 @@ async def find_tags(url, count):
             soup = soup_1 + soup_2 + soup_3 + naver
             # Concatenate to a string
             soup = ' '.join(soup).strip()
-
+            print('\nConcatenate succeed\n')
             # Remove noise str
             removal_list = "‘, ’, ◇, ‘, ”,  ’, ', ·, \“, ·, △, ●,  , ■, (, ), \", >>, `, /, -,∼,=,ㆍ<,>, .,?, !,【,】, …, ◆,%"
             soup = re.sub("[.,\'\"’‘”“!?]", "", soup)
@@ -51,11 +52,13 @@ async def find_tags(url, count):
             soup = re.sub("\s+", " ", soup)
             soup = soup.translate(str.maketrans(removal_list, ' '*len(removal_list)))
             soup = soup.strip()
-            print(soup)
+            print('\n', soup, '\n')
 
             # 로컬테스트 시 아래는 주석처리 - 2
             # ---------------------------------------------
             soup = mecab.nouns(soup)
+            print('\nMecab nouns function succeed\n')
+            print('\n', soup, '\n')
             result = dict()
             for item in soup:
                 if result.get(item):
@@ -66,11 +69,12 @@ async def find_tags(url, count):
             result = [(k, v) for k, v in result.items()]
             result.sort(reverse=True, key=lambda x: x[1])
             result = [k for k, _ in result]
-
-            return result[:count]
+            print('\nMake tags succeed\n')
+            print('\n', result, '\n')
+            return result[:int(count)]
             # ---------------------------------------------
-        except requests.exceptions.ConnectionError as e:
-            return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Error occured {e}\nurl {url} prevent request module")
+        except:
+            return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Error occured\nurl {url} prevent request module")
 
     return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"url {url} not found")
 
