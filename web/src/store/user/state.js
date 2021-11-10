@@ -2,6 +2,7 @@ import {
 	getUserFromCookie,
   getAuthFromCookie,
   getUseridFromCookie,
+  getUserAvatarFromCookie,
 } from 'src/utils/cookies'
 
 export default function () {
@@ -9,5 +10,6 @@ export default function () {
     username: getUserFromCookie() || '',
     token: getAuthFromCookie() || '',
     userid: getUseridFromCookie() || '',
+    avatar: getUserAvatarFromCookie() || '',
   }
 }

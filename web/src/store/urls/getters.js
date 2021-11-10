@@ -1,4 +1,5 @@
-/*
-export function someGetter (state) {
+
+export function folderUrls(state) {
+  return state.urls
 }
-*/
+

@@ -26,7 +26,17 @@ const routes = [
       {
         path: 'allurls',
         name: 'AllUrls',
-        component: () => import('pages/Logined/AllUrls.vue')
+        component: () => import('pages/Logined/AllUrls.vue'),
+      },
+      {
+        path: 'myfolder/:folder_id',
+        name: 'MyFolder',
+        component: () => import('pages/Logined/MyFolder.vue'),
+      },
+      {
+        path: 'ourfolder/:folder_id',
+        name: 'OurFolder',
+        component: () => import('pages/Logined/OurFolder.vue')
       },
       {
         path: 'settings',
@@ -40,6 +50,7 @@ const routes = [
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
+    meta: {auth: true},
     component: () => import('pages/Error404.vue')
   }
 ]
