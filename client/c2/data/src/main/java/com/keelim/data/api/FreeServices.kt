@@ -2,12 +2,14 @@ package com.keelim.data.api
 
 import com.keelim.data.model.auth.User
 import com.keelim.data.model.open.Url
+import com.keelim.data.response.FolderResponse
 import com.keelim.data.response.URLResponse
 import com.keelim.data.response.notification.NotificationResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface FreeServices {
     @Headers("Content-Type: application/json")
@@ -33,6 +35,12 @@ interface FreeServices {
     @Headers("Content-Type: application/json")
     @GET("/folder/me")
     suspend fun allFolder(): Response<List<URLResponse>>
+
+    @Headers("Content-Type: application/json")
+    @GET("/folder/{id}")
+    suspend fun getFolder(
+        @Path("folder")id:String
+    ): Response<FolderResponse>
 
 //
 //  @Headers("Content-Type: application/json")

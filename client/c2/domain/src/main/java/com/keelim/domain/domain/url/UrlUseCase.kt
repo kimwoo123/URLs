@@ -30,4 +30,8 @@ class UrlUseCase(
         Timber.i("들어온 값 $result")
         return result
     }
+
+    suspend fun getFolder(folder:String) : List<Url>{
+        return urlRepository.getFolder(folder)
+    }
 }

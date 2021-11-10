@@ -10,6 +10,7 @@ import com.keelim.free.databinding.ItemFolderBinding
 
 
 class PersonalAdapter(
+    private val click: (Folder) -> Unit,
     private val longClick: (Folder) -> Unit,
 ) : ListAdapter<Folder, PersonalAdapter.ViewHolder>(diffUtil) {
     inner class ViewHolder(private val binding: ItemFolderBinding) :
@@ -18,6 +19,9 @@ class PersonalAdapter(
             root.setOnLongClickListener {
                 longClick(item)
                 return@setOnLongClickListener true
+            }
+            root.setOnClickListener {
+                click(item)
             }
             if(item.shared) {
                 permission.text = "공유된 폴더 입니다."

@@ -21,9 +21,6 @@ class PersonalViewModel @Inject constructor(
 
     private val _folder = MutableStateFlow<List<Folder>>(emptyList())
     val folder: StateFlow<List<Folder>> get() = _folder
-    init {
-        init()
-    }
 
     fun init() = viewModelScope.launch {
         val result = kotlin.runCatching {

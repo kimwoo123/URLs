@@ -82,8 +82,22 @@ class UrlRepositoryImpl @Inject constructor(
             TODO("Not yet implemented")
         }
 
-    override suspend fun folderAllUrl(): List<Url> = withContext(dispatcher) {
-        TODO("Not yet implemented")
+    override suspend fun getFolder(folder: String): List<Url> = withContext(dispatcher) {
+        val result = kotlin.runCatching {
+            apiRequestFactory.retrofit.getFolder(folder)
+        }
+        if (result.isSuccess) {
+            return@withContext result.getOrNull()!!.body()!!.urls.map {
+                Url(
+                    url = it.url,
+                    thumbnail = it.thumbnail,
+                    tags = it.tags,
+                    memos_id = it.memosId,
+                )
+            }
+        } else {
+            return@withContext emptyList()
+        }
     }
 
     override suspend fun folderUrl(

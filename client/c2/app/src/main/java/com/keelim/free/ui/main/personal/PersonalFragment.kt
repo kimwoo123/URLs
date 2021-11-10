@@ -1,5 +1,6 @@
 package com.keelim.free.ui.main.personal
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keelim.data.model.UrlState
 import com.keelim.data.model.UrlState2
 import com.keelim.free.databinding.FragmentPersonalBinding
+import com.keelim.free.ui.main.detail.DetailActivity
 import com.keelim.free.util.SpringAddItemAnimator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -30,18 +32,24 @@ class PersonalFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: PersonalViewModel by viewModels()
     private val personalAdapter by lazy {
-        PersonalAdapter { url ->
-            MaterialAlertDialogBuilder(requireContext()).apply {
-                setTitle("공유하기")
-                setMessage("어떤 팀에 공유를 하시겠습니까?")
-                setPositiveButton("R.string.personal_delete_positive") { _, _ ->
+        PersonalAdapter(
+            longClick ={ url ->
+                MaterialAlertDialogBuilder(requireContext()).apply {
+                    setTitle("공유하기")
+                    setMessage("어떤 팀에 공유를 하시겠습니까?")
+                    setPositiveButton("R.string.personal_delete_positive") { _, _ ->
 //                    viewModel.share()
+                    }
+                    setNegativeButton("R.string.personal_delete_negative") { _, _ -> }
+                    show()
                 }
-                setNegativeButton("R.string.personal_delete_negative") { _, _ -> }
-                show()
+            },
+            click = {
+                startActivity(Intent(requireActivity(), DetailActivity::class.java).apply {
+                    putExtra("folder", it.folder_id)
+                })
             }
-        }
-
+        )
     }
 
     override fun onCreateView(
@@ -57,6 +65,7 @@ class PersonalFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         observe()
+        initData()
     }
 
     override fun onDestroyView() {
@@ -70,7 +79,6 @@ class PersonalFragment : Fragment() {
             itemAnimator = SpringAddItemAnimator()
             adapter = personalAdapter.apply {
                 doOnNextLayout {
-                    submitList(emptyList())
                 }
             }
         }
@@ -95,10 +103,6 @@ class PersonalFragment : Fragment() {
                     }
                 }
             }
-            viewModel.folder.collect {
-                Timber.d("최종 값 $it")
-                requireActivity().showToast(it.toString())
-            }
         }
     }
     private fun showOff() = with(binding){
@@ -107,5 +111,9 @@ class PersonalFragment : Fragment() {
 
     private fun showOn() = with(binding){
         progress.visibility = View.VISIBLE
+    }
+
+    private fun initData(){
+        viewModel.init()
     }
 }

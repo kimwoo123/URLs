@@ -9,25 +9,31 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:usesCleartextTraffic="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Theme.Free">
+        android:theme="@style/Theme.Free"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.main.detail.DetailActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.inject.InjectActivity"
-            android:label="Urls에 저장"
-            android:exported="true">
+            android:exported="true"
+            android:label="Urls에 저장">
             <intent-filter>
                 <action android:name="android.intent.action.PROCESS_TEXT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/*" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
