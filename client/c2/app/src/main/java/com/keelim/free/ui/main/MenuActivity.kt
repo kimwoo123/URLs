@@ -13,6 +13,9 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import coil.load
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.keelim.free.R
 import com.keelim.free.databinding.ActivityMenuBinding
@@ -110,5 +113,13 @@ class MenuActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
             startActivity(Intent(this@MenuActivity, OpenActivity::class.java))
         }
+
+        val radius = 128f
+        val navViewBackground = binding.navView.background as MaterialShapeDrawable
+        navViewBackground.shapeAppearanceModel = navViewBackground.shapeAppearanceModel
+            .toBuilder()
+            .setTopRightCorner(CornerFamily.ROUNDED, radius)
+            .setBottomRightCorner(CornerFamily.ROUNDED, radius)
+            .build()
     }
 }

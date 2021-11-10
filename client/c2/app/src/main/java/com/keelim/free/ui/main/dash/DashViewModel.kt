@@ -2,8 +2,11 @@ package com.keelim.free.ui.main.dash
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 @HiltViewModel
-class DashViewModel: ViewModel() {
+class DashViewModel @Inject constructor(
+
+): ViewModel() {
 
 }
