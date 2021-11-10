@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.doOnNextLayout
 import androidx.databinding.DataBindingUtil.setContentView
@@ -65,6 +66,9 @@ class DetailActivity : AppCompatActivity() {
                     is DataState.Error -> showToast(it.message)
                     is DataState.Loading -> showToast("로딩 중입니다.")
                     is DataState.Success -> {
+                        if(it.data.isEmpty()){
+                            binding.tvNoData.visibility = View.VISIBLE
+                        }
                         detailAdapter.submitList(it.data)
                     }
                     is DataState.UnInitialized -> showToast("로딩 중입니다.")

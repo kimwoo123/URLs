@@ -43,7 +43,8 @@ class MenuActivity : AppCompatActivity() {
         Pluto.initialize(this)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.nav_dashboard,
+                R.id.nav_home,
             ), binding.drawerLayout
         )
 
