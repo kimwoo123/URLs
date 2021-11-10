@@ -5,15 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.runtime.snapshots.Snapshot.Companion.observe
+import androidx.core.view.doOnNextLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.viewpager.widget.PagerAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keelim.data.model.UrlState
 import com.keelim.data.model.UrlState2
 import com.keelim.free.databinding.FragmentPersonalBinding
+import com.keelim.free.util.SpringAddItemAnimator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -26,6 +29,20 @@ class PersonalFragment : Fragment() {
     private var _binding: FragmentPersonalBinding? = null
     private val binding get() = _binding!!
     private val viewModel: PersonalViewModel by viewModels()
+    private val personalAdapter by lazy {
+        PersonalAdapter { url ->
+            MaterialAlertDialogBuilder(requireContext()).apply {
+                setTitle("공유하기")
+                setMessage("어떤 팀에 공유를 하시겠습니까?")
+                setPositiveButton("R.string.personal_delete_positive") { _, _ ->
+//                    viewModel.share()
+                }
+                setNegativeButton("R.string.personal_delete_negative") { _, _ -> }
+                show()
+            }
+        }
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,15 +65,13 @@ class PersonalFragment : Fragment() {
     }
 
     private fun initViews() = with(binding) {
-        recycler.adapter = PersonalAdapter { url ->
-            MaterialAlertDialogBuilder(requireContext()).apply {
-                setTitle("공유하기")
-                setMessage("어떤 팀에 공유를 하시겠습니까?")
-                setPositiveButton("R.string.personal_delete_positive") { _, _ ->
-//                    viewModel.share()
+        recycler.apply {
+            setHasFixedSize(true)
+            itemAnimator = SpringAddItemAnimator()
+            adapter = personalAdapter.apply {
+                doOnNextLayout {
+                    submitList(emptyList())
                 }
-                setNegativeButton("R.string.personal_delete_negative") { _, _ -> }
-                show()
             }
         }
     }
@@ -73,6 +88,7 @@ class PersonalFragment : Fragment() {
                     }
                     is UrlState2.Success -> {
                         requireActivity().showToast(it.data.toString())
+                        personalAdapter.submitList(it.data)
                     }
                     is UrlState2.UnInitialized -> {
                         requireActivity().showToast("로딩 중입니다.")
