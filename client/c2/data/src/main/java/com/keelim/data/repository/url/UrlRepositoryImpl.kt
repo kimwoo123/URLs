@@ -83,11 +83,9 @@ class UrlRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getFolder(folder: String): List<Url> = withContext(dispatcher) {
-        val result = kotlin.runCatching {
-            apiRequestFactory.retrofit.getFolder(folder)
-        }
-        if (result.isSuccess) {
-            return@withContext result.getOrNull()!!.body()!!.urls.map {
+        try{
+            val response = apiRequestFactory.retrofit.getFolder(folder)
+            val result = response.body()?.urls!!.map {
                 Url(
                     url = it.url,
                     thumbnail = it.thumbnail,
@@ -95,9 +93,13 @@ class UrlRepositoryImpl @Inject constructor(
                     memos_id = it.memosId,
                 )
             }
-        } else {
-            return@withContext emptyList()
+            Timber.d("성공한 데이터 ${result.toString()}")
+            return@withContext result
+        } catch (e:Exception){
+            Timber.e(e)
         }
+        Timber.d("성공하지 않는 데이터")
+        return@withContext emptyList()
     }
 
     override suspend fun folderUrl(

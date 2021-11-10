@@ -18,7 +18,7 @@ class DetailViewModel @Inject constructor(
 
     fun init(folder:String) = viewModelScope.launch {
         _state.emit(DataState.Loading)
-        kotlin.runCatching {
+        runCatching {
             urlUseCase.getFolder(folder)
         }.onSuccess {
             _state.emit(DataState.Success(it))

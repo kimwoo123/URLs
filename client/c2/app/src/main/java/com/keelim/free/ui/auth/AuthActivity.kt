@@ -132,7 +132,7 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun initBio() {
-        executor = ContextCompat.getMainExecutor(this)
+        executor = ContextCompat.getMainExecutor(applicationContext)
         biometricPrompt =
             BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
 

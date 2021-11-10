@@ -32,6 +32,8 @@ class UrlUseCase(
     }
 
     suspend fun getFolder(folder:String) : List<Url>{
-        return urlRepository.getFolder(folder)
+        val result = urlRepository.getFolder(folder)
+        Timber.d("getFolder $result")
+        return result
     }
 }

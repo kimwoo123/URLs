@@ -39,7 +39,7 @@ interface FreeServices {
     @Headers("Content-Type: application/json")
     @GET("/folder/{id}")
     suspend fun getFolder(
-        @Path("folder")id:String
+        @Path("id")id:String
     ): Response<FolderResponse>
 
 //
