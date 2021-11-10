@@ -10,6 +10,9 @@ function saveUseridToCookie(value) {
 	document.cookie = `til_userid=${value}`;
 }
 
+function saveUserAvatarToCookie(value) {
+	document.cookie = `til_avatar=${value}`;
+}
 
 function getAuthFromCookie() {
 	return document.cookie.replace(
@@ -32,6 +35,13 @@ function getUseridFromCookie() {
 	);
 }
 
+function getUserAvatarFromCookie() {
+	return document.cookie.replace(
+		/(?:(?:^|.*;\s*)til_avatar\s*=\s*([^;]*).*$)|^.*$/,
+		'$1',
+	);
+}
+
 function deleteCookie(value) {
 	document.cookie = `${value}=; expires=Thu, 01 Jan 1999 00:00:10 GMT;`;
 }
@@ -40,8 +50,10 @@ export {
 	saveAuthToCookie,
 	saveUserToCookie,
 	saveUseridToCookie,
+	saveUserAvatarToCookie,
 	getAuthFromCookie,
 	getUserFromCookie,
 	getUseridFromCookie,
+	getUserAvatarFromCookie,
 	deleteCookie,
 };

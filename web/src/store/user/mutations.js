@@ -22,3 +22,11 @@ export function setUserid(state, userid) {
 export function clearUserid(state) {
   state.userid = '';
 }
+
+export function setUserAvatar(state, avatar) {
+  state.avatar = avatar;
+}
+
+export function clearUserAvatar(state) {
+  state.avatar = '';
+}
