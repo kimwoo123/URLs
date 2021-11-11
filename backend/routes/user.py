@@ -9,8 +9,10 @@ from bson import ObjectId
 import bcrypt
 from pymongo import ReturnDocument
 from .token import get_current_user
-from pprint import pprint
+
+
 user = APIRouter()
+
 
 @user.get('/user', summary="모든 유저 조회", response_model=List[UserOut])
 async def find_all_users():

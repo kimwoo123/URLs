@@ -1,5 +1,4 @@
-from typing import List, Optional
-from pydantic import BaseModel, EmailStr, HttpUrl, Field
+from pydantic import BaseModel
 from bson import ObjectId
 
 
