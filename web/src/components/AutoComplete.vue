@@ -3,7 +3,7 @@
     <div class="q-gutter-md">
       <q-select
         filled
-        v-model="model"
+        v-model="selectTag"
         use-input
         use-chips
         input-debounce="0"
@@ -36,7 +36,7 @@ export default {
     const result = ref([])
 
     return {
-      model: ref(null),
+      selectTag: ref(null),
       result,
       options,
       filterFn (val, update) {
@@ -47,13 +47,19 @@ export default {
             }
             else {
               return new Promise((resolve) => {
+                console.log(val)
                 axios.get(`http://localhost:8000/search?searchText=${val}`)
                 .then((res) => {
-                  result.value = []
-                  res.data.hits.hits.map((hits) => {
-                    result.value.push(hits._source['email'])
-                  })
-                  resolve(options.value = result.value)
+                  console.log('here')
+                  console.log(res.data, 'here')
+                  // result.value = []
+                  // res.data.hits.hits.map((hits) => {
+                  //   result.value.push(hits._source['email'])
+                  // })
+                  // resolve(options.value = result.value)
+                })
+                .catch((e) => {
+                  conosle.log(e, 'here')
                 })
               })
             }

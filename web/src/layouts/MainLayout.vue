@@ -7,6 +7,7 @@
         <q-toolbar-title>
           율스
         </q-toolbar-title>
+        <AutoComplete></AutoComplete>
 
         <!-- <q-input rounded outlined v-model="text">
           <template v-slot:append>
