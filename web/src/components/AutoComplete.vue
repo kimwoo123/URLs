@@ -1,31 +1,20 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
-      <q-select
-        filled
-        v-model="selectTag"
-        use-input
-        use-chips
-        input-debounce="0"
-        label="Tag 검색"
-        :options="options"
-        @filter="filterFn"
-        style="width: 250px"
-      >
-        <template v-slot:no-option>
-          <q-item>
-            <q-item-section class="text-grey">
-              검색 결과가 없습니다.
-            </q-item-section>
-          </q-item>
-        </template>
-      </q-select>
+      <q-input 
+      v-model="selectTag"
+      label="Tag 검색"
+      :options="options"
+       />
+      <div v-for="(tag, index) in result" :key="index">
+        {{ tag }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import axios from 'axios'
 
 const stringOptions = ['검색어를 입력해주세요.']
@@ -34,9 +23,31 @@ export default {
   setup () {
     const options = ref(stringOptions)
     const result = ref([])
+    const selectTag = ref('')
+
+    watch(selectTag, (val) => {
+      setTimeout(() => {
+          if (val === '') {
+            options.value = stringOptions
+          }
+          else {
+              return new Promise((resolve) => {
+                result.value = []
+                axios.get(`http://localhost:8000/search?searchText=${val}`)
+                .then((res) => {
+                  res.data.map((hits) => {
+                    hits._source['urls'].map((url) => {
+                      result.value.push(url.tags)
+                    })
+                  })
+                })
+              })
+            }
+      }, 700)
+    })
 
     return {
-      selectTag: ref(null),
+      selectTag,
       result,
       options,
       filterFn (val, update) {
@@ -67,6 +78,6 @@ export default {
         }, 1500)
       },
     }
-  }
+  },
 }
 </script>
