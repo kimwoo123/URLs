@@ -4,6 +4,7 @@ import com.keelim.data.api.ApiRequestFactory
 import com.keelim.data.model.CallResult
 import com.keelim.data.model.Folder
 import com.keelim.data.model.auth.User
+import com.keelim.data.model.dash.Dash
 import com.keelim.data.model.open.Url
 import com.keelim.data.response.MyUrlResponse
 import com.keelim.di.IoDispatcher
@@ -96,28 +97,32 @@ class UrlRepositoryImpl @Inject constructor(
             }
             Timber.d("성공한 데이터 ${result.toString()}")
             return@withContext result
-        } catch (e:Exception){
+        } catch (e: Exception) {
             Timber.e(e)
         }
         Timber.d("성공하지 않는 데이터")
         return@withContext emptyList()
     }
 
-    override suspend fun folderUrl(): Int = withContext(dispatcher) {
-        try{
+    override suspend fun folderUrl(): Dash = withContext(dispatcher) {
+        try {
             val response = apiRequestFactory.retrofit.folderUrl()
             val result = arrayListOf<MyUrlResponse.Url>()
             response.body()?.forEach { data ->
                 result += data.urls
             }
-
-            return@withContext result.size
-        } catch (e:Exception){
+            return@withContext Dash(
+                result.size,
+                response.body()?.size ?: 0,
+            )
+        } catch (e: Exception) {
             Timber.e(e)
         }
         Timber.d("성공하지 않는 데이터")
-        return@withContext 0
-
+        return@withContext Dash(
+            0,
+            0,
+        )
     }
 
     override suspend fun folderNewUrl(

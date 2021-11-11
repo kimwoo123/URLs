@@ -9,8 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.keelim.data.model.DashState
-import com.keelim.free.R
+import com.keelim.data.model.dash.DashState
 import com.keelim.free.databinding.FragmentDashBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -54,7 +53,8 @@ class DashFragment : Fragment() {
                     is DashState.Error -> {}
                     is DashState.Loading -> requireActivity().showToast("로딩 중입니다.")
                     is DashState.Success -> {
-                        binding.descSection1.text = it.memos.toString()
+                        binding.descSection1.text = it.data.memos.toString()
+                        binding.descSection2.text = it.data.folders.toString()
                     }
                     is DashState.UnInitialized -> {}
                 }

@@ -2,6 +2,7 @@ package com.keelim.domain.domain.url
 
 import com.keelim.data.model.CallResult
 import com.keelim.data.model.Folder
+import com.keelim.data.model.dash.Dash
 import com.keelim.data.model.open.Url
 import com.keelim.data.repository.url.UrlRepository
 import timber.log.Timber
@@ -37,7 +38,7 @@ class UrlUseCase(
         return result
     }
 
-    suspend fun folderUrlMe(): Int{
+    suspend fun folderUrlMe(): Dash {
         val result = urlRepository.folderUrl()
         Timber.d("folderUrlMe $result")
         return result

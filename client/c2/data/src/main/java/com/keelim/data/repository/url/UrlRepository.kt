@@ -3,6 +3,7 @@ package com.keelim.data.repository.url
 import com.keelim.data.model.CallResult
 import com.keelim.data.model.Folder
 import com.keelim.data.model.auth.User
+import com.keelim.data.model.dash.Dash
 import com.keelim.data.model.open.Url
 
 interface UrlRepository {
@@ -17,7 +18,7 @@ interface UrlRepository {
     suspend fun folderNewUser(fid: String, email: String, permission: Int): CallResult
     suspend fun folderDeleteUser(fid: String, email: String, permission: Int): CallResult
     suspend fun getFolder(folder:String): List<Url>
-    suspend fun folderUrl(): Int
+    suspend fun folderUrl(): Dash
     suspend fun folderNewUrl(fid: String, url: String, thumbnail: String, tags: String): CallResult
     suspend fun folderDeleteUrl(
         fid: String,

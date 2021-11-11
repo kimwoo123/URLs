@@ -2,7 +2,7 @@ package com.keelim.free.ui.main.dash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.keelim.data.model.DashState
+import com.keelim.data.model.dash.DashState
 import com.keelim.domain.domain.url.UrlUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -27,9 +27,8 @@ class DashViewModel @Inject constructor(
         runCatching {
             urlUseCase.folderUrlMe()
         }.onSuccess {
-            _state.emit(DashState.Success(
-                memos = it
-            ))
+            _state.emit(
+                DashState.Success(it))
         }.onFailure {
             _state.emit(DashState.Error("에러가 발생하였습니다."))
         }
