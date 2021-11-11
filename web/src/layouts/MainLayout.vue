@@ -7,6 +7,7 @@
         <q-toolbar-title>
           율스
         </q-toolbar-title>
+        <AutoComplete></AutoComplete>
 
         <!-- <q-input rounded outlined v-model="text">
           <template v-slot:append>
@@ -55,13 +56,14 @@ import {
 } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import { urls } from 'src/api/index'
+import AutoComplete from '../components/AutoComplete.vue'
 import LeftDrawer from 'src/components/drawer/LeftDrawer.vue'
 import RightDrawer from 'src/components/drawer/RightDrawer.vue'
 
 export default defineComponent({
-  components: { LeftDrawer, RightDrawer },
+  components: { AutoComplete, LeftDrawer, RightDrawer },
   name: 'MainLayout',
-    
   setup () {
     const $store = useStore()
     const $router = useRouter()
@@ -73,7 +75,6 @@ export default defineComponent({
 
     const username = $store.state.user.username
     const userid = $store.state.user.userid
-    
     const goToSettings = () => {
       $router.push({ name: 'Settings', params: { id: userid }})
     }
