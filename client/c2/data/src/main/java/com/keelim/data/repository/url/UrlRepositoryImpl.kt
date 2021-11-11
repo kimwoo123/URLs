@@ -5,6 +5,7 @@ import com.keelim.data.model.CallResult
 import com.keelim.data.model.Folder
 import com.keelim.data.model.auth.User
 import com.keelim.data.model.open.Url
+import com.keelim.data.response.MyUrlResponse
 import com.keelim.di.IoDispatcher
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -102,13 +103,21 @@ class UrlRepositoryImpl @Inject constructor(
         return@withContext emptyList()
     }
 
-    override suspend fun folderUrl(
-        fid: String,
-        url: String,
-        thumbnail: String,
-        tags: String
-    ): List<Url> = withContext(dispatcher) {
-        TODO("Not yet implemented")
+    override suspend fun folderUrl(): Int = withContext(dispatcher) {
+        try{
+            val response = apiRequestFactory.retrofit.folderUrl()
+            val result = arrayListOf<MyUrlResponse.Url>()
+            response.body()?.forEach { data ->
+                result += data.urls
+            }
+
+            return@withContext result.size
+        } catch (e:Exception){
+            Timber.e(e)
+        }
+        Timber.d("성공하지 않는 데이터")
+        return@withContext 0
+
     }
 
     override suspend fun folderNewUrl(

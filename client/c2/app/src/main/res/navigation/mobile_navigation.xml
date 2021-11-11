@@ -28,4 +28,9 @@
         android:name="com.keelim.free.ui.main.open.OpenActivity"
         android:label="activity_open"
         tools:layout="@layout/activity_open" />
+    <fragment
+        android:id="@+id/nav_dashboard"
+        android:name="com.keelim.free.ui.main.dash.DashFragment"
+        android:label="fragment_dash"
+        tools:layout="@layout/fragment_dash" />
 </navigation>

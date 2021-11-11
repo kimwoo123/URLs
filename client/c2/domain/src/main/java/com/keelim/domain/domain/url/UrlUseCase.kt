@@ -36,4 +36,10 @@ class UrlUseCase(
         Timber.d("getFolder $result")
         return result
     }
+
+    suspend fun folderUrlMe(): Int{
+        val result = urlRepository.folderUrl()
+        Timber.d("folderUrlMe $result")
+        return result
+    }
 }

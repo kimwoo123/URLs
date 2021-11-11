@@ -3,6 +3,7 @@ package com.keelim.data.api
 import com.keelim.data.model.auth.User
 import com.keelim.data.model.open.Url
 import com.keelim.data.response.FolderResponse
+import com.keelim.data.response.MyUrlResponse
 import com.keelim.data.response.URLResponse
 import com.keelim.data.response.notification.NotificationResponse
 import retrofit2.Response
@@ -41,6 +42,10 @@ interface FreeServices {
     suspend fun getFolder(
         @Path("id")id:String
     ): Response<FolderResponse>
+
+    @Headers("Content-Type: application/json")
+    @GET("/folder/url/me")
+    suspend fun folderUrl(): Response<List<MyUrlResponse>>
 
 //
 //  @Headers("Content-Type: application/json")

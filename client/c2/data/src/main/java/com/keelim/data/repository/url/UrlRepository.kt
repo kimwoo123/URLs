@@ -17,7 +17,7 @@ interface UrlRepository {
     suspend fun folderNewUser(fid: String, email: String, permission: Int): CallResult
     suspend fun folderDeleteUser(fid: String, email: String, permission: Int): CallResult
     suspend fun getFolder(folder:String): List<Url>
-    suspend fun folderUrl(fid: String, url: String, thumbnail: String, tags: String): List<Url>
+    suspend fun folderUrl(): Int
     suspend fun folderNewUrl(fid: String, url: String, thumbnail: String, tags: String): CallResult
     suspend fun folderDeleteUrl(
         fid: String,
