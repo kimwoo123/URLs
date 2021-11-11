@@ -13,30 +13,40 @@ from .token import get_current_user
 folder_url = APIRouter()
 
 
-async def tag_count_increase(increase_tags, current_user):
-    user = db.user.find_one({"_id": ObjectId(current_user["_id"])})
+async def tag_count_increase(increase_tags, user_id=None, user_email=None):
+    if user_id is not None:
+        user_find_key, user_find_value = "_id", ObjectId(user_id)
+    else:
+        user_find_key, user_find_value = "email", user_email
+
+    user = db.user.find_one({user_find_key: user_find_value})
     user_tags = [item["tag_name"] for item in user["tags"]]
     for tag in increase_tags:
         if tag in user_tags:
             db.user.find_one_and_update(
-                {"_id": ObjectId(current_user["_id"]), "tags.tag_name": tag},
+                {user_find_key: user_find_value, "tags.tag_name": tag},
                 {"$inc": {"tags.$.count": 1}}
             )
         else:
             db.user.find_one_and_update(
-                {"_id": ObjectId(current_user["_id"])},
+                {user_find_key: user_find_value},
                 {"$push": {"tags": {"tag_name": tag, "count": 1}}}
             )
 
-async def tag_count_decrease(decrease_tags, current_user):
-    db.user.find_one({"_id": ObjectId(current_user["_id"])})
+async def tag_count_decrease(decrease_tags, user_id=None, user_email=None):
+    if user_id is not None:
+        user_find_key, user_find_value = "_id", ObjectId(user_id)
+    else:
+        user_find_key, user_find_value = "email", user_email
+
+    db.user.find_one({user_find_key: user_find_value})
     for tag in decrease_tags:
         db.user.find_one_and_update(
-            {"_id": ObjectId(current_user["_id"]), "tags.tag_name": tag},
+            {user_find_key: user_find_value, "tags.tag_name": tag},
             {"$inc": {"tags.$.count": -1}}
         )
     db.user.find_one_and_update(
-        {"_id": ObjectId(current_user["_id"])},
+        {user_find_key: user_find_value},
         {"$pull": {"tags": {"count": 0}}}
     )
 
@@ -65,7 +75,7 @@ async def create_folder_url(folder_id, url_in: UrlIn, current_user: User = Depen
     if db.folder.find_one({"_id": ObjectId(folder_id), "urls.url": url_in.url}):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
     
-    await tag_count_increase(url_in.tags, current_user)
+    await tag_count_increase(url_in.tags, user_id=current_user["_id"])
 
     tmp = db.memo.insert_one(jsonable_encoder(Memos()))
     url = UrlInDB(
@@ -94,9 +104,9 @@ async def update_folder_url(folder_id, url_in: UrlIn, current_user: User = Depen
         )
         if folder is not None:
             # 기존에 있던 태그 count 감소
-            await tag_count_decrease(old_folder["urls"][0]["tags"], current_user)
+            await tag_count_decrease(old_folder["urls"][0]["tags"], user_id=current_user["_id"])
             # 새로 생기는 태그 count 증가
-            await tag_count_increase(url_in.tags, current_user)
+            await tag_count_increase(url_in.tags, user_id=current_user["_id"])
 
             return serializeDict(folder)
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder or url not found")
@@ -113,14 +123,14 @@ async def delete_folder_url(folder_id, url_in: UrlIn, current_user: User = Depen
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {url_in.url} not found")
 
     memos_id = tmp["urls"][0]["memos_id"]
-    await tag_count_decrease(tmp["urls"][0]["tags"], current_user)
+    await tag_count_decrease(tmp["urls"][0]["tags"], user_id=current_user["_id"])
     
     folder = db.folder.find_one_and_update(
         {"_id": ObjectId(folder_id)},
         {"$pull": {"urls": {"url": url_in.url}}}, 
         return_document=ReturnDocument.AFTER
     )
-    db.memo.delete_one({"_id": memos_id})
+    db.memo.delete_one({"_id": ObjectId(memos_id)})
     
     if folder is not None:
         return serializeDict(folder)

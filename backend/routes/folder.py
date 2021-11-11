@@ -8,6 +8,7 @@ from fastapi.encoders import jsonable_encoder
 from bson import ObjectId
 from pymongo import ReturnDocument
 from .token import get_current_user
+from .folder_url import tag_count_decrease
 
 
 folder = APIRouter()
@@ -70,6 +71,20 @@ async def update_folder(id, folder_in: FolderIn, current_user: User = Depends(ge
 @folder.delete('/folder/{id}', summary="폴더 삭제", response_model=FolderOut)
 async def delete_folder(id, current_user: User = Depends(get_current_user)):
     if db.user.find_one({"_id": ObjectId(current_user["_id"]), "folders.folder_id": ObjectId(id)}):
+        folder = db.folder.find_one({"_id": ObjectId(id)})
+
+        urls = folder["urls"]
+        for url in urls:
+            await tag_count_decrease(url["tags"], user_email=url["added_by"]["email"])
+            db.memo.delete_one({"_id": ObjectId(url["memos_id"])})
+
+        users = folder["users"]
+        for user in users:
+            db.user.find_one_and_update(
+                {"email": user["email"]},
+                {"$pull": {"folders": {"folder_id": ObjectId(id)}}}
+            )
+    
         db.user.find_one_and_update(
             {"_id": ObjectId(current_user["_id"])},
             {"$pull": {"folders": {"folder_id": ObjectId(id)}}},
