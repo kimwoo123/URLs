@@ -26,4 +26,5 @@ dependencies {
     implementation(Dep.AndroidX.coreKtx)
     implementation(Dep.AndroidX.appcompat)
     implementation(Dep.AndroidX.UI.browser)
+    implementation("com.google.android.material:material:1.4.0")
 }

@@ -7,7 +7,7 @@
     android:paddingTop="16dp">
 
     <LinearLayout
-        android:id="@+id/login"
+        android:id="@+id/inject"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="?attr/selectableItemBackground"

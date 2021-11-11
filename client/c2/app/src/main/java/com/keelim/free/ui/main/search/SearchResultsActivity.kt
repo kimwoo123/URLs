@@ -10,7 +10,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SearchResultsActivity : AppCompatActivity() {
-    private val binding: ActivitySearchResultsBinding by lazy{ ActivitySearchResultsBinding.inflate(layoutInflater)}
+    private val binding: ActivitySearchResultsBinding by lazy {
+        ActivitySearchResultsBinding.inflate(
+            layoutInflater
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)

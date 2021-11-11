@@ -5,37 +5,55 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.keelim.data.model.open.Url
-import com.keelim.free.databinding.ItemUrlBinding
+import com.keelim.data.model.Folder
+import com.keelim.free.databinding.ItemFolderBinding
 
 
 class PersonalAdapter(
-    private val longClick: (Url) -> Unit,
-): ListAdapter<Url, PersonalAdapter.ViewHolder>(diffUtil) {
-    inner class ViewHolder(private val binding: ItemUrlBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(item:Url){
-            binding.root.setOnLongClickListener {
+    private val click: (Folder) -> Unit,
+    private val longClick: (Folder) -> Unit,
+) : ListAdapter<Folder, PersonalAdapter.ViewHolder>(diffUtil) {
+    inner class ViewHolder(private val binding: ItemFolderBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: Folder)  = with(binding){
+            root.setOnLongClickListener {
                 longClick(item)
                 return@setOnLongClickListener true
             }
+            root.setOnClickListener {
+                click(item)
+            }
+            if(item.shared) {
+                permission.text = "공유된 폴더 입니다."
+            } else{
+                permission.text = "개인 폴더 입니다."
+            }
+            title.text = item.folder_id
+            description.text  = item.folder_name
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemUrlBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(
+            ItemFolderBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
     }
 
-    companion object{
-        val diffUtil = object : DiffUtil.ItemCallback<Url>() {
-            override fun areItemsTheSame(oldItem: Url, newItem: Url): Boolean {
+    companion object {
+        val diffUtil = object : DiffUtil.ItemCallback<Folder>() {
+            override fun areItemsTheSame(oldItem: Folder, newItem: Folder): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: Url, newItem: Url): Boolean {
+            override fun areContentsTheSame(oldItem: Folder, newItem: Folder): Boolean {
                 return oldItem == newItem
             }
         }

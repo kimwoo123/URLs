@@ -1,6 +1,6 @@
 package com.keelim.data.model
 
-sealed class UrlState{
+sealed class UrlState {
     object UnInitialized : UrlState()
     object Loading : UrlState()
     object Success : UrlState()

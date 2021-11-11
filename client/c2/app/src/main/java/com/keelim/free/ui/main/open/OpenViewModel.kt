@@ -12,11 +12,11 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class OpenViewModel @Inject constructor(
 //    private val ogTagParser: OgTagParser
-):ViewModel() {
+) : ViewModel() {
     private val _state: MutableStateFlow<OpenState> = MutableStateFlow(OpenState.UnInitialized)
-    val state:StateFlow<OpenState> get() = _state
+    val state: StateFlow<OpenState> get() = _state
 
-    fun getContent(linkArray:String) = viewModelScope.launch {
+    fun getContent(linkArray: String) = viewModelScope.launch {
         _state.emit(OpenState.Loading)
         val result = runCatching {
 //            ogTagParser.getContents(

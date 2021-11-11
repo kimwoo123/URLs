@@ -7,7 +7,7 @@ import javax.inject.Inject
 class NotificationUseCase @Inject constructor(
     private val notificationRepository: NotificationRepository,
 ) {
-  suspend operator fun invoke(userId: Int): List<Notification> {
-    return notificationRepository.getAllNotificationList(userId)
-  }
+    suspend operator fun invoke(userId: Int): List<Notification> {
+        return notificationRepository.getAllNotificationList(userId)
+    }
 }

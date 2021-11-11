@@ -8,22 +8,21 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import coil.load
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.snackbar.Snackbar
-import com.keelim.core.extensions.showToast
 import com.keelim.free.R
 import com.keelim.free.databinding.ActivityMenuBinding
 import com.keelim.free.databinding.AppBarMenuBinding
 import com.keelim.free.databinding.NavHeaderMenuBinding
 import com.keelim.free.ui.main.open.OpenActivity
 import com.keelim.free.ui.main.search.SearchResultsActivity
-import com.mocklets.pluto.Pluto
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,12 +42,6 @@ class MenuActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMenu.toolbar)
         initViews()
-        Pluto.initialize(this)
-        appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), binding.drawerLayout)
-
-        setupActionBarWithNavController(navController(), appBarConfiguration)
-        binding.navView.setupWithNavController(navController())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -59,8 +52,10 @@ class MenuActivity : AppCompatActivity() {
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     val query = "Hello"
-                    startActivity(Intent(this@MenuActivity,
-                        SearchResultsActivity::class.java).apply {
+                    startActivity(Intent(
+                        this@MenuActivity,
+                        SearchResultsActivity::class.java
+                    ).apply {
                         action = Intent.ACTION_SEARCH
                         putExtra(SearchManager.QUERY, query)
                     })
@@ -106,6 +101,34 @@ class MenuActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
             startActivity(Intent(this@MenuActivity, OpenActivity::class.java))
+        }
+
+        val radius = 128f
+        val navViewBackground = binding.navView.background as MaterialShapeDrawable
+        navViewBackground.shapeAppearanceModel = navViewBackground.shapeAppearanceModel
+            .toBuilder()
+            .setTopRightCorner(CornerFamily.ROUNDED, radius)
+            .setBottomRightCorner(CornerFamily.ROUNDED, radius)
+            .build()
+
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_dashboard,
+                R.id.nav_home,
+            ), binding.drawerLayout
+        )
+
+        setupActionBarWithNavController(navController(), appBarConfiguration)
+        binding.navView.setupWithNavController(navController())
+        navController().addOnDestinationChangedListener{ _, destination, _ ->
+            when(destination.id){
+                R.id.nav_home -> {
+                    barBinding.appbarLayout.visibility = View.VISIBLE
+                }
+                else ->{
+                    barBinding.appbarLayout.visibility = View.GONE
+                }
+            }
         }
     }
 }
