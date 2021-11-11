@@ -1,4 +1,5 @@
 package com.keelim.free.util
+
 import android.app.Activity
 import android.app.Application
 import android.content.Context
@@ -7,8 +8,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import timber.log.Timber
 import javax.inject.Inject
+import timber.log.Timber
 
 private const val loggerTag = "Logger"
 

@@ -10,8 +10,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -47,9 +49,12 @@ dependencies {
     implementation(Dep.SquareUp.urlconnection)
     implementation(Dep.SquareUp.retrofit)
     implementation(Dep.SquareUp.retrofit_gson)
+    implementation(Dep.SquareUp.retrofit_moshi)
+    implementation(Dep.moshi)
+    implementation(Dep.moshi_kotlin)
+    implementation(Dep.moshi_codegen)
 
     implementation("com.mocklets:pluto:1.1.1")
-
 }
 
 kapt {

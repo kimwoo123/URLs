@@ -12,7 +12,7 @@ enum class ThemeType {
 
 class ThemeManager @Inject constructor(
 
-){
+) {
     fun applyTheme(type: ThemeType) {
         val mode = when (type) {
             ThemeType.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO

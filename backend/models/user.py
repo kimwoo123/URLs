@@ -1,4 +1,4 @@
-from typing import List, Optional, Dict
+from typing import List, Dict
 from pydantic import BaseModel, EmailStr, HttpUrl, Field
 from bson import ObjectId
 from .common import PyObjectId

@@ -7,12 +7,12 @@ class User(BaseModel):
     email: EmailStr
     nickname: str
     avatar: HttpUrl
-    permission: Optional[int] = 0
+    permission: int = Field(0, ge=0, le=2, description ="0: 읽기 가능, 1: 편집 가능(+url, 메모, 유저 추가 가능), 2: 소유자")
 
 
 class UserIn(BaseModel):
     email: EmailStr
-    permission: Optional[int] = 0
+    permission: int = Field(0, ge=0, le=2, description ="0: 읽기 가능, 1: 편집 가능(+url, 메모, 유저 추가 가능), 2: 소유자")
     class Config:
         schema_extra = {
             "example": {

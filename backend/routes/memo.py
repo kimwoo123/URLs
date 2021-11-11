@@ -1,19 +1,18 @@
 from fastapi import Depends, APIRouter, HTTPException, status
 from models.folder import User
-from models.memo import MemoIn, MemoInDB, Memos, MemoUser, MemosOut
+from models.memo import MemoIn, MemoInDB, MemoUser, MemosOut
 from config.db import db
 from serializers.common import serializeDict, serializeList
 from fastapi.encoders import jsonable_encoder
 # from fastapi.responses import JSONResponse
 from bson import ObjectId
-from pprint import pprint
 from pymongo import ReturnDocument
 from .token import get_current_user
 from datetime import datetime
 from pytz import timezone
 
-KST = timezone('Asia/Seoul')
 
+KST = timezone('Asia/Seoul')
 memo = APIRouter()
 
 

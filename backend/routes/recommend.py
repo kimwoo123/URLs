@@ -1,8 +1,11 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import Depends, APIRouter, HTTPException, status
 from serializers.common import serializeDict
 from bson import ObjectId
 from config.db import db
 from models.recommend import UrlIn
+from models.user import UserOut
+
+from .token import get_current_user
 
 import numpy as np
 import requests
@@ -77,16 +80,18 @@ async def find_tags(url, count: int):
     return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"url {url} not found")
 
 
-@recommend.get('/recommend', summary="전체 url DB 속 url 있는지 조회")
-async def find_one_url(url):
-    url = db.recommend.find_one({"url": url})
-    if url is not None:
-        return serializeDict(url)
-    return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"url {url} not found")
+# @recommend.get('/recommend', summary="전체 url DB 속 url 있는지 조회")
+# async def find_one_url(url):
+#     url = db.recommend.find_one({"url": url})
+#     if url is not None:
+#         return serializeDict(url)
+#     return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"url {url} not found")
 
 
-@recommend.get('/recommend/{id}', summary="urls 추천")
-async def recommend_urls(id, count: int):
+@recommend.get('/recommend', summary="urls 추천 (해당 url 누적 수가 3 이상인 것만 대상)")
+async def recommend_urls(count: int, current_user: UserOut = Depends(get_current_user)):
+    id = current_user["_id"]
+
     urls_with_weight = list(db.recommend.find({}, {"_id": 0, "url": 1, "categories": 1, "count": 1}))
     recommended_urls = []
     
@@ -106,7 +111,7 @@ async def recommend_urls(id, count: int):
         )
 
         # Make recommendation when count > 2
-        if urls is not None and weights is not None:
+        if len(urls) != 0 and len(weights) != 0:
             user = db.user.find_one({"_id": ObjectId(id)}, {"_id": 0, "categories": 1})
             user = np.array([user["categories"][x] for x in user["categories"]])
             # Normalize user categories
@@ -122,7 +127,7 @@ async def recommend_urls(id, count: int):
     return recommended_urls
 
 
-@recommend.post('/recommend', summary="추천을 위한 전체 url DB에 신규 url 추가", status_code=status.HTTP_201_CREATED)
+@recommend.post('/recommend', summary="추천을 위한 전체 url DB에 신규 url 추가 및 수정", status_code=status.HTTP_201_CREATED)
 async def create_url(url: UrlIn):
     # Find target category
     prefer_category = ''
@@ -144,27 +149,28 @@ async def create_url(url: UrlIn):
         db.recommend.find_one_and_update({"url": url.url}, {"$set": dict(url_in_db)})
     else:
         db.recommend.insert_one(dict(url))
+        url_in_db = db.recommend.find_one({'url': url.url})
 
     return serializeDict(url_in_db)
 
 
-@recommend.put('/recommend', summary="추천을 위한 전체 url DB 속 단일 URL 수정")
-async def update_url(url: UrlIn):
-    # Find target category
-    prefer_category = ''
-    for item in url.categories:
-        if url.categories[item] == 1:
-            prefer_category = item
-            break
+# @recommend.put('/recommend', summary="추천을 위한 전체 url DB 속 단일 URL 수정")
+# async def update_url(url: UrlIn):
+#     # Find target category
+#     prefer_category = ''
+#     for item in url.categories:
+#         if url.categories[item] == 1:
+#             prefer_category = item
+#             break
     
-    # Update categories of the url
-    url_in_db = db.recommend.find_one({"url": url.url})
-    for item in url_in_db["categories"]:
-        if item == prefer_category:
-            url_in_db["categories"][item] = (url_in_db["categories"][item] * url_in_db["count"] + 1) / (url_in_db["count"] + 1)
-        else:
-            url_in_db["categories"][item] = url_in_db["categories"][item] * url_in_db["count"] / (url_in_db["count"] + 1)
-    url_in_db["count"] += 1
-    db.recommend.find_one_and_update({"url": url.url}, {"$set": dict(url_in_db)})
+#     # Update categories of the url
+#     url_in_db = db.recommend.find_one({"url": url.url})
+#     for item in url_in_db["categories"]:
+#         if item == prefer_category:
+#             url_in_db["categories"][item] = (url_in_db["categories"][item] * url_in_db["count"] + 1) / (url_in_db["count"] + 1)
+#         else:
+#             url_in_db["categories"][item] = url_in_db["categories"][item] * url_in_db["count"] / (url_in_db["count"] + 1)
+#     url_in_db["count"] += 1
+#     db.recommend.find_one_and_update({"url": url.url}, {"$set": dict(url_in_db)})
 
-    return serializeDict(url_in_db)
+#     return serializeDict(url_in_db)

@@ -32,7 +32,9 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "free"
-include(":app")
-include(":core")
-include(":data")
-include(":domain")
+include(
+    ":app",
+    ":core",
+    ":data",
+    ":domain"
+)

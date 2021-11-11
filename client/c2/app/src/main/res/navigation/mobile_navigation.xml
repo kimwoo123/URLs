@@ -10,11 +10,6 @@
         android:label="@string/menu_personal"
         tools:layout="@layout/fragment_personal" />
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.keelim.free.ui.main.team.TeamFragment"
-        android:label="@string/menu_team"
-        tools:layout="@layout/fragment_team" />
-    <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.keelim.free.ui.main.inject.InjectFragment"
         android:label="@string/menu_inject"
@@ -33,4 +28,13 @@
         android:name="com.keelim.free.ui.main.open.OpenActivity"
         android:label="activity_open"
         tools:layout="@layout/activity_open" />
+    <fragment
+        android:id="@+id/nav_dashboard"
+        android:name="com.keelim.free.ui.main.dash.DashFragment"
+        android:label="fragment_dash"
+        tools:layout="@layout/fragment_dash" />
+    <fragment
+        android:id="@+id/searchDetailFragment"
+        android:name="com.keelim.free.ui.main.dash.search.SearchDetailFragment"
+        android:label="SearchDetailFragment" />
 </navigation>

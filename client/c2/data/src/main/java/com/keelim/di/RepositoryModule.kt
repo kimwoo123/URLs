@@ -16,27 +16,27 @@ import kotlinx.coroutines.CoroutineDispatcher
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
-  @Provides
-  @Singleton
-  fun provideNotificationRepository(
-    @IoDispatcher dispatcher: CoroutineDispatcher,
-    apiRequestFactory: ApiRequestFactory,
-  ): NotificationRepository {
-    return NotificationRepositoryImpl(
-      dispatcher,
-      apiRequestFactory
-    )
-  }
+    @Provides
+    @Singleton
+    fun provideNotificationRepository(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        apiRequestFactory: ApiRequestFactory,
+    ): NotificationRepository {
+        return NotificationRepositoryImpl(
+            dispatcher,
+            apiRequestFactory
+        )
+    }
 
-  @Provides
-  @Singleton
-  fun provideUrlRepository(
-    @IoDispatcher dispatcher: CoroutineDispatcher,
-    apiRequestFactory: ApiRequestFactory,
-  ): UrlRepository {
-    return UrlRepositoryImpl(
-      dispatcher,
-      apiRequestFactory
-    )
-  }
+    @Provides
+    @Singleton
+    fun provideUrlRepository(
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+        apiRequestFactory: ApiRequestFactory,
+    ): UrlRepository {
+        return UrlRepositoryImpl(
+            dispatcher,
+            apiRequestFactory
+        )
+    }
 }
