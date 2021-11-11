@@ -88,7 +88,7 @@ async def find_tags(url, count: int):
 #     return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"url {url} not found")
 
 
-@recommend.get('/recommend', summary="urls 추천")
+@recommend.get('/recommend', summary="urls 추천 (해당 url 누적 수가 3 이상인 것만 대상)")
 async def recommend_urls(count: int, current_user: UserOut = Depends(get_current_user)):
     id = current_user["_id"]
 
@@ -111,7 +111,7 @@ async def recommend_urls(count: int, current_user: UserOut = Depends(get_current
         )
 
         # Make recommendation when count > 2
-        if urls is not None and weights is not None:
+        if len(urls) != 0 and len(weights) != 0:
             user = db.user.find_one({"_id": ObjectId(id)}, {"_id": 0, "categories": 1})
             user = np.array([user["categories"][x] for x in user["categories"]])
             # Normalize user categories
@@ -127,7 +127,7 @@ async def recommend_urls(count: int, current_user: UserOut = Depends(get_current
     return recommended_urls
 
 
-@recommend.post('/recommend', summary="추천을 위한 전체 url DB에 신규 url 추가", status_code=status.HTTP_201_CREATED)
+@recommend.post('/recommend', summary="추천을 위한 전체 url DB에 신규 url 추가 및 수정", status_code=status.HTTP_201_CREATED)
 async def create_url(url: UrlIn):
     # Find target category
     prefer_category = ''
