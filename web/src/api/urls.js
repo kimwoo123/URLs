@@ -7,3 +7,7 @@ export function folderMe() {
 export function folderUrlMe() {
   return api.get('/folder/url/me')
 }
+
+export function folderId(folderId) {
+  return api.get(`/folder/${folderId}`)
+}

@@ -5,6 +5,5 @@ export function user(loginData) {
 }
 
 export function tokenMe() {
-  console.log('토큰미')
   return api.get('/token/me')
 }

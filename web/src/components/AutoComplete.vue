@@ -46,8 +46,8 @@ export default {
               options.value = stringOptions
             }
             else {
-              return new Promise((resolve, reject) => {
-                axios.post(`http://localhost:8000/search?searchText=${val}`)
+              return new Promise((resolve) => {
+                axios.get(`http://localhost:8000/search?searchText=${val}`)
                 .then((res) => {
                   result.value = []
                   res.data.hits.hits.map((hits) => {
