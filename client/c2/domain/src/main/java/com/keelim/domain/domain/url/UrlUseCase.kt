@@ -43,4 +43,8 @@ class UrlUseCase(
         Timber.d("folderUrlMe $result")
         return result
     }
+
+    suspend fun getRecommended():List<Url>{
+        return emptyList()
+    }
 }

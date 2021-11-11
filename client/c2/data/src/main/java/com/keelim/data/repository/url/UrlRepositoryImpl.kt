@@ -114,6 +114,7 @@ class UrlRepositoryImpl @Inject constructor(
             return@withContext Dash(
                 result.size,
                 response.body()?.size ?: 0,
+                ""
             )
         } catch (e: Exception) {
             Timber.e(e)
@@ -122,6 +123,7 @@ class UrlRepositoryImpl @Inject constructor(
         return@withContext Dash(
             0,
             0,
+            ""
         )
     }
 

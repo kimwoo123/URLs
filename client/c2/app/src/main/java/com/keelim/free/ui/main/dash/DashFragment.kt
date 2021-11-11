@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.keelim.data.model.dash.DashState
+import com.keelim.free.R
 import com.keelim.free.databinding.FragmentDashBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -38,7 +40,9 @@ class DashFragment : Fragment() {
     }
 
     private fun initViews() = with(binding){
-
+        searchBar.setOnClickListener {
+            findNavController().navigate(R.id.searchDetailFragment)
+        }
     }
 
     override fun onDestroyView() {
