@@ -1,6 +1,9 @@
 export default function () {
   return {
     folders: [],
-    urls: []
+    urls: [],
+    urlMemoOpen: false,
+    memos: [],
+    selectedMemoId: ''
   }
 }

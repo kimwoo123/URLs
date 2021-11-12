@@ -1,5 +1,6 @@
 <template>
   <main>
+    <div>마이폴더2</div>
     <div>{{ folderId }}</div>
     <div>{{ folderUrls }}</div>
 
@@ -17,7 +18,7 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import FolderUrlCard from 'src/components/cards/FolderUrlCard.vue'
@@ -31,6 +32,7 @@ export default {
     const folderId = computed({
       get: () => {
         $store.dispatch('urls/GET_FOLDER_ULR', $route.params.folder_id)
+        $store.dispatch('urls/CLOSE_MEMO')
         return $route.params.folder_id
         }
     })

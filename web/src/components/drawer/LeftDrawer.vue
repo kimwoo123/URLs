@@ -105,11 +105,8 @@ export default {
       get: () => $store.state.urls.folders
      })
 
-    // const drawer = props.drawer
-
     return {
       folders,
-      // drawer
     }
   }
 

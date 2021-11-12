@@ -71,16 +71,19 @@ export function memoAll(memoId) {
 }
 
 // url memos 리스트에 memo 생성
-export function memoCreate(memoId, memoData) {
-  return api.post(`/memo/${memoId}`, memoData)
+export function memoCreate(memoData) {
+  return api.post(`/memo/${memoData.memos_id}`, memoData)
 }
 
 // url memos 리스트에 memo 수정
-export function memoPut(memoId, memoData) {
-  return api.put(`/memo/${memoId}`, memoData)
+export function memoPut(memoData) {
+  const data = {
+    content: memoData.content
+  }
+  return api.put(`/memo/${memoData.memos_id}/${memoData.memo_id}`, data)
 }
 
 // url memos 리스트에 memo 삭제
-export function memoDelete(memoId, memoData) {
-  return api.delete(`/memo/${memoId}`, memoData)
+export function memoDelete(memoData) {
+  return api.delete(`/memo/${memoData.memos_id}/${memoData.memo_id}`)
 }

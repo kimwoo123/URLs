@@ -6,6 +6,10 @@ function saveUserToCookie(value) {
 	document.cookie = `til_user=${value}`;
 }
 
+function saveUserEmailToCookie(value) {
+	document.cookie = `til_user_email=${value}`;
+}
+
 function saveUseridToCookie(value) {
 	document.cookie = `til_userid=${value}`;
 }
@@ -24,6 +28,13 @@ function getAuthFromCookie() {
 function getUserFromCookie() {
 	return document.cookie.replace(
 		/(?:(?:^|.*;\s*)til_user\s*=\s*([^;]*).*$)|^.*$/,
+		'$1',
+	);
+}
+
+function getUserEmailFromCookie() {
+	return document.cookie.replace(
+		/(?:(?:^|.*;\s*)til_user_email\s*=\s*([^;]*).*$)|^.*$/,
 		'$1',
 	);
 }
@@ -49,10 +60,12 @@ function deleteCookie(value) {
 export {
 	saveAuthToCookie,
 	saveUserToCookie,
+	saveUserEmailToCookie,
 	saveUseridToCookie,
 	saveUserAvatarToCookie,
 	getAuthFromCookie,
 	getUserFromCookie,
+	getUserEmailFromCookie,
 	getUseridFromCookie,
 	getUserAvatarFromCookie,
 	deleteCookie,
