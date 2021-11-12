@@ -5,20 +5,36 @@ search = APIRouter()
 es = Elasticsearch(hosts="elastic:k5b201eagle@k5b201.p.ssafy.io", port=9200)
 
 @search.get('/search', summary="검색")
-async def search_tag(searchText: str):
+async def search_tag(searchText: str, folder: str):
+  print(searchText, folder)
   res = es.search(
-    index="users_v5",
-    body={
+    index="folder_v2",
+    body=
+    {
       "query": {
-        "match": {
-          "urls.tags": {
-            "query": searchText,
-            "fuzziness": "AUTO"
-          }
+        "bool": {
+          "must": [
+            {
+              "match": {
+                "_id": folder
+              }
+            }
+          ],
+          "filter": [
+            {
+              "match": {
+                "urls.tags": {
+                  "query": searchText,
+                  "fuzziness": "AUTO"
+                }
+              }
+            }
+          ]
         }
       }
     }
   )
+  print(res)
   for hit in res['hits']['hits']:
-    print(hit['_source']['email'])
-  return res
+    print(hit['_source'])
+  return res['hits']['hits']
