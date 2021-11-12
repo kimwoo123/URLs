@@ -1,72 +1,74 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
-      <q-select
-        filled
-        v-model="selectTag"
-        use-input
-        use-chips
-        input-debounce="0"
-        label="Tag 검색"
-        :options="options"
-        @filter="filterFn"
-        style="width: 250px"
-      >
-        <template v-slot:no-option>
-          <q-item>
-            <q-item-section class="text-grey">
-              검색 결과가 없습니다.
-            </q-item-section>
-          </q-item>
-        </template>
-      </q-select>
+      <q-input 
+      v-model="selectTag"
+      label="Tag 검색"
+      :options="options"
+       />
+      <div v-for="(tag, index) in searchResult" :key="index">
+        <div @Click="tagUrl(tag)">
+          {{ tag }}
+        </div>
+      </div>
+      <div v-for="(page, index) in searchPage" :key="index">
+        <div>
+          {{ page }}
+          </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { ref, watch } from 'vue'
 import axios from 'axios'
 
 const stringOptions = ['검색어를 입력해주세요.']
 
 export default {
   setup () {
+    const route = useRoute()
     const options = ref(stringOptions)
-    const result = ref([])
+    const searchResult = ref([])
+    const searchPage = ref([])
+    const selectTag = ref('')
 
-    return {
-      selectTag: ref(null),
-      result,
-      options,
-      filterFn (val, update) {
-        setTimeout(() => {
-          update(() => {
-            if (val === '') {
-              options.value = stringOptions
-            }
-            else {
+    const tagUrl = (tag) => {
+      console.log(tag)
+    }
+
+    watch(selectTag, (val) => {
+      setTimeout(() => {
+          if (val === '') {
+            options.value = stringOptions
+          }
+          else {
               return new Promise((resolve) => {
-                console.log(val)
-                axios.get(`http://localhost:8000/search?searchText=${val}`)
+                searchResult.value = []
+                searchPage.value = []
+                // axios.get(`http://localhost:8000/search?searchText=${val}&folder=${route.params.id}`)
+                axios.get(`http://localhost:8000/search?searchText=${val}&folder=6189d1da95bd3eee5ab6aa5b`)
                 .then((res) => {
-                  console.log('here')
-                  console.log(res.data, 'here')
-                  // result.value = []
-                  // res.data.hits.hits.map((hits) => {
-                  //   result.value.push(hits._source['email'])
-                  // })
-                  // resolve(options.value = result.value)
-                })
-                .catch((e) => {
-                  conosle.log(e, 'here')
+                  res.data[0]._source.urls.map((pageInfo) => {
+                    searchPage.value.push(pageInfo)
+                    pageInfo.tags.map((tag) => {
+                      searchResult.value.push(tag)
+                    })
+                  })
                 })
               })
             }
-          })
-        }, 1500)
-      },
+      }, 700)
+    })
+    return {
+      selectTag,
+      searchResult,
+      searchPage,
+      options,
+      tagUrl,
     }
-  }
+  },
 }
 </script>
