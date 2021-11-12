@@ -1,11 +1,9 @@
-import json
 from typing import List
 
 from bson import ObjectId
-from fastapi import Depends, APIRouter, HTTPException, status
+from fastapi import Depends, APIRouter, HTTPException, status, Response
 from fastapi.encoders import jsonable_encoder
 from pymongo import ReturnDocument
-from starlette.responses import JSONResponse
 
 from config.db import db
 from models.recommend import UrlIn
@@ -100,13 +98,41 @@ async def delete_user(id, current_user: UserOut = Depends(get_current_user)):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user {id} not found")
 
 
-@user.get('/user/noti', summary="유저 전용 공지사항 알림")
-async def response_notifications():
-    return serializeDict(
-        {
-            'version': 'v0.0.5',
-            'date': '2021-11-12',
-            'title': '정식으로 오픈합니다.',
-            'description': 'Urls 가 정식으로 오픈했습니다.'
-        },
-    )
+@user.get('/user/notifications', summary="유저 전용 공지사항 알림")
+async def response_notificaitons():
+    data = """{
+    [
+           "release": {
+                'version': 'v0.0.5',
+                'date': '2021-11-12',
+                'title': '정식으로 오픈합니다.',
+                'description': 'Urls 가 정식으로 오픈했습니다.'
+            },
+            {
+                'version': 'v0.0.4',
+                'date': '2021-11-10',
+                'title': '정식으로 CI/CD 를 적용했습니다.',
+                'description': 'CI/CD 를 통하여 자동화했습니다.'
+            },
+            {
+                'version': 'v0.0.3',
+                'date': '2021-11-08',
+                'title': 'AI를 도입하였습니다. ',
+                'description': '조금 더 좋은 태그를 사용해보세요'
+            },
+            {
+                'version': 'v0.0.2',
+                'date': '2021-11-06',
+                'title': '정식으로 오픈합니다.',
+                'description': 'Urls 가 정식으로 오픈했습니다.'
+            },
+            {
+                'version': 'v0.0.1',
+                'date': '2021-11-04',
+                'title': '정식으로 엘라스틱 서치를 붙였습니다.',
+                'description': '조금 더 향상된 검색을 할 수 있습니다.'
+            },
+        ]
+    
+    }"""
+    return Response(content = data, media_type="application/json")
