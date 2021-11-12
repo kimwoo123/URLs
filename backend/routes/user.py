@@ -100,8 +100,8 @@ async def delete_user(id, current_user: UserOut = Depends(get_current_user)):
 
 
 @user.get('/user/notifications', summary="유저 전용 공지사항 알림")
-async def find_all_users():
-    item = {
+async def response_notifications():
+    return JSONResponse({
         "release": [
             {
                 'version': 'v0.0.5',
@@ -135,5 +135,4 @@ async def find_all_users():
             },
         ]
     }
-    json_compatible_item_data = jsonable_encoder(item)
-    return JSONResponse(content=json_compatible_item_data)
+    )
