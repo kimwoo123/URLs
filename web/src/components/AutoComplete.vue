@@ -11,6 +11,11 @@
           {{ tag }}
         </div>
       </div>
+      <div v-for="(page, index) in searchPage" :key="index">
+        <div>
+          {{ page }}
+          </div>
+      </div>
     </div>
   </div>
 </template>
@@ -27,6 +32,7 @@ export default {
     const route = useRoute()
     const options = ref(stringOptions)
     const searchResult = ref([])
+    const searchPage = ref([])
     const selectTag = ref('')
 
     const tagUrl = (tag) => {
@@ -41,12 +47,13 @@ export default {
           else {
               return new Promise((resolve) => {
                 searchResult.value = []
+                searchPage.value = []
                 // axios.get(`http://localhost:8000/search?searchText=${val}&folder=${route.params.id}`)
                 axios.get(`http://localhost:8000/search?searchText=${val}&folder=6189d1da95bd3eee5ab6aa5b`)
                 .then((res) => {
-                  console.log(res.data[0]._source.urls)
-                  res.data[0]._source.urls.map((url) => {
-                    url.tags.map((tag) => {
+                  res.data[0]._source.urls.map((pageInfo) => {
+                    searchPage.value.push(pageInfo)
+                    pageInfo.tags.map((tag) => {
                       searchResult.value.push(tag)
                     })
                   })
@@ -58,6 +65,7 @@ export default {
     return {
       selectTag,
       searchResult,
+      searchPage,
       options,
       tagUrl,
     }
