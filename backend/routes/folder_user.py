@@ -29,7 +29,7 @@ async def permission_check_user_in(folder_id, user_in_email):
 
 @folder_user.post('/folder/{folder_id}/user', summary="폴더 유저 생성", response_model=FolderOut)
 async def create_folder_user(folder_id, user_in: UserIn, current_user: User = Depends(get_current_user)):
-    permission_check_me(folder_id, current_user["email"])
+    await permission_check_me(folder_id, current_user["email"])
 
     # 유저 찾기
     target_user = db.user.find_one({"email": user_in.email})
@@ -46,9 +46,14 @@ async def create_folder_user(folder_id, user_in: UserIn, current_user: User = De
     user = User(**target_user, permission=user_in.permission)
     # 폴더에 유저 push
     folder = db.folder.find_one_and_update(
-        {"_id": ObjectId(folder_id)}, {"$push": {"users": dict(user)}},
+        {"_id": ObjectId(folder_id)}, {"$push": {"users": dict(user)}, "$set": {"shared": True}},
         return_document=ReturnDocument.AFTER
     )
+    for user in folder["users"]:
+        db.user.find_one_and_update(
+            {"email": user["email"], "folders.folder_id": ObjectId(folder_id)}, 
+            {"$set": {"folders.$.shared": True}}
+        )
     # 유저의 폴더에 폴더 push
     taget_user_folder = {
       "folder_id": folder["_id"],
@@ -64,8 +69,8 @@ async def create_folder_user(folder_id, user_in: UserIn, current_user: User = De
 
 @folder_user.put('/folder/{folder_id}/user', summary="폴더 유저 권한 변경", response_model=FolderOut)
 async def update_folder_user(folder_id, user_in: UserIn, current_user: User = Depends(get_current_user)):
-    permission_check_me(folder_id, current_user["email"])
-    permission_check_user_in(folder_id, user_in.email)
+    await permission_check_me(folder_id, current_user["email"])
+    await permission_check_user_in(folder_id, user_in.email)
 
     if user_in.permission > 1:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"permission 2 is owner")
@@ -83,8 +88,8 @@ async def update_folder_user(folder_id, user_in: UserIn, current_user: User = De
 
 @folder_user.delete('/folder/{folder_id}/user', summary="폴더 유저 삭제", response_model=FolderOut)
 async def delete_folder_user(folder_id, user_in: UserIn, current_user: User = Depends(get_current_user)):
-    permission_check_me(folder_id, current_user["email"])
-    permission_check_user_in(folder_id, user_in.email)
+    await permission_check_me(folder_id, current_user["email"])
+    await permission_check_user_in(folder_id, user_in.email)
 
     # 폴더에서 유저 삭제
     folder = db.folder.find_one_and_update(
@@ -99,6 +104,15 @@ async def delete_folder_user(folder_id, user_in: UserIn, current_user: User = De
         return_document=ReturnDocument.AFTER
     )
     if folder is not None:
+        if len(folder["users"]) == 1:
+            db.folder.find_one_and_update(
+                {"_id": ObjectId(folder_id)},
+                {"$set": {"shared": False}},
+            )
+            db.user.find_one_and_update(
+                {"_id": current_user["_id"], "folders.folder_id": ObjectId(folder_id)}, 
+                {"$set": {"folders.$.shared": False}},
+            )
         return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {folder_id} not found")
 

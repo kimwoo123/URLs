@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 
+from routes.other import other
 from routes.user import user
 from routes.token import token
 from routes.folder import folder 
@@ -19,4 +20,5 @@ router.include_router(folder_url, tags=["folder/url"])
 router.include_router(memo, tags=["memo"])
 router.include_router(recommend, tags=["recommend"])
 router.include_router(search, tags=["search"])
+router.include_router(other, tags=["other"])
 

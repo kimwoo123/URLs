@@ -22,11 +22,16 @@ async def find_all_folder(current_user: User = Depends(get_current_user)):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
 
-@folder.get('/folder/{id}', summary="폴더 상세 조회", response_model=FolderOut)
+@folder.get('/folder/{id}', summary="폴더 상세 조회")
 async def find_one_folder(id):
     folder = db.folder.find_one({"_id": ObjectId(id)})
+    
     if folder is not None:
+        for idx, url in enumerate(folder["urls"]):
+            memo = db.memo.find_one({"_id": ObjectId(folder["urls"][idx]["memos_id"])})
+            folder["urls"][idx]["memos_count"] = len(memo["memos"])
         return serializeDict(folder)
+        
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
 
 
@@ -55,15 +60,16 @@ async def update_folder(id, folder_in: FolderIn, current_user: User = Depends(ge
         if db.user.find_one({"_id": ObjectId(current_user["_id"]), "folders.folder_name": folder_in.folder_name}):
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"folder {folder_in.folder_name} is already exists")
 
-        db.user.find_one_and_update(
-            {"_id": ObjectId(current_user["_id"]), "folders.folder_id": ObjectId(id)},
-            {"$set": {"folders.$.folder_name": folder_in.folder_name}}
-        )
         folder = db.folder.find_one_and_update(
             {"_id": ObjectId(id)}, {"$set": {"folder_name": folder_in.folder_name}}, 
             return_document=ReturnDocument.AFTER
         )
         if folder is not None:
+            for user in folder["users"]:
+                db.user.find_one_and_update(
+                    {"email": user["email"], "folders.folder_id": ObjectId(id)},
+                    {"$set": {"folders.$.folder_name": folder_in.folder_name}}
+                )
             return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
 
@@ -71,26 +77,25 @@ async def update_folder(id, folder_in: FolderIn, current_user: User = Depends(ge
 @folder.delete('/folder/{id}', summary="폴더 삭제", response_model=FolderOut)
 async def delete_folder(id, current_user: User = Depends(get_current_user)):
     if db.user.find_one({"_id": ObjectId(current_user["_id"]), "folders.folder_id": ObjectId(id)}):
-        folder = db.folder.find_one({"_id": ObjectId(id)})
 
-        urls = folder["urls"]
-        for url in urls:
-            await tag_count_decrease(url["tags"], user_email=url["added_by"]["email"])
-            db.memo.delete_one({"_id": ObjectId(url["memos_id"])})
-
-        users = folder["users"]
-        for user in users:
-            db.user.find_one_and_update(
-                {"email": user["email"]},
-                {"$pull": {"folders": {"folder_id": ObjectId(id)}}}
-            )
-    
-        db.user.find_one_and_update(
-            {"_id": ObjectId(current_user["_id"])},
-            {"$pull": {"folders": {"folder_id": ObjectId(id)}}},
-            return_document=ReturnDocument.AFTER
-        )
+        user = db.folder.find_one({"_id": ObjectId(id), "users.email": current_user["email"]}, {"users.$": 1})
+        if user["users"][0]["permission"] == 0:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+            
         folder = db.folder.find_one_and_delete({"_id": ObjectId(id)})
+
         if folder is not None:
+            urls = folder["urls"]
+            for url in urls:
+                await tag_count_decrease(url["tags"], user_email=url["added_by"]["email"])
+                db.memo.delete_one({"_id": ObjectId(url["memos_id"])})
+
+            users = folder["users"]
+            for user in users:
+                db.user.find_one_and_update(
+                    {"email": user["email"]},
+                    {"$pull": {"folders": {"folder_id": ObjectId(id)}}}
+                )
+
             return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")

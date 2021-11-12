@@ -2,7 +2,7 @@ from fastapi import Depends, APIRouter, HTTPException, status
 from models.folder import User, UrlIn, UrlInDB
 from models.memo import Memos
 from config.db import db
-from serializers.common import serializeDict, serializeList
+from serializers.common import serializeDict, serializeList, serializeDict_folder, serializeList_folder
 from fastapi.encoders import jsonable_encoder
 # from fastapi.responses import JSONResponse
 from bson import ObjectId
@@ -53,9 +53,17 @@ async def tag_count_decrease(decrease_tags, user_id=None, user_email=None):
 
 @folder_url.get('/folder/url/me', summary="내 모든 폴더에서 내가 작성한 url 검색")
 async def find_all_folder_url_me(user: User = Depends(get_current_user)):
-    my_urls = db.folder.find({"urls.added_by.email": user["email"]})
-    if my_urls is not None:
-        return serializeList(my_urls)
+    folders = db.folder.find({"urls.added_by.email": user["email"]}, {"urls": 1})
+
+    if folders is not None:
+        result = []
+        for folder in folders:
+            for url in folder["urls"]:
+                url["folder_id"] = folder["_id"]
+                result.append(url)
+        result.sort(key=lambda x: ObjectId(x["memos_id"]).generation_time, reverse=True)
+
+        return serializeList_folder(result)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
 
