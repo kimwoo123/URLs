@@ -1,27 +1,81 @@
 import axios from 'axios';
+import {listUrl} from './list_url';
 
-axios.defaults.baseURL = 'http://k5b201.p.ssafy.io:4000';
-
-// axios.interceptors.request.use(config => {
-//   const accessToken = localStorage.getItem('access_token');
-//   config.headers.common.Authorization = accessToken
-//     ? `Bearer ${accessToken}`
-//     : '';
-//   return config;
-// });
+axios.defaults.baseURL = listUrl.baeURL;
 
 export default {
   getServerStatus() {
-    let value = '';
-    axios
-      .get('/api')
-      .then(res => {
-        console.log(res);
-        value = res;
+    return axios
+      .get('/user')
+      .then(res => res)
+      .catch(error => error);
+  },
+
+  getRelease() {
+    return axios
+      .get(listUrl.release_url)
+      .then(res => res)
+      .catch(error => error);
+  },
+  inject(url, token) {
+    return axios
+      .post('/inject', {
+        url,
+        token,
       })
-      .catch(error => {
-        value = error;
-      });
-    return value;
+      .then(res => res)
+      .catch(error => error);
+  },
+
+  getWorkspace() {
+    // axios
+    //   .get('/folder')
+    //   .then(res => res)
+    //   .catch(error => error);
+
+    return {
+      data: [
+        {
+          type: 'type',
+          title: '안녕하세요',
+          url: 'https://www.naver.com',
+        },
+
+        {
+          type: 'type',
+          title: '안녕하세요',
+          url: 'https://www.naver.com',
+        },
+
+        {
+          type: 'type',
+          title: '안녕하세요',
+          url: 'https://www.naver.com',
+        },
+
+        {
+          type: 'type',
+          title: '안녕하세요',
+          url: 'https://www.naver.com',
+        },
+      ],
+    };
+  },
+  signIn(token, email, nickname, avatar) {
+    const config = {
+      headers: {Authorization: `Bearer ${token}`},
+    };
+    return axios
+      .post(
+        '/user',
+        {
+          email,
+          avatar,
+          nickname,
+        },
+        config,
+      )
+      .then(res => res)
+      .catch(error => error);
   },
 };

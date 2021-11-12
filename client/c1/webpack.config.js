@@ -18,7 +18,6 @@ const config = {
   entry: {
     background: './background.js',
     'popup/popup': './popup/popup.js',
-    'popup/analytics': './popup/analytics.js',
   },
   output: {
     path: `${__dirname}/dist`,
@@ -76,7 +75,12 @@ const config = {
       filename: '[name].css',
     }),
     new CopyWebpackPlugin([
-      {from: 'icons', to: 'icons', ignore: ['icon.xcf']},
+      {from: 'icons', to: 'icons'},
+      // {from: 'lib', to: 'lib'},
+      // {from: 'hoverTools', to: 'hoverTools'},
+      // {from: 'contentScripts', to: 'contentScripts'},
+      // {from: 'utils', to: 'utils'},
+      // {from: 'images', to: 'images'},
       {
         from: 'popup/popup.html',
         to: 'popup/popup.html',
@@ -91,7 +95,7 @@ const config = {
 
           if (config.mode === 'development') {
             jsonContent.content_security_policy =
-              "script-src 'self' 'unsafe-eval'; object-src 'self'";
+              "script-src 'self' https://apis.google.com https://www.googletagmanager.com 'unsafe-eval'; object-src 'self'";
           }
 
           return JSON.stringify(jsonContent, null, 2);
