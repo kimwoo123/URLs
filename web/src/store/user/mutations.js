@@ -30,3 +30,11 @@ export function setUserAvatar(state, avatar) {
 export function clearUserAvatar(state) {
   state.avatar = '';
 }
+
+export function setUserEmail(state, useremail) {
+  state.useremail = useremail
+}
+
+export function clearUserEmail(state) {
+  state.useremail = ''
+}

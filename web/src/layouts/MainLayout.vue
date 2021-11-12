@@ -38,7 +38,7 @@
       <left-drawer/>
     </q-drawer>
 
-    <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered :width="200" :breakpoint="500">
+    <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered :width="300" :breakpoint="500">
       <right-drawer/>
     </q-drawer>
 
