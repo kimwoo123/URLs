@@ -9,7 +9,6 @@ from bson import ObjectId
 from pymongo import ReturnDocument
 from .token import get_current_user
 from .folder_url import tag_count_decrease
-from pprint import pprint
 
 
 folder = APIRouter()
@@ -23,11 +22,16 @@ async def find_all_folder(current_user: User = Depends(get_current_user)):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
 
-@folder.get('/folder/{id}', summary="폴더 상세 조회", response_model=FolderOut)
+@folder.get('/folder/{id}', summary="폴더 상세 조회")
 async def find_one_folder(id):
     folder = db.folder.find_one({"_id": ObjectId(id)})
+    
     if folder is not None:
+        for idx, url in enumerate(folder["urls"]):
+            memo = db.memo.find_one({"_id": ObjectId(folder["urls"][idx]["memos_id"])})
+            folder["urls"][idx]["memos_count"] = len(memo["memos"])
         return serializeDict(folder)
+        
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
 
 
