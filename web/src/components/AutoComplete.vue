@@ -6,14 +6,17 @@
       label="Tag 검색"
       :options="options"
        />
-      <div v-for="(tag, index) in result" :key="index">
-        {{ tag }}
+      <div v-for="(tag, index) in searchResult" :key="index">
+        <div @Click="tagUrl(tag)">
+          {{ tag }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { useRoute } from 'vue-router'
 import { ref, watch } from 'vue'
 import axios from 'axios'
 
@@ -21,9 +24,14 @@ const stringOptions = ['검색어를 입력해주세요.']
 
 export default {
   setup () {
+    const route = useRoute()
     const options = ref(stringOptions)
-    const result = ref([])
+    const searchResult = ref([])
     const selectTag = ref('')
+
+    const tagUrl = (tag) => {
+      console.log(tag)
+    }
 
     watch(selectTag, (val) => {
       setTimeout(() => {
@@ -32,12 +40,14 @@ export default {
           }
           else {
               return new Promise((resolve) => {
-                result.value = []
-                axios.get(`http://localhost:8000/search?searchText=${val}`)
+                searchResult.value = []
+                // axios.get(`http://localhost:8000/search?searchText=${val}&folder=${route.params.id}`)
+                axios.get(`http://localhost:8000/search?searchText=${val}&folder=6189d1da95bd3eee5ab6aa5b`)
                 .then((res) => {
-                  res.data.map((hits) => {
-                    hits._source['urls'].map((url) => {
-                      result.value.push(url.tags)
+                  console.log(res.data[0]._source.urls)
+                  res.data[0]._source.urls.map((url) => {
+                    url.tags.map((tag) => {
+                      searchResult.value.push(tag)
                     })
                   })
                 })
@@ -45,38 +55,11 @@ export default {
             }
       }, 700)
     })
-
     return {
       selectTag,
-      result,
+      searchResult,
       options,
-      filterFn (val, update) {
-        setTimeout(() => {
-          update(() => {
-            if (val === '') {
-              options.value = stringOptions
-            }
-            else {
-              return new Promise((resolve) => {
-                console.log(val)
-                axios.get(`http://localhost:8000/search?searchText=${val}`)
-                .then((res) => {
-                  console.log('here')
-                  console.log(res.data, 'here')
-                  // result.value = []
-                  // res.data.hits.hits.map((hits) => {
-                  //   result.value.push(hits._source['email'])
-                  // })
-                  // resolve(options.value = result.value)
-                })
-                .catch((e) => {
-                  conosle.log(e, 'here')
-                })
-              })
-            }
-          })
-        }, 1500)
-      },
+      tagUrl,
     }
   },
 }
