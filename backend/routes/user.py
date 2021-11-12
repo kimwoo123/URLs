@@ -65,13 +65,35 @@ async def update_user_category(id, url: UrlIn, current_user: UserOut = Depends(g
     return serializeDict(user)
 
 
-@user.delete('/user/{id}', response_model=UserOut, summary="유저 삭제")
+@user.delete('/user/{id}', summary="유저 삭제")
 async def delete_user(id, current_user: UserOut = Depends(get_current_user)):
     if not id == str(current_user["_id"]):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+    
+    user_folders = db.user.find_one({"_id": ObjectId(current_user["_id"])})["folders"]
+    for user_folder in user_folders:
+        folder = db.folder.find_one({"_id": ObjectId(user_folder["folder_id"])})
+        if folder["shared"]:
+            if len(folder["users"]) == 2:
+                folder = db.folder.find_one_and_update(
+                    {"_id": ObjectId(user_folder["folder_id"])},
+                    {"$pull": {"users": {"email": current_user["email"]}}, "$set": {"shared": False}},
+                    return_document=ReturnDocument.AFTER
+                )
+                db.user.find_one_and_update(
+                    {"email": folder["users"][0]["email"], "folders.folder_id": user_folder["folder_id"]}, 
+                    {"$set": {"folders.$.shared": False}},
+                )
+            else:
+                db.folder.find_one_and_update(
+                    {"_id": ObjectId(user_folder["folder_id"])},
+                    {"$pull": {"users": {"email": current_user["email"]}}}
+                )
+        else:
+            db.folder.find_one_and_delete({"_id": ObjectId(user_folder["folder_id"])})
         
-    user = db.user.find_one_and_delete({"_id": ObjectId(current_user["_id"])})
+    user= db.user.find_one_and_delete({"_id": ObjectId(current_user["_id"])})
     if user is not None:
-        return serializeDict(user)
+        return HTTPException(status_code=status.HTTP_204_NO_CONTENT, detail=f"user deleted")
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user {id} not found")
 
