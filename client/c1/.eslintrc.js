@@ -4,18 +4,21 @@
 module.exports = {
   root: true,
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: 'babel-eslint',
   },
   env: {
     browser: true,
-    webextensions: true
+    webextensions: true,
   },
   // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
   // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
   extends: [
     'plugin:vue/essential',
     'airbnb-base',
-    'plugin:prettier/recommended'
+    'plugin:prettier/recommended',
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'plugin:import/typescript',
   ],
   // required to lint *.vue files
   plugins: ['vue'],
@@ -23,9 +26,9 @@ module.exports = {
   settings: {
     'import/resolver': {
       webpack: {
-        config: './webpack.config.js'
-      }
-    }
+        config: './webpack.config.js',
+      },
+    },
   },
   // add your custom rules here
   rules: {
@@ -35,8 +38,8 @@ module.exports = {
       'always',
       {
         js: 'never',
-        vue: 'never'
-      }
+        vue: 'never',
+      },
     ],
     // disallow reassignment of function parameters
     // disallow parameter object manipulation except for specific exclusions
@@ -47,13 +50,13 @@ module.exports = {
         ignorePropertyModificationsFor: [
           'state', // for vuex state
           'acc', // for reduce accumulators
-          'e' // for e.returnvalue
-        ]
-      }
+          'e', // for e.returnvalue
+        ],
+      },
     ],
     // disallow default export over named export
     'import/prefer-default-export': 'off',
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-  }
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+  },
 };

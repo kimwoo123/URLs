@@ -19,7 +19,7 @@
         <div class="tab-item">
           <a href="https://lab.ssafy.com/s05-final/S05P31B201" target="_blank">
             <el-button circle>
-              <img class="github-logo" src="/icons/github.png" />
+              <img class="gitlab-logo" src="/icons/gitlab.png" />
             </el-button>
           </a>
           <br />
@@ -29,7 +29,7 @@
     </div>
     <br />
     <br />
-    <div class="status">현재 서버 상태: {{ requestServerStatus() }}</div>
+    <div class="status">현재 서버 상태: {{ status }}</div>
   </div>
 </template>
 
@@ -46,7 +46,8 @@ export default {
   },
   methods: {
     async requestServerStatus() {
-      return MainApi.getServerStatus();
+      const result = await MainApi.getServerStatus();
+      this.status = result.status === 200 ? 'Live' : 'Dead';
     },
   },
   created() {
@@ -85,7 +86,7 @@ export default {
       .tab-item {
         flex: 1;
 
-        .github-logo {
+        .gitlab-logo {
           width: 14px;
           height: 14px;
         }

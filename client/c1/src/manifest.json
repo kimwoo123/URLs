@@ -13,13 +13,8 @@
     "default_title": "Urls",
     "default_popup": "popup/popup.html"
   },
-  "applications": {
-    "gecko": {
-      "id": "",
-      "strict_min_version": "68.0"
-    }
-  },
-  "permissions": ["storage"],
+
+  "permissions": ["storage", "identity"],
   "background": {
     "scripts": ["background.js"]
   }
