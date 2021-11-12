@@ -100,7 +100,7 @@ async def delete_user(id, current_user: UserOut = Depends(get_current_user)):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user {id} not found")
 
 
-@user.get('/user/notifications', summary="유저 전용 공지사항 알림")
+@user.get('/user/noti', summary="유저 전용 공지사항 알림")
 async def response_notifications():
     return serializeDict(
         {
