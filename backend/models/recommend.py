@@ -16,14 +16,14 @@ class UrlIn(Recommend):
             "example": {
                 "url": "https://www.google.com",
                 "categories": {
-                    "category1": 0,
-                    "category2": 0,
-                    "category3": 0,
-                    "category4": 0,
-                    "category5": 0,
-                    "category6": 0,
-                    "category7": 0,
-                    "category8": 0,
+                    "프론트": 0,
+                    "백엔드": 0,
+                    "모바일": 0,
+                    "빅데이터/AI": 0,
+                    "CS": 0,
+                    "DevOps": 0,
+                    "Tools(생산성)": 0,
+                    "기획/디자인": 0,
                 }
             }
         }
