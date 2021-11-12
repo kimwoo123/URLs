@@ -1,3 +1,4 @@
+import json
 from typing import List
 
 from bson import ObjectId
@@ -101,7 +102,7 @@ async def delete_user(id, current_user: UserOut = Depends(get_current_user)):
 
 @user.get('/user/notifications', summary="유저 전용 공지사항 알림")
 async def response_notifications():
-    return JSONResponse(
+    return serializeDict(
         {
             'version': 'v0.0.5',
             'date': '2021-11-12',
