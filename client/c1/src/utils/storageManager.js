@@ -141,21 +141,6 @@ function load(highlightVal, highlightIndex, noErrorTracking) {
   return success;
 }
 
-// alternativeUrl is optional
-function clearPage(url, alternativeUrl) {
-  chrome.storage.local.get({highlights: {}}, result => {
-    const {highlights} = result;
-    delete highlights[url];
-
-    if (alternativeUrl) {
-      // See 'loadAll()' for an explaination of why this is necessary
-      delete highlights[alternativeUrl];
-    }
-
-    chrome.storage.local.set({highlights});
-  });
-}
-
 // From an DOM element, get a query to that DOM element
 
 // Colons and spaces are accepted in IDs in HTML but not in CSS syntax
