@@ -13,22 +13,23 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class DashViewModel @Inject constructor(
     private val urlUseCase: UrlUseCase
-): ViewModel() {
+) : ViewModel() {
     private val _state: MutableStateFlow<DashState> = MutableStateFlow(DashState.UnInitialized)
     val state: StateFlow<DashState> = _state
 
-    
-    init{
+
+    init {
         init()
     }
 
-    fun init() = viewModelScope.launch{
+    fun init() = viewModelScope.launch {
         _state.emit(DashState.Loading)
         runCatching {
             urlUseCase.folderUrlMe()
         }.onSuccess {
             _state.emit(
-                DashState.Success(it))
+                DashState.Success(it)
+            )
         }.onFailure {
             _state.emit(DashState.Error("에러가 발생하였습니다."))
         }

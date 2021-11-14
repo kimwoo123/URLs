@@ -1,4 +1,4 @@
-package com.keelim.free.notification;
+package com.keelim.free.notification
 
 import android.app.PendingIntent
 import android.content.Context

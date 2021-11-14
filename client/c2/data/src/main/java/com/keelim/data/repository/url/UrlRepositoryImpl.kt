@@ -85,7 +85,7 @@ class UrlRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getFolder(folder: String): List<Url> = withContext(dispatcher) {
-        try{
+        try {
             val response = apiRequestFactory.retrofit.getFolder(folder)
             val result = response.body()?.urls!!.map {
                 Url(
@@ -95,7 +95,7 @@ class UrlRepositoryImpl @Inject constructor(
                     memos_id = it.memosId,
                 )
             }
-            Timber.d("성공한 데이터 ${result.toString()}")
+            Timber.d("성공한 데이터 $result")
             return@withContext result
         } catch (e: Exception) {
             Timber.e(e)
@@ -177,11 +177,11 @@ class UrlRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun tokenCheck(token: String): User  = withContext(dispatcher){
-        try{
+    override suspend fun tokenCheck(token: String): User = withContext(dispatcher) {
+        try {
             val response = apiRequestFactory.retrofit.tokenCheck()
             return@withContext response.body() ?: User("", "", "")
-        } catch (e:Exception){
+        } catch (e: Exception) {
             Timber.e(e)
         }
         return@withContext User("", "", "")

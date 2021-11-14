@@ -10,14 +10,13 @@
         android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:elevation="0dp"
-        android:theme="@style/Theme.Free.AppBarOverlay">
+        android:background="@color/white"
+        app:elevation="12dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_margin="4dp"
-            android:background="@android:color/darker_gray"
             android:layout_height="?attr/actionBarSize"
             android:elevation="4dp"
             app:popupTheme="@style/Theme.Free.PopupOverlay">
@@ -28,29 +27,32 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/searchBar"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/title_toolbar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    app:iconifiedByDefault="false"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:queryHint="URL을 입력해주세요" />
-
-                <TextView
-                    android:id="@+id/menu_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/jetbrainsmono_regular"
-                    android:text="Inject"
-                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/pretendard"
+                    android:text="Hi This is URLS"
+                    android:textColor="@color/black"
                     android:textSize="24sp"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchBar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:iconifiedByDefault="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:queryHint="URL을 입력해주세요" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -66,6 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
+        android:backgroundTint="@color/orange_w"
         android:layout_marginBottom="16dp"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 

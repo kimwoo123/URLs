@@ -17,7 +17,7 @@ interface UrlRepository {
     suspend fun folderPermissionChange(fid: String, email: String, permission: Int): CallResult
     suspend fun folderNewUser(fid: String, email: String, permission: Int): CallResult
     suspend fun folderDeleteUser(fid: String, email: String, permission: Int): CallResult
-    suspend fun getFolder(folder:String): List<Url>
+    suspend fun getFolder(folder: String): List<Url>
     suspend fun folderUrl(): Dash
     suspend fun folderNewUrl(fid: String, url: String, thumbnail: String, tags: String): CallResult
     suspend fun folderDeleteUrl(
@@ -32,5 +32,5 @@ interface UrlRepository {
     suspend fun urlChangeMemo(mid: String, highlight: String, content: String): CallResult
     suspend fun urlDeleteMemo(msid: String, mid: String): CallResult
     suspend fun submitUrl(token: String, url: String): CallResult
-    suspend fun tokenCheck(token:String): User
+    suspend fun tokenCheck(token: String): User
 }

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginTop="36dp"
-        android:fontFamily="@font/jetbrainsmono_regular"
+        android:fontFamily="@font/pretendard"
         android:text="URLS"
         android:textColor="@color/black"
         android:textSize="64sp"
@@ -27,7 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="110dp"
         android:layout_marginTop="360dp"
-        android:fontFamily="@font/jetbrainsmono_regular"
+        android:fontFamily="@font/pretendard"
+
         android:text="정보를 스마트하게 \n 저장하는 방법"
         android:textColor="@color/black"
         android:textSize="32sp"

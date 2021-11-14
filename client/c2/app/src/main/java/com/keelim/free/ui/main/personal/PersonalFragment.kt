@@ -5,16 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.runtime.snapshots.Snapshot.Companion.observe
 import androidx.core.view.doOnNextLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.viewpager.widget.PagerAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.keelim.data.model.UrlState
 import com.keelim.data.model.UrlState2
 import com.keelim.free.databinding.FragmentPersonalBinding
 import com.keelim.free.ui.main.detail.DetailActivity
@@ -23,7 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import showToast
-import timber.log.Timber
 
 @AndroidEntryPoint
 class PersonalFragment : Fragment() {
@@ -33,7 +29,7 @@ class PersonalFragment : Fragment() {
     private val viewModel: PersonalViewModel by viewModels()
     private val personalAdapter by lazy {
         PersonalAdapter(
-            longClick ={ url ->
+            longClick = { url ->
                 MaterialAlertDialogBuilder(requireContext()).apply {
                     setTitle("공유하기")
                     setMessage("어떤 팀에 공유를 하시겠습니까?")
@@ -85,9 +81,9 @@ class PersonalFragment : Fragment() {
     }
 
     private fun observe() = lifecycleScope.launch {
-        repeatOnLifecycle(Lifecycle.State.CREATED){
+        repeatOnLifecycle(Lifecycle.State.CREATED) {
             viewModel.state.collect {
-                when(it){
+                when (it) {
                     is UrlState2.Error -> {
                         showOff()
                     }
@@ -105,15 +101,16 @@ class PersonalFragment : Fragment() {
             }
         }
     }
-    private fun showOff() = with(binding){
+
+    private fun showOff() = with(binding) {
         progress.visibility = View.INVISIBLE
     }
 
-    private fun showOn() = with(binding){
+    private fun showOn() = with(binding) {
         progress.visibility = View.VISIBLE
     }
 
-    private fun initData(){
+    private fun initData() {
         viewModel.init()
     }
 }
