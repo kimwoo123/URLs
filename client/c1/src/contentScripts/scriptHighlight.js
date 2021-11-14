@@ -1,4 +1,6 @@
-window.showHighlighterCursor = false;
+$(() => {
+  loadAll(window.location.href, window.location.pathname);
+});
 
 document.addEventListener('mouseup', () => {
   if (!window.showHighlighterCursor) return;
@@ -8,6 +10,5 @@ document.addEventListener('mouseup', () => {
 
   if (selectionString) {
     chrome.runtime.sendMessage({action: 'highlight'});
-    // send background signal
   }
 });
