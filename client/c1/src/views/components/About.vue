@@ -1,7 +1,7 @@
 <template>
   <div id="about">
     <div class="info">
-      <!--      <img class="logo" src="/icons/icon128.png" />-->
+      <!--      <img class="logo" src="/icons/128.png" />-->
       <h2 class="logo-title">{{ manifest.name }} v{{ manifest.version }}</h2>
       <p class="logo-description">정보를 스마트하게 저장하는 방법</p>
     </div>
