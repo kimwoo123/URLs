@@ -2,13 +2,14 @@ from fastapi import Depends, APIRouter, HTTPException, status
 from models.folder import User, UrlIn, UrlInDB
 from models.memo import Memos
 from config.db import db
-from serializers.common import serializeDict, serializeList, serializeDict_folder, serializeList_folder
+from serializers.common import serializeDict, serializeList, serializeList_folder
 from fastapi.encoders import jsonable_encoder
 # from fastapi.responses import JSONResponse
 from bson import ObjectId
 from pymongo import ReturnDocument
 from .token import get_current_user
-
+import re
+from pprint import pprint
 
 folder_url = APIRouter()
 
@@ -67,14 +68,20 @@ async def find_all_folder_url_me(user: User = Depends(get_current_user)):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
 
-@folder_url.get('/folder/{folder_id}/url', summary="폴더 내 특정 url 검색")
-async def find_one_folder_url(folder_id, url):
-    folder = db.folder.find_one(
-        {"_id": ObjectId(folder_id), "urls.url": url},
-        {"urls.$":1}
-    )
+@folder_url.get('/folder/{folder_id}/url', summary="폴더 내에서 특정 단어 포함 url 검색")
+async def find_one_folder_url(folder_id, pattern):
+    folder = db.folder.aggregate([
+        {"$match": {"_id": ObjectId(folder_id)}},
+        {"$project": {
+            "urls": {"$filter": {
+                "input": "$urls",
+                "as": "elem",
+                "cond": { "$regexMatch": { "input": "$$elem.url" , "regex": pattern }}
+            }}
+        }}
+    ])
     if folder is not None:
-        return serializeDict(folder)
+        return serializeList(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {folder_id} not found")
 
 
