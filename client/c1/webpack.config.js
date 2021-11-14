@@ -76,11 +76,11 @@ const config = {
     }),
     new CopyWebpackPlugin([
       {from: 'icons', to: 'icons'},
-      // {from: 'lib', to: 'lib'},
-      // {from: 'hoverTools', to: 'hoverTools'},
-      // {from: 'contentScripts', to: 'contentScripts'},
-      // {from: 'utils', to: 'utils'},
-      // {from: 'images', to: 'images'},
+      {from: 'lib', to: 'lib'},
+      {from: 'utils', to: 'utils'},
+      {from: 'hoverTools', to: 'hoverTools'},
+      {from: 'contentScripts', to: 'contentScripts'},
+      {from: 'images', to: 'images'},
       {
         from: 'popup/popup.html',
         to: 'popup/popup.html',
@@ -93,10 +93,10 @@ const config = {
           const jsonContent = JSON.parse(content);
           jsonContent.version = version;
 
-          if (config.mode === 'development') {
-            jsonContent.content_security_policy =
-              "script-src 'self' https://apis.google.com https://www.googletagmanager.com 'unsafe-eval'; object-src 'self'";
-          }
+          // if (config.mode === 'development') {
+          //   jsonContent.content_security_policy =
+          //     "script-src 'self' https://apis.google.com https://www.googletagmanager.com 'unsafe-eval'; object-src 'self'";
+          // }
 
           return JSON.stringify(jsonContent, null, 2);
         },
