@@ -40,7 +40,7 @@ interface FreeServices {
     @Headers("Content-Type: application/json")
     @GET("/folder/{id}")
     suspend fun getFolder(
-        @Path("id")id:String
+        @Path("id") id: String
     ): Response<FolderResponse>
 
     @Headers("Content-Type: application/json")

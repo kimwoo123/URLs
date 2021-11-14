@@ -15,7 +15,7 @@ class PersonalAdapter(
 ) : ListAdapter<Folder, PersonalAdapter.ViewHolder>(diffUtil) {
     inner class ViewHolder(private val binding: ItemFolderBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Folder)  = with(binding){
+        fun bind(item: Folder) = with(binding) {
             root.setOnLongClickListener {
                 longClick(item)
                 return@setOnLongClickListener true
@@ -23,13 +23,13 @@ class PersonalAdapter(
             root.setOnClickListener {
                 click(item)
             }
-            if(item.shared) {
+            if (item.shared) {
                 permission.text = "공유된 폴더 입니다."
-            } else{
+            } else {
                 permission.text = "개인 폴더 입니다."
             }
             title.text = item.folder_id
-            description.text  = item.folder_name
+            description.text = item.folder_name
         }
     }
 

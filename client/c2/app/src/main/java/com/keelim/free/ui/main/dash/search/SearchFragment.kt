@@ -1,35 +1,34 @@
-package com.keelim.free.ui.main.dash
+package com.keelim.free.ui.main.dash.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnNextLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
-import com.keelim.data.model.dash.DashState
-import com.keelim.free.R
-import com.keelim.free.databinding.FragmentDashBinding
+import com.keelim.data.model.DataState
+import com.keelim.data.model.topics
+import com.keelim.free.databinding.FragmentSearchBinding
+import com.keelim.free.util.SpringAddItemAnimator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import showToast
 
 @AndroidEntryPoint
-class DashFragment : Fragment() {
-    private var _binding: FragmentDashBinding? = null
+class SearchFragment : Fragment() {
+    private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: DashViewModel by viewModels()
-
+    private val viewModel: SearchViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDashBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,30 +38,32 @@ class DashFragment : Fragment() {
         observeState()
     }
 
-    private fun initViews() = with(binding) {
-        searchBar.setOnClickListener {
-            findNavController().navigate(R.id.searchFragment)
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun initViews() = with(binding) {
+        searchResults.apply {
+            itemAnimator = SpringAddItemAnimator()
+            setHasFixedSize(true)
+            adapter = SearchAdapter().apply {
+                // add data after layout so that animations run
+                doOnNextLayout {
+                    submitList(topics)
+                }
+            }
+        }
     }
 
     private fun observeState() = lifecycleScope.launch {
         repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.state.collect {
                 when (it) {
-                    is DashState.Error -> {
-                    }
-                    is DashState.Loading -> requireActivity().showToast("로딩 중입니다.")
-                    is DashState.Success -> {
-                        binding.descSection1.text = it.data.memos.toString()
-                        binding.descSection2.text = it.data.folders.toString()
-                    }
-                    is DashState.UnInitialized -> {
-                    }
+                    is DataState.Error -> Unit
+                    DataState.Loading -> Unit
+                    is DataState.Success -> Unit
+                    DataState.UnInitialized -> Unit
                 }
             }
         }

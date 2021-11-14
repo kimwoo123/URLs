@@ -34,7 +34,8 @@
         android:label="fragment_dash"
         tools:layout="@layout/fragment_dash" />
     <fragment
-        android:id="@+id/searchDetailFragment"
-        android:name="com.keelim.free.ui.main.dash.search.SearchDetailFragment"
-        android:label="SearchDetailFragment" />
+        android:id="@+id/searchFragment"
+        android:name="com.keelim.free.ui.main.dash.search.SearchFragment"
+        android:label="SearchFragment" />
+
 </navigation>

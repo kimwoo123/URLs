@@ -22,17 +22,17 @@ class UrlUseCase(
         return urlRepository.submitUrl(token, url)
     }
 
-    suspend fun tokenCheck(token:String): Boolean{
+    suspend fun tokenCheck(token: String): Boolean {
         return urlRepository.tokenCheck(token).email.isNotEmpty()
     }
 
-    suspend fun myFolder(): List<Folder>{
+    suspend fun myFolder(): List<Folder> {
         val result = urlRepository.allFolder()
         Timber.i("들어온 값 $result")
         return result
     }
 
-    suspend fun getFolder(folder:String) : List<Url>{
+    suspend fun getFolder(folder: String): List<Url> {
         val result = urlRepository.getFolder(folder)
         Timber.d("getFolder $result")
         return result
@@ -44,7 +44,7 @@ class UrlUseCase(
         return result
     }
 
-    suspend fun getRecommended():List<Url>{
+    suspend fun getRecommended(): List<Url> {
         return emptyList()
     }
 }

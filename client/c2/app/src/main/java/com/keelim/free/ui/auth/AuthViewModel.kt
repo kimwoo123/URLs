@@ -13,10 +13,10 @@ import kotlinx.coroutines.launch
 class AuthViewModel @Inject constructor(
     private val urlUseCase: UrlUseCase
 ) : ViewModel() {
-    private val  _token = MutableStateFlow<Boolean>(false)
-    val token:StateFlow<Boolean> = _token
+    private val _token = MutableStateFlow<Boolean>(false)
+    val token: StateFlow<Boolean> = _token
 
-    fun tokenCheck(token:String) = viewModelScope.launch {
+    fun tokenCheck(token: String) = viewModelScope.launch {
         _token.emit(urlUseCase.tokenCheck(token))
     }
 }
