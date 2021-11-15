@@ -1,11 +1,9 @@
 <template>
   <main>
-    <div class="row items-center justify-between">
-      <folder-name :folderData="folderData"/>
-      <folder-delete-button :folderId="folderId"></folder-delete-button>
-    </div>
     <div>{{ folderId }}</div>
     <div>{{ folderData }}</div>
+
+    <folder-header :folderData="folderData"/>
 
     <div class="row q-pa-md items-start q-gutter-md">
       <template 
@@ -25,11 +23,10 @@ import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import FolderUrlCard from 'src/components/cards/FolderUrlCard.vue'
-import FolderName from 'src/components/FolderName.vue'
-import FolderDeleteButton from 'src/components/buttons/FolderDeleteButton.vue'
+import FolderHeader from 'src/components/FolderHeader.vue'
 
 export default {
-  components: { FolderUrlCard, FolderName, FolderDeleteButton },
+  components: { FolderUrlCard, FolderHeader },
   setup() {
     const $route = useRoute()
     const $store = useStore()

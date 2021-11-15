@@ -2,6 +2,8 @@ import { route } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
 
+let vueRouter = null;
+
 export default route(function ({ store }) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
@@ -29,6 +31,9 @@ export default route(function ({ store }) {
     }
   })
 
+  vueRouter = Router
 
   return Router
 })
+
+export { vueRouter }
