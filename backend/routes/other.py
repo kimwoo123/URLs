@@ -48,21 +48,21 @@ async def folders():
         {
         "folder_id": "hello1",
         "folder_name": "folder1",
-        "shared": false
+        "shared": 'false'
         },
         {
         "folder_id": "hello2",
         "folder_name": "folder1",
-        "shared": false
+        "shared": 'false'
         },
         {
         "folder_id": "hello3",
         "folder_name": "folder1",
-        "shared": false
+        "shared": 'false'
         },
         {
         "folder_id": "hello4",
         "folder_name": "folder1",
-        "shared": false
+        "shared": 'false'
         }
     ]
