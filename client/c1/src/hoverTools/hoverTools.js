@@ -138,7 +138,17 @@ function onChangeColorBtnClicked() {
 function onShareBtnClicked() {
   chrome.runtime.sendMessage({action: 'serverCheck'}, response => {
     if (response.result) {
-      chrome.runtime.sendMessage({action: 'tokenCheck'});
+      chrome.runtime.sendMessage({action: 'tokenCheck'}, response1 => {
+        const highlightId = currentHighlightEl.getAttribute(
+          'data-highlight-id',
+        );
+        const highlights = $(
+          `.highlighter--highlighted[data-highlight-id='${highlightId}']`,
+        );
+        const highlightText = Array.from(highlights)
+          .map(el => el.textContent.replace(/\s+/gmu, ' '))
+          .join('');
+      });
     } else {
       chrome.runtime.sendMessage({action: 'error'});
     }

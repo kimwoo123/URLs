@@ -36,6 +36,20 @@
               </el-option-group>
             </el-select>
           </el-form-item>
+          <el-form-item label="저장 폴더 선택">
+            <el-select v-model="total" placeholder="저장할 폴더를 선택해주세요">
+              <el-option-group label="나의 폴더들">
+                <el-option
+                  v-for="folder in folders"
+                  :key="folder.folder_name"
+                  :label="folder.folder_name"
+                  :value="folder"
+                >
+                  <span style="float: left">{{ folder.folder_name }}</span>
+                </el-option>
+              </el-option-group>
+            </el-select>
+          </el-form-item>
         </el-form>
         <el-button
           :type="saved ? 'success' : 'primary'"
@@ -78,15 +92,27 @@ export default {
       serviceTypes: CATEGORY,
       saved: false,
       net_false: false,
+      token: '',
+      total: null,
+      folders: [],
     };
   },
 
   computed: {
-    ...mapGetters(['getToken', 'getUsername']),
+    ...mapGetters([
+      'getToken',
+      'getUsername',
+      'getBasic',
+      'getBasicFolderName',
+    ]),
   },
 
   methods: {
-    initComponent() {},
+    initComponent() {
+      this.total = this.$store.getters.getBasicFolderName;
+      this.folders = this.$store.getters.getFolders;
+      this.token = this.$store.getters.getToken;
+    },
     async inject() {
       const response = await mainApi.inject();
       if (response.status === 200) {
@@ -95,8 +121,32 @@ export default {
         this.net_false = true;
       }
     },
+    saveBasic() {
+      this.save(
+        {
+          basic: this.total.folder_id,
+          basic_folder_name: this.total.folder_name,
+        },
+        'updated',
+      );
+      console.log(`이것이 기본 폴더 입니다 ${this.getBasic}`);
+    },
+    async getServerFolders() {
+      const response = await mainApi.getFolders(this.token);
+      if (response && response.status === 200) {
+        console.log('폴더를 불러왔습니다.');
+        this.folders = response.data;
+        this.save({
+          folders: response.data,
+        });
+      } else {
+        console.log('폴더를 불러오지 못했습니다.');
+      }
+    },
   },
-
+  mounted() {
+    this.getServerFolders();
+  },
   mixins: [mixin],
 };
 </script>

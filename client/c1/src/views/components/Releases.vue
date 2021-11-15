@@ -3,8 +3,8 @@
     <el-row>
       <el-timeline>
         <el-timeline-item
-          v-for="release in releases"
-          :key="release.id"
+          v-for="(release, index) in releases"
+          :key="index"
           :timestamp="$dayjs(release.created_at).format('YYYY-MM-DD')"
           placement="top"
         >
