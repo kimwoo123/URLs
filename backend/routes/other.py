@@ -42,3 +42,22 @@ async def notifications():
             'description': '조금 더 향상된 검색을 할 수 있습니다.'
         },
     ]
+@other.get('/other')
+async def notifications():
+    return [
+        {
+        "folder_id": "hello1",
+        "folder_name": "folder1",
+        "shared": false
+        },
+        {
+        "folder_id": "hello2",
+        "folder_name": "folder1",
+        "shared": false
+        },
+        {
+        "folder_id": "hello3",
+        "folder_name": "folder1",
+        "shared": false
+        }
+    ]
