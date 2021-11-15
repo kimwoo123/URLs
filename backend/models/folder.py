@@ -23,13 +23,23 @@ class UserIn(BaseModel):
 
 
 
-class Url(BaseModel):
+class UrlIn(BaseModel):
     url: HttpUrl
-    added_by: User
-    thumbnail: Optional[HttpUrl]
     tags: List[str] = []
-    memos_id: PyObjectId
+    class Config:
+        schema_extra = {
+            "example": {
+                "url": "https://www.naver.com/",
+                "tags": [],
+            }
+        }
 
+
+class UrlInDB(UrlIn):
+    title: Optional[str]
+    thumbnail: Optional[HttpUrl]
+    added_by: User
+    memos_id: PyObjectId
     class Config:
         arbitrary_types_allowed = True
         json_encoders = {
@@ -37,21 +47,7 @@ class Url(BaseModel):
         }
 
 
-class UrlIn(BaseModel):
-    url: HttpUrl
-    thumbnail: Optional[HttpUrl]
-    tags: List[str] = []
-    class Config:
-        schema_extra = {
-            "example": {
-                "url": "https://www.naver.com/",
-                "thumbnail": "https://via.placeholder.com/200.jpg",
-                "tags": [],
-            }
-        }
-
-
-class UrlInDB(Url):
+class Url(UrlInDB):
     pass
 
 

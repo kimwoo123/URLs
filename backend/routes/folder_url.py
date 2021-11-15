@@ -8,8 +8,9 @@ from fastapi.encoders import jsonable_encoder
 from bson import ObjectId
 from pymongo import ReturnDocument
 from .token import get_current_user
-import re
-from pprint import pprint
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+
 
 folder_url = APIRouter()
 
@@ -91,11 +92,23 @@ async def create_folder_url(folder_id, url_in: UrlIn, current_user: User = Depen
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
     
     await tag_count_increase(url_in.tags, user_id=current_user["_id"])
+    
+    html = urlopen(url_in.url)
+    bsObject = BeautifulSoup(html, "html.parser")
+    if bsObject.head:
+        title = bsObject.head.title.text
+        og_image = bsObject.head.find("meta", {"property": "og:image"})
+        if og_image:
+            og_image = og_image.get("content")
+    else:
+        title = og_image = None
 
     tmp = db.memo.insert_one(jsonable_encoder(Memos()))
     url = UrlInDB(
         **url_in.dict(), 
         added_by=User(**current_user),
+        title=title,
+        thumbnail=og_image,
         memos_id=tmp.inserted_id
     )
     folder = db.folder.find_one_and_update(
@@ -108,13 +121,13 @@ async def create_folder_url(folder_id, url_in: UrlIn, current_user: User = Depen
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {folder_id} not found")
 
 
-@folder_url.put('/folder/{folder_id}/url', summary="폴더 내 특정 url을 찾아, 해당 url의 썸네일, 태그 수정")
+@folder_url.put('/folder/{folder_id}/url', summary="폴더 내 특정 url을 찾아, 해당 url의 태그 수정")
 async def update_folder_url(folder_id, url_in: UrlIn, current_user: User = Depends(get_current_user)):
     if db.folder.find_one({"_id": ObjectId(folder_id), "users.email": current_user["email"]}):
         old_folder = db.folder.find_one({"_id": ObjectId(folder_id), "urls.url": url_in.url}, {"urls.$":1})
         folder = db.folder.find_one_and_update(
             {"_id": ObjectId(folder_id), "urls.url": url_in.url}, 
-            {"$set": {"urls.$.thumbnail": url_in.thumbnail, "urls.$.tags": url_in.tags}},
+            {"$set": {"urls.$.tags": url_in.tags}},
             return_document=ReturnDocument.AFTER
         )
         if folder is not None:
