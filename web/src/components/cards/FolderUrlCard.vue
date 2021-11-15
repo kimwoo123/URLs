@@ -30,12 +30,10 @@
 
 <script>
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
 
 export default {
   props: ['urlItem'],
   setup(props) {
-    const $route = useRoute()
     const $store = useStore()
 
     const avatarUrl = $store.state.user.avatar

@@ -11,8 +11,8 @@ export function folderDetail(folderId) {
 }
 
 // 폴더 명 변경
-export function folderPut(folderId) {
-  return api.put(`/folder/${folderId}`)
+export function folderPut(folderData) {
+  return api.put(`/folder/${folderData.id}`, folderData)
 }
 
 // 폴더 삭제
