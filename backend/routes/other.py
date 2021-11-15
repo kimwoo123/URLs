@@ -59,5 +59,10 @@ async def notifications():
         "folder_id": "hello3",
         "folder_name": "folder1",
         "shared": false
+        },
+        {
+        "folder_id": "hello4",
+        "folder_name": "folder1",
+        "shared": false
         }
     ]
