@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 other = APIRouter()
 
-@other.get('/other/folders')
+@other.get('/other')
 async def notifications():
     return [
         {
