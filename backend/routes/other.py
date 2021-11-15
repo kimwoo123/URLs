@@ -42,8 +42,8 @@ async def notifications():
             'description': '조금 더 향상된 검색을 할 수 있습니다.'
         },
     ]
-@other.get('/other')
-async def notifications():
+@other.get('/other/folders')
+async def folders():
     return [
         {
         "folder_id": "hello1",
