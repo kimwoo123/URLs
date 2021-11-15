@@ -27,7 +27,6 @@
 <script>
 import { useRoute } from 'vue-router'
 import { ref, watch } from 'vue'
-import axios from 'axios'
 import FolderUrlCard from 'src/components/cards/FolderUrlCard.vue'
 import { useStore } from 'vuex'
 
@@ -45,13 +44,8 @@ export default {
     const selectUrl = ref('')
 
     const createUrl = () => {
-      axios.post(`http://localhost:8000/folder/${route.params.id}/url`, { url: selectUrl, thumbnail: "https://via.placeholder.com/200.jpg"})
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+      let urlData = { url: selectUrl.value, folderId: route.params.id}
+      $store.dispatch('urls/CREATE_URL', urlData)
     }
 
     const tagUrl = (tag) => {

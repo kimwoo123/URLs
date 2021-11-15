@@ -57,6 +57,7 @@ export function urlPut(folderId, urlData) {
 
 // 폴더 내 새로운 url 생성
 export function urlCreate(folderId, urlData) {
+  console.log(folderId, urlData)
   return api.post(`/folder/${folderId}/url`, urlData)
 }
 

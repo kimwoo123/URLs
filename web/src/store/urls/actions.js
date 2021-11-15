@@ -15,7 +15,7 @@ export async function GET_ALL_URL({ commit }) {
     }) 
 }
 
-export async function GET_FOLDER_ULR({ commit }, folderId) {
+export async function GET_FOLDER_URL({ commit }, folderId) {
   await urls.folderDetail(folderId)
     .then(async (result) => {
       const urls = result.data.urls
@@ -63,4 +63,11 @@ export async function DELETE_URL_MEMO({ commit }, memoData) {
       commit('setUrlMemo', result.data.memos)
     })
 
+}
+
+export async function CREATE_URL({ commit }, urlData) {
+  await urls.urlCreate(urlData.folderId, urlData)
+  .then(async (result) => {
+    commit('createUrl', result.data)
+  })
 }
