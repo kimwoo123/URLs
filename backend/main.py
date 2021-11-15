@@ -22,7 +22,7 @@ tags_metadata = [
     },
     {
         "name": "folder/url",
-        "description": "폴더 url 관련 CUD (폴더 url, tag, thumbnail)",
+        "description": "폴더 url 관련 CUD (폴더 url, tag)",
     },
     {
         "name": "memo",
