@@ -29,12 +29,14 @@ import { useRoute } from 'vue-router'
 import { ref, watch } from 'vue'
 import axios from 'axios'
 import FolderUrlCard from 'src/components/cards/FolderUrlCard.vue'
+import { useStore } from 'vuex'
 
 const stringOptions = ['검색어를 입력해주세요.']
 
 export default {
   components: { FolderUrlCard },
   setup () {
+    const $store = useStore()
     const route = useRoute()
     const options = ref(stringOptions)
     const searchResult = ref([])
@@ -57,27 +59,10 @@ export default {
     }
 
     watch(selectTag, (val) => {
-      setTimeout(() => {
-          if (val === '') {
-            searchResult.value = stringOptions
-          }
-          else {
-              return new Promise((resolve) => {
-                searchResult.value = []
-                searchPage.value = []
-                // axios.get(`http://localhost:8000/search?searchText=${val}&folder=${route.params.id}`)
-                axios.get(`http://localhost:8000/search?searchText=${val}&folder=6189d1da95bd3eee5ab6aa5b`)
-                .then((res) => {
-                  res.data[0]._source.urls.map((pageInfo) => {
-                    searchPage.value.push(pageInfo)
-                    pageInfo.tags.map((tag) => {
-                      searchResult.value.push(tag)
-                    })
-                  })
-                })
-              })
-            }
-      }, 700)
+      if (val !== '') {
+        let queryData = { searchText: val, folderId: route.params.id }
+        $store.dispatch('recommend/SEARCH_TAG', queryData)
+      }
     })
     return {
       searchResult,
