@@ -1,10 +1,10 @@
 package com.keelim.free.ui.main.dash
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -20,9 +20,9 @@ import showToast
 
 @AndroidEntryPoint
 class DashFragment : Fragment() {
-    private var _binding:FragmentDashBinding? = null
+    private var _binding: FragmentDashBinding? = null
     private val binding get() = _binding!!
-    private val viewModel:DashViewModel by viewModels()
+    private val viewModel: DashViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,9 +39,9 @@ class DashFragment : Fragment() {
         observeState()
     }
 
-    private fun initViews() = with(binding){
+    private fun initViews() = with(binding) {
         searchBar.setOnClickListener {
-            findNavController().navigate(R.id.searchDetailFragment)
+            findNavController().navigate(R.id.searchFragment)
         }
     }
 
@@ -51,16 +51,18 @@ class DashFragment : Fragment() {
     }
 
     private fun observeState() = lifecycleScope.launch {
-        repeatOnLifecycle(Lifecycle.State.STARTED){
+        repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.state.collect {
-                when(it){
-                    is DashState.Error -> {}
+                when (it) {
+                    is DashState.Error -> {
+                    }
                     is DashState.Loading -> requireActivity().showToast("로딩 중입니다.")
                     is DashState.Success -> {
                         binding.descSection1.text = it.data.memos.toString()
                         binding.descSection2.text = it.data.folders.toString()
                     }
-                    is DashState.UnInitialized -> {}
+                    is DashState.UnInitialized -> {
+                    }
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.keelim.free.initializer;
+package com.keelim.free.initializer
 
 import android.content.Context
 import androidx.startup.Initializer

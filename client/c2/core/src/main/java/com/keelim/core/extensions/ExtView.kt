@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat.JPEG
 import android.graphics.Color
-import android.graphics.Color.alpha
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.BitmapDrawable
@@ -362,8 +361,9 @@ fun View.drawToBitmap(@Px extraPaddingBottom: Int = 0): Bitmap {
     if (!ViewCompat.isLaidOut(this)) {
         throw IllegalStateException("View needs to be laid out before calling drawToBitmap()")
     }
-    return Bitmap.createBitmap(width, height + extraPaddingBottom, Bitmap.Config.ARGB_8888).applyCanvas {
-        translate(-scrollX.toFloat(), -scrollY.toFloat())
-        draw(this)
-    }
+    return Bitmap.createBitmap(width, height + extraPaddingBottom, Bitmap.Config.ARGB_8888)
+        .applyCanvas {
+            translate(-scrollX.toFloat(), -scrollY.toFloat())
+            draw(this)
+        }
 }

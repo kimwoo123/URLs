@@ -29,4 +29,23 @@
     <color name="orange">#F83C00</color>
     <color name="orange_w">#FFAB91</color>
     <color name="bg_orange">#FFAD03</color>
+
+    <!--theme colors-->
+    <color name="owl_yellow_200">#ffeb46</color>
+    <color name="owl_yellow_400">#ffc000</color>
+    <color name="owl_yellow_500">#ffde03</color>
+    <color name="owl_yellow_dark_primary">#242316</color>
+
+    <color name="owl_blue_200">#91a4fc</color>
+    <color name="owl_blue_700">#0336ff</color>
+    <color name="owl_blue_800">#0035c9</color>
+    <color name="owl_blue_dark_primary">#1c1d24</color>
+
+    <color name="owl_pink_200">#ff7597</color>
+    <color name="owl_pink_500">#ff0266</color>
+    <color name="owl_pink_600">#d8004d</color>
+    <color name="owl_pink_dark_primary">#24191c</color>
+
+    <color name="immersive_sys_ui">#33000000</color>
+    <color name="nav_bar">@color/immersive_sys_ui</color>
 </resources>

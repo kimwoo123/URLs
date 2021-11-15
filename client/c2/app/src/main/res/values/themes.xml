@@ -19,7 +19,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.Free.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
+    <style name="URLS">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/owl_blue_800</item>
+        <item name="colorSecondary">@color/owl_yellow_500</item>
+        <item name="colorSecondaryVariant">@color/owl_yellow_400</item>
+    </style>
 
     <style name="Theme.Free.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 

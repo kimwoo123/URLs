@@ -124,6 +124,12 @@ dependencies {
     implementation("com.github.fornewid:neumorphism:0.3.0")
     implementation("org.jsoup:jsoup:1.13.1")
     implementation("com.mocklets:pluto:1.1.1")
+
+    debugImplementation("com.facebook.flipper:flipper:0.119.0")
+    debugImplementation("com.facebook.soloader:soloader:0.10.1")
+
+    releaseImplementation("com.facebook.flipper:flipper-noop:0.119.0")
+
 }
 
 kapt {

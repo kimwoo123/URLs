@@ -120,13 +120,15 @@ class MenuActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController(), appBarConfiguration)
         binding.navView.setupWithNavController(navController())
-        navController().addOnDestinationChangedListener{ _, destination, _ ->
-            when(destination.id){
+        navController().addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
                 R.id.nav_home -> {
-                    barBinding.appbarLayout.visibility = View.VISIBLE
+                    barBinding.searchBar.visibility = View.VISIBLE
+                    barBinding.titleToolbar.visibility = View.INVISIBLE
                 }
-                else ->{
-                    barBinding.appbarLayout.visibility = View.GONE
+                else -> {
+                    barBinding.searchBar.visibility = View.INVISIBLE
+                    barBinding.titleToolbar.visibility = View.VISIBLE
                 }
             }
         }

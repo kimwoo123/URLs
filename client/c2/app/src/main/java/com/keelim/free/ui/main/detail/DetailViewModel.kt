@@ -16,7 +16,7 @@ class DetailViewModel @Inject constructor(
     private val _state: MutableStateFlow<DataState> = MutableStateFlow(DataState.UnInitialized)
     val state: MutableStateFlow<DataState> = _state
 
-    fun init(folder:String) = viewModelScope.launch {
+    fun init(folder: String) = viewModelScope.launch {
         _state.emit(DataState.Loading)
         runCatching {
             urlUseCase.getFolder(folder)
