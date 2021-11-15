@@ -6,3 +6,7 @@ export function folderUrls(state) {
 export function isUrlMemoOpen(state) {
   return state.urlMemoOpen
 }
+
+export function folderNow(state) {
+  return state.folderNow
+}
