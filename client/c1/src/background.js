@@ -1,3 +1,5 @@
+const baseURL = 'http://k5b201.p.ssafy.io:4000';
+
 chrome.contextMenus.create({
   title: 'Urls에서 관리하기',
   onclick: () => {
@@ -37,13 +39,54 @@ async function getFromStorage(key) {
     .catch(error => error);
 }
 
-async function serverCheck() {
-  const baseURL = 'http://k5b201.p.ssafy.io:4000';
-  const config = {
-    method: 'GET',
-    headers: {'Content-Type': 'application/json;'},
+function providePostConfig(token, payload) {
+  return {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
   };
-  return fetch(`${baseURL}/user`, config)
+}
+
+function provideGetConfig(token) {
+  return {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json;',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+}
+
+async function serverCheck(token) {
+  return fetch(`${baseURL}/user`, provideGetConfig(token))
+    .then(result => result)
+    .catch(error => error);
+}
+
+async function newUrl(token, basic, url) {
+  return fetch(
+    `${baseURL}/folder/${basic}/url`,
+    providePostConfig(token, {
+      url,
+      thumbnail: '',
+      tags: [],
+    }),
+  )
+    .then(result => result)
+    .catch(error => error);
+}
+
+async function newMemo(token, basic, message) {
+  return fetch(
+    `${baseURL}/folder/${basic}/url`,
+    providePostConfig(token, {
+      highlight: message,
+      content: message,
+    }),
+  )
     .then(result => result)
     .catch(error => error);
 }
@@ -51,22 +94,31 @@ async function serverCheck() {
 // 백그라운드 로직 처리 => 비동기적인 상황(promise)
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
   if (request.action) {
+    const token = await getFromStorage('token');
+    const basic = await getFromStorage('basic');
     if (request.action === 'highlight') {
       chrome.tabs
         .executeScript({file: 'contentScripts/highlight.js'})
         .then(result => result);
     } else if (request.action === 'serverCheck') {
-      const response = await serverCheck();
-      const status = response.status === 200 ? 'Live' : 'Dead';
-      alert(`Server status${status}`);
+      const response = await serverCheck(token);
+      alert(`Server status ${response.status === 200 ? 'Live' : 'Dead'}`);
       sendResponse({result: response.status === 200});
     } else if (request.action === 'tokenCheck') {
-      const token = await getFromStorage('token');
       alert(token);
       if (token) {
         sendResponse({result: true, token});
       } else {
         sendResponse({result: false, token: ''});
+      }
+    } else if (request.action === 'share') {
+      const {message} = request;
+      const response = await newUrl(token, basic, message);
+      if (response.status === 200) {
+        const memoResponse = await newMemo(token, basic, message);
+        sendResponse({result: memoResponse.status === 200});
+      } else {
+        sendResponse({result: response.status === 200});
       }
     } else if (request.action === 'error') {
       alert('서버와 통신이 잡히지 않아 공유하기가 힘듭니다.');
