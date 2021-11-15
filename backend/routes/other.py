@@ -6,6 +6,12 @@ other = APIRouter()
 async def notifications():
     return [
         {
+            'version': 'v0.0.6',
+            'date': '2021-11-15',
+            'title': '크롬 익스텐션 업데이트',
+            'description': '크롬 익스텐션을 업데이트 하였습니다.'
+        },
+        {
             'version': 'v0.0.5',
             'date': '2021-11-12',
             'title': '정식으로 오픈합니다.',
