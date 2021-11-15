@@ -1,12 +1,11 @@
 <template>
   <main>
-    <h1>추천추천</h1>
-    <AutoComplete></AutoComplete>
+    <auto-complete></auto-complete>
   </main>
 </template>
 
 <script>
-import AutoComplete from '../../components/AutoComplete.vue'
+import AutoComplete from 'src/components/AutoComplete.vue'
 
 export default {
   components: { AutoComplete }

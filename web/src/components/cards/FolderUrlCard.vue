@@ -20,6 +20,11 @@
       <img :src="urlItem.thumbnail">
       <q-card-section>
         <div>타이틀</div>
+        <span v-for="(tag, index) in urlItem.tags" :key="index">
+          <span>
+            {{ tag }}&nbsp;&nbsp;
+          </span>
+        </span>
         <div class="text-caption text-grey">내용물</div>
         <div></div>
         <div>{{ urlItem.url}}</div>

@@ -53,7 +53,6 @@ export async function CREATE_URL_MEMO({ commit }, memoData) {
 export async function PUT_URL_MEMO({ commit }, memoData) {
   await urls.memoPut(memoData)
     .then(async (result) => {
-      console.log(result)
       commit('setUrlMemo', result.data.memos)
     })
 }
