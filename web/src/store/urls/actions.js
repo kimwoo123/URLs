@@ -1,4 +1,5 @@
 import { urls } from 'src/api/index'
+import { vueRouter } from 'src/router'
 
 export async function GET_FOLDER({ commit }) {
   await urls.folderAll()
@@ -11,7 +12,7 @@ export async function GET_FOLDER({ commit }) {
 export async function GET_ALL_URL({ commit }) {
   await urls.urlFindAll()
     .then(async (result) => {
-      console.log('urls 결과', result.data)
+      console.log('모든 urls 결과', result.data)
     }) 
 }
 
@@ -28,12 +29,13 @@ export async function GET_FOLDER_ULR({ commit }, folderId) {
     })
 }
 
-export async function CREATE_FOLDER({ commit, dispatch }, folderData) {
+export async function CREATE_FOLDER({ commit, dispatch, getters }, folderData) {
   await urls.folderCreate(folderData)
     .then((result) => {
       dispatch('GET_FOLDER')
       commit('setUrl', result.data.urls)
       commit('setFolderNow', result.data)
+      vueRouter.push({ name: 'MyFolder', params: { folder_id: getters.folderNow._id } })
     })
 }
 
@@ -48,7 +50,6 @@ export async function PUT_FOLDER_NAME({ commit, dispatch }, folderData) {
 export async function DELETE_FOLDER({ commit, dispatch }, folderId) {
   await urls.folderDelete(folderId)
     .then(async (result) => {
-      console.log(result)
       dispatch('GET_FOLDER')
       commit('setUrl', [])
       commit('setFolderNow', {})
