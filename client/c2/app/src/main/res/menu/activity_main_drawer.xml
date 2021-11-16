@@ -13,5 +13,10 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/menu_personal" />
+
+        <item
+            android:id="@+id/serviceFragment"
+            android:icon="@drawable/gitlab"
+            android:title="서비스 이동하기" />
     </group>
 </menu>

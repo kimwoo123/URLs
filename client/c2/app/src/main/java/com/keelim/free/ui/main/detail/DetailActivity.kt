@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.keelim.data.model.DataState
 import com.keelim.free.databinding.ActivityDetailBinding
+import com.keelim.free.ui.main.detail.memo.MemoFragment
 import com.keelim.free.util.SpringAddItemAnimator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -25,9 +26,15 @@ class DetailActivity : AppCompatActivity() {
     private val viewModel: DetailViewModel by viewModels()
     private val folderID by lazy { intent.getStringExtra("folder") }
     private val detailAdapter by lazy {
-        DetailAdapter {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it.url)))
-        }
+        DetailAdapter(
+            click_move = {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it.url)))
+            },
+            click_memo = {
+                MemoFragment(it).show(supportFragmentManager, "memo")
+            },
+            this
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

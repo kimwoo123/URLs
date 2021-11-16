@@ -32,7 +32,7 @@ class SplashActivity : ComponentActivity() {
         if (checkFirst.not()) {
             val editor = pref.edit().apply {
                 putBoolean("checkFirst", true)
-                apply()
+                commit()
             }
             startActivity(Intent(this, TutorialActivity::class.java))
             finish()

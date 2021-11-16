@@ -16,12 +16,13 @@ import androidx.navigation.ui.setupWithNavController
 import coil.load
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
-import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.keelim.free.R
 import com.keelim.free.databinding.ActivityMenuBinding
 import com.keelim.free.databinding.AppBarMenuBinding
 import com.keelim.free.databinding.NavHeaderMenuBinding
-import com.keelim.free.ui.main.open.OpenActivity
+import com.keelim.free.ui.main.inject.InjectFragment2
 import com.keelim.free.ui.main.search.SearchResultsActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,6 +37,10 @@ class MenuActivity : AppCompatActivity() {
     private val barBinding: AppBarMenuBinding by lazy {
         AppBarMenuBinding.bind(binding.appBarMenu.root)
     }
+
+    private val auth by lazy { Firebase.auth.currentUser!!}
+
+    private lateinit var injectFragment2: InjectFragment2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,14 +100,13 @@ class MenuActivity : AppCompatActivity() {
     }
 
     private fun initViews() = with(binding) {
-        headerBinding.imageView.load("https://avatars.githubusercontent.com/u/26667456?v=4")
-
-        appBarMenu.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-            startActivity(Intent(this@MenuActivity, OpenActivity::class.java))
+        injectFragment2 = InjectFragment2.show(supportFragmentManager, R.id.view_bottom_sheet)
+        with(headerBinding){
+            imageView.load(auth.photoUrl)
+            headerUsername.text = auth.displayName
+            headerEmail.text = auth.email
         }
-
+        
         val radius = 128f
         val navViewBackground = binding.navView.background as MaterialShapeDrawable
         navViewBackground.shapeAppearanceModel = navViewBackground.shapeAppearanceModel

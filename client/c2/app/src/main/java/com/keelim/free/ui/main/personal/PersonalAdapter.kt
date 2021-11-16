@@ -16,6 +16,9 @@ class PersonalAdapter(
     inner class ViewHolder(private val binding: ItemFolderBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Folder) = with(binding) {
+            accept.setOnClickListener {
+                click(item)
+            }
             root.setOnLongClickListener {
                 longClick(item)
                 return@setOnLongClickListener true
