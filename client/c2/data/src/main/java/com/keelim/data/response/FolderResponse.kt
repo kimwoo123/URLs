@@ -26,7 +26,7 @@ data class FolderResponse(
         @Json(name = "tags")
         var tags: List<String>,
         @Json(name = "thumbnail")
-        var thumbnail: String, // https://via.placeholder.com/200.jpg
+        var thumbnail: String?, // https://via.placeholder.com/200.jpg
         @Json(name = "url")
         var url: String // https://www.naver.com/
     ) {

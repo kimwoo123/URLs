@@ -1,6 +1,7 @@
 package com.keelim.free.ui.setting
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -50,12 +51,10 @@ class AboutFragment : Fragment() {
                 releaseChannelTextView.text = getString(R.string.alpha)
             }
         }
-        github.setOnClickListener {
-            Intent(Intent.ACTION_VIEW).apply {
-//                findNavController().navigate(
-//                    AboutFragmentDirections.actionAboutFragmentToWebFragment(getString(R.string.github))
-//                )
-            }
+        gitlab.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW).apply {
+                Uri.parse(getString(R.string.git_lab_address))
+            })
         }
 
         openSourceLicensesCard.setOnClickListener {

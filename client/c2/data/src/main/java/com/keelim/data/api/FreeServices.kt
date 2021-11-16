@@ -3,6 +3,7 @@ package com.keelim.data.api
 import com.keelim.data.model.auth.User
 import com.keelim.data.model.open.Url
 import com.keelim.data.response.FolderResponse
+import com.keelim.data.response.MemoResponse
 import com.keelim.data.response.MyUrlResponse
 import com.keelim.data.response.URLResponse
 import com.keelim.data.response.notification.NotificationResponse
@@ -13,39 +14,38 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface FreeServices {
-    @Headers("Content-Type: application/json")
     @POST("other1")
     fun share(token: String): Response<List<Url>>
 
-    @Headers("Content-Type: application/json")
     @POST("other1")
     fun inject(): Response<Any>
 
-    @Headers("Content-Type: application/json")
     @GET("notifications")
     fun getNotificationList(userId: Int): Response<List<NotificationResponse>>
 
-    @Headers("Content-Type: application/json")
     @POST("submitUrl")
     fun submitUrl(token: String, url: String): Response<Any>
 
-    @Headers("Content-Type: application/json")
     @GET("/token/me")
     suspend fun tokenCheck(): Response<User>
 
-    @Headers("Content-Type: application/json")
     @GET("/folder/me")
     suspend fun allFolder(): Response<List<URLResponse>>
 
-    @Headers("Content-Type: application/json")
     @GET("/folder/{id}")
     suspend fun getFolder(
         @Path("id") id: String
     ): Response<FolderResponse>
 
-    @Headers("Content-Type: application/json")
     @GET("/folder/url/me")
     suspend fun folderUrl(): Response<List<MyUrlResponse>>
+
+    @GET("/memo/{id}")
+    suspend fun getMemos(
+        @Path("id") id:String
+    ): Response<MemoResponse>
+
+
 
 //
 //  @Headers("Content-Type: application/json")
