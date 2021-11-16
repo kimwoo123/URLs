@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="q-pa-md text-h6">
+    <div class="text-h6">
       <q-item>
         <q-item-section avatar>
           <q-icon name="folder" />
@@ -47,6 +47,8 @@
       </q-item>
     </div>
 
+    <folder-user-button :folderData="folderData"/>
+
     <q-dialog v-model="alert">
       <q-card>
         <q-card-section class="row items-center">
@@ -68,8 +70,10 @@ import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
+import FolderUserButton from './buttons/folderUserButton.vue'
 
 export default {
+  components: { FolderUserButton },
   props: ['folderData'],
   setup(props) {
     const $store = useStore()
