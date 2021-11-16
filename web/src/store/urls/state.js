@@ -5,6 +5,6 @@ export default function () {
     urls: [],
     urlMemoOpen: false,
     memos: [],
-    selectedMemoId: ''
+    selectedMemoId: '',
   }
 }
