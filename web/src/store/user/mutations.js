@@ -38,3 +38,13 @@ export function setUserEmail(state, useremail) {
 export function clearUserEmail(state) {
   state.useremail = ''
 }
+
+export function getUserCategories(state, categories) {
+  localStorage.setItem('categories', JSON.stringify(categories))
+  state.categories = categories
+}
+
+export function clearUserCategories(state) {
+  localStorage.clear()
+  state.categories = {}
+}
