@@ -1,12 +1,50 @@
 <template>
   <main>
-    <h1>하이 우리 폴더</h1>
+    <folder-header :folderData="folderData" v-if="folderId"/>
+    <div class="row q-pa-md items-start q-gutter-md">
+      <template 
+        v-for="urlItem in folderData.urls" 
+        :key="urlItem.memos_id"
+        class="col-xs-12 col-sm-6 col-md-4"
+      >
+        <folder-url-card :urlItem="urlItem"/>
+      </template>
+    </div>
+
   </main>
 </template>
 
 <script>
-export default {
+import { computed, watch } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
+import FolderUrlCard from 'src/components/cards/FolderUrlCard.vue'
+import FolderHeader from 'src/components/FolderHeader.vue'
 
+export default {
+  components: { FolderUrlCard, FolderHeader },
+  setup() {
+    const $route = useRoute()
+    const $store = useStore()
+
+    const folderId = computed({
+      get: () => {
+        $store.dispatch('urls/GET_FOLDER_ULR', $route.params.folder_id)
+        $store.dispatch('urls/CLOSE_MEMO')
+        return $route.params.folder_id
+        }
+    })
+
+    const folderData = computed({
+      get: () => $store.getters['urls/folderNow']
+    })
+
+
+    return {
+      folderId,
+      folderData
+    }
+  }
 }
 </script>
 

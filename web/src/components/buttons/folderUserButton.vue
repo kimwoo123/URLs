@@ -11,16 +11,22 @@
       <q-card>
         <q-card-actions align="between">
           <span>사용자 관리</span>
-          <q-btn flat icon="close" color="grey" v-close-popup />
+          <q-btn flat icon="close" color="grey" v-close-popup @click="resetForm"/>
         </q-card-actions>
 
         <q-separator/>
 
         <q-card-section>
           <span class="q-ml-sm">같이 폴더를 사용할 사용자의 이메일을 적어주세요.</span>
-          <q-form class="row q-gutter-md">
-            <q-input>
-            </q-input>
+          <q-form 
+            class="row q-gutter-md"
+            @submit="AddUser"
+          >
+            <q-input
+              autofocus
+              v-model="email" 
+              filled type="email"
+            />
               <q-select
                 borderless
                 color="primary" 
@@ -32,18 +38,24 @@
         </q-card-section>
 
         <q-card-section>
-          <div>user 리스트</div>
+          <div class="q-gutter-md">
+            <q-list>
+              <q-item v-ripple v-for="user in userList" :key="user.email">
+                <q-item-section avatar>
+                  <q-avatar>
+                    <img :src="user.avatar" alt="사용자 프로필 사진">
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>{{ user.nickname }}</q-item-section>
+                <q-item-section side v-if="user.permission.value === 2 ">{{ user.permission.label }}</q-item-section>
+                <q-item-section side v-if="user.permission.value !== 2">
+                  <folder-user-permission-select :user="user"/>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </div>
         </q-card-section>
 
-        <!-- <q-card-section class="row items-center">
-          <q-avatar icon="people" color="primary" text-color="white" size="24px"/>
-          <span class="q-ml-sm">같이 폴더를 사용할 사용자의 이메일을 적어주세요.</span>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn flat label="취소" color="primary" v-close-popup />
-          <q-btn flat label="삭제하기" color="primary" v-close-popup @click="AddUser"/>
-        </q-card-actions> -->
       </q-card>
     </q-dialog>
 
@@ -51,26 +63,51 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useQuasar } from 'quasar'
 import { useStore } from 'vuex'
+import folderUserPermissionSelect from '../select/folderUserPermissionSelect.vue'
 
 export default {
+  components: { folderUserPermissionSelect },
   props: ['folderData'],
   setup(props) {
     const $store = useStore()
     const isOpen = ref(false)
 
+    const userList = computed({
+      get: () => $store.getters['urls/folderNow'].users.map(x => {
+        let label = '읽기'
+        if (x.permission === 0) {
+          label = '읽기'
+        } else if (x.permission === 1) {
+          label = '편집'
+        } else {
+          label = '소유자'
+        }
+        const user = {
+          avatar : x.avatar,
+          email : x.email,
+          nickname: x.nickname,
+          permission : {
+            label: label,
+            value: x.permission
+          }
+        }
+        return user
+      })
+    })
+
     const email = ref('')
-    const selectedOption = ref({label: '읽기', value: '0'})
+    const selectedOption = ref({label: '읽기', value: 0})
     const options = [
       {
         label: '읽기',
-        value: '0',
+        value: 0,
       },
       {
-        label: '쓰기',
-        value: '1'
+        label: '편집',
+        value: 1
       }
     ]
 
@@ -78,16 +115,28 @@ export default {
       const folderUserData = {
         folder_id: props.folderData._id,
         email: email.value,
-        permission: '0'
+        permission: selectedOption.value.value
       }
+      $store.dispatch('urls/ADD_FOLDER_USER', folderUserData)
     }
+
+    const resetForm = () => {
+      console.log('리셋')
+      email.value = ''
+      selectedOption.value = {label: '읽기', value: 0}
+    }
+
+    watch(isOpen, resetForm)
+
     return {
       isOpen,
+      userList,
       email,
       selectedOption,
       options,
       
-      AddUser
+      AddUser,
+      resetForm
     }
   }
 
