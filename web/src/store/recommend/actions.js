@@ -7,11 +7,14 @@ export async function SEARCH_TAG({ commit }, queryData) {
   })
 }
 
-export async function RECOMMEND_TAG({ commit, dispatch }, recommendData) {
+export async function RECOMMEND_TAG({ commit }, recommendData) {
   await search.recommendTag(recommendData)
   .then(async (result) => {
     recommendData.tags = result.data
     await commit('setRecommendTag', result.data)
-    // await dispatch('urls/CREATE_URL', recommendData, { root: true })
   })
+}
+
+export async function DELETE_RECOMMEND_TAG({ commit }) {
+  await commit('resetRecommendTag')
 }
