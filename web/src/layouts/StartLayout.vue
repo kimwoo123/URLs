@@ -25,5 +25,8 @@ export default {
 </script>
 
 <style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', Pretendard, Roboto, 'Noto Sans KR', 'Segoe UI', 'Malgun Gothic', sans-serif;
+}
 
 </style>
