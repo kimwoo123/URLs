@@ -7,7 +7,7 @@ export function setFolderNow(state, folder) {
 }
 
 export function setUrl(state, urls) {
-  state.urls = urls.urls;
+  state.urls = urls;
 }
 
 export function openMemo(state) {
@@ -28,4 +28,8 @@ export function setSelectedMemoId(state, memoId) {
 
 export function setSelectedMemoTitle(state, memoTitle) {
   state.selectedMemoTitle = memoTitle;
+}
+
+export function setSearchData(state, Data) {
+  state.searchData = Data;
 }

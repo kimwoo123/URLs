@@ -92,7 +92,7 @@ export default {
 
     const createUrl = () => {
       splitTags.value.delete('')
-      let urlData = { url: urlName.value, folderId: $route.params.folder_id, tags: Array.from(splitTags.value)}
+      let urlData = { url: urlName.value, folder_id: $route.params.folder_id, tags: Array.from(splitTags.value)}
       if (urlList.value.includes(urlName.value)) {
         $q.notify({
           type: 'negative',
