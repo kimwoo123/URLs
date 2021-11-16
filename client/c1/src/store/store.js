@@ -17,6 +17,9 @@ export const store = new Vuex.Store({
     fetchedReleases: [],
     photoURL: null,
     baseURL: 'https://k5b201.p.ssafy.io/',
+    basic: null,
+    basic_folder_name: '',
+    folders: [],
   },
 
   mutations: {},
@@ -67,6 +70,15 @@ export const store = new Vuex.Store({
     },
     getBaseUrl(state) {
       return state.baseURL;
+    },
+    getBasic(state) {
+      return state.basic;
+    },
+    getBasicFolderName(state) {
+      return state.basic_folder_name;
+    },
+    getFolders(state) {
+      return state.folders;
     },
   },
   actions: {},

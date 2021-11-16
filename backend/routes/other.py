@@ -6,6 +6,12 @@ other = APIRouter()
 async def notifications():
     return [
         {
+            'version': 'v0.0.6',
+            'date': '2021-11-15',
+            'title': '크롬 익스텐션 업데이트',
+            'description': '크롬 익스텐션을 업데이트 하였습니다.'
+        },
+        {
             'version': 'v0.0.5',
             'date': '2021-11-12',
             'title': '정식으로 오픈합니다.',
@@ -35,4 +41,28 @@ async def notifications():
             'title': '정식으로 엘라스틱 서치를 붙였습니다.',
             'description': '조금 더 향상된 검색을 할 수 있습니다.'
         },
+    ]
+@other.get('/other/folders')
+async def folders():
+    return [
+        {
+        "folder_id": "hello1",
+        "folder_name": "folder1",
+        "shared": 'false'
+        },
+        {
+        "folder_id": "hello2",
+        "folder_name": "folder1",
+        "shared": 'false'
+        },
+        {
+        "folder_id": "hello3",
+        "folder_name": "folder1",
+        "shared": 'false'
+        },
+        {
+        "folder_id": "hello4",
+        "folder_name": "folder1",
+        "shared": 'false'
+        }
     ]

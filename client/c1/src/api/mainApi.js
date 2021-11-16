@@ -61,21 +61,24 @@ export default {
       ],
     };
   },
-  signIn(token, email, nickname, avatar) {
-    const config = {
-      headers: {Authorization: `Bearer ${token}`},
+  provideConfig(token) {
+    return {
+      headers: {
+        'Content-Type': 'application/json;',
+        Authorization: `Bearer ${token}`,
+      },
     };
+  },
+  signIn(token, payload) {
     return axios
-      .post(
-        '/user',
-        {
-          email,
-          avatar,
-          nickname,
-        },
-        config,
-      )
+      .post('/user', payload, this.provideConfig(token))
       .then(res => res)
+      .catch(error => error);
+  },
+  getFolders(token) {
+    return axios
+      .get('/folder/me', this.provideConfig(token))
+      .then(result => result)
       .catch(error => error);
   },
 };

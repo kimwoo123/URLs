@@ -11,8 +11,8 @@
 
     <q-dialog v-model="isOpen">
         <q-card style="min-width: 350px">
-          <form @submit.prevent.stop="createNewFolder" @reset.prevent.stop="closeDialog">
-          
+          <form @submit.stop.prevent="createNewFolder" @reset.stop.prevent="closeDialog" >
+
           <q-card-section>
             <div class="text-h6">폴더 이름을 정해주세요.</div>
           </q-card-section>
@@ -22,9 +22,10 @@
               dense 
               v-model="folderName.value" 
               autofocus 
-              @keyup.enter="createNewFolder"
               :rules="[ ruleSameName, ruleMinWords, ruleMaxWords]"
+              @keyup.enter="createNewFolder"
             />
+            <q-input v-if="false"></q-input>
           </q-card-section>
 
           <q-card-actions align="right" class="text-primary">
@@ -77,7 +78,6 @@ export default {
       const folder_name = folderName.value.value
 
       if (folderNameList.value.includes(folder_name)) {
-        console.log(folderNameList.value)
         $q.notify({
           type: 'negative',
           message: '같은 폴더 이름을 사용할 수 없어요!'
@@ -97,8 +97,11 @@ export default {
           folder_name : folder_name
         }
         closeDialog()
-        console.log(folderData)
+        console.log('is open', isOpen)
         await $store.dispatch('urls/CREATE_FOLDER', folderData)
+        // console.log('폴더아이디', $store.getters['urls/folderNow.']._id)
+        closeDialog()
+        // $router.push({ name: 'MyFolder', params:{ folder_id : $store.getters['urls/folderNow._id']}})
       }
     }
 
@@ -118,7 +121,6 @@ export default {
       })
     }
 
-    
     const ruleMaxWords = (val) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
