@@ -16,11 +16,15 @@ KST = timezone('Asia/Seoul')
 memo = APIRouter()
 
 
-@memo.get('/memo/{memos_id}', summary="url에 달린 모든 메모(memos) 조회", response_model=MemosOut)
+@memo.get('/memo/{memos_id}', summary="url에 달린 모든 메모(memos) 조회")
 async def find_folder_url_memo(memos_id):
     memos = db.memo.find_one({"_id": ObjectId(memos_id)})
     if memos is not None:
-        return serializeDict(memos)
+        folder_urls = db.folder.find_one({"urls.memos_id": str(memos["_id"])}, {"urls.$": 1})
+        if folder_urls is not None:
+            memos["url_title"] = folder_urls["urls"][0]["title"]
+            return serializeDict(memos)
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"url title not found")
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"memo {memos_id} not found")
 
 
