@@ -47,7 +47,6 @@ export function folderCreateUser(folderUserData) {
 export function folderDeleteUser(folderUserData) {
   const userData = {
     email: folderUserData.email,
-    permission: null,
   }
   console.log(userData)
   return api.delete(`/folder/${folderUserData.folder_id}/user`, userData)

@@ -67,7 +67,10 @@ export function CLOSE_MEMO({ commit }) {
 export async function GET_URL_MEMO({ commit }, memoId) {
   await urls.memoAll(memoId)
     .then(async (result) => {
+      console.log(result)
+      console.log(result.data.url_title)
       commit('setSelectedMemoId', memoId)
+      commit('setSelectedMemoTitle', result.data.url_title)
       commit('setUrlMemo', result.data.memos)
     })
 }
