@@ -40,10 +40,10 @@
             <el-select v-model="total" placeholder="저장할 폴더를 선택해주세요">
               <el-option-group label="나의 폴더들">
                 <el-option
-                  v-for="folder in folders"
-                  :key="folder.folder_name"
+                  v-for="(folder, index) in folders"
+                  :key="index"
                   :label="folder.folder_name"
-                  :value="folder"
+                  :value="folder.folder_name"
                 >
                   <span style="float: left">{{ folder.folder_name }}</span>
                 </el-option>
@@ -111,10 +111,16 @@ export default {
     initComponent() {
       this.total = this.$store.getters.getBasicFolderName;
       this.folders = this.$store.getters.getFolders;
-      this.token = this.$store.getters.getToken;
     },
     async inject() {
-      const response = await mainApi.inject();
+      const token = await mainApi.getFromStorage('token');
+      const folderId = this.folders.filter(
+        folder => folder.folder_name === this.total,
+      )[0].folder_id;
+      const response = await mainApi.inject(token, folderId, {
+        url: this.url,
+        tags: [this.serviceType],
+      });
       if (response.status === 200) {
         this.saved = true;
       } else {
@@ -122,13 +128,14 @@ export default {
       }
     },
     saveBasic() {
-      this.save(
-        {
-          basic: this.total.folder_id,
-          basic_folder_name: this.total.folder_name,
-        },
-        'updated',
-      );
+      const payload = {
+        basic: this.folders.filter(
+          folder => folder.folder_name === this.total,
+        )[0].folder_id,
+        basic_folder_name: this.total,
+      };
+      this.save(payload, 'updated');
+      console.log(payload);
       console.log(`이것이 기본 폴더 입니다 ${this.getBasic}`);
     },
     async getServerFolders() {
