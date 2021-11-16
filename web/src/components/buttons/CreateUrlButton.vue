@@ -1,13 +1,6 @@
 <template>
   <main>
-    <q-item clickable v-ripple @click="openDialog">
-      <q-item-section avatar>
-        <q-icon name="create" />
-      </q-item-section>
-      <q-item-section>
-        url 추가하기
-      </q-item-section>
-    </q-item>
+    <q-btn flat round icon="create" @click="openDialog" size="13px" />
 
     <q-dialog v-model="isOpen">
         <q-card style="min-width: 350px">
@@ -19,11 +12,12 @@
               v-model="urlName"
               dense 
               autofocus 
+              :rules="[ ruleSameUrl ]"
             />
             <q-input v-if="false"></q-input>
           </q-card-section>
           <q-btn flat label="태그 추천:" @click="recommendTag"/>
-          <span v-for="(tag, index) in recommendResult" :key="index">
+          <span v-for="(tag, index) in recommendResult.value" :key="index">
             <span>#{{ tag }}&nbsp;&nbsp;
             </span>
           </span>
@@ -38,74 +32,109 @@
             <q-input v-if="false"></q-input>
           </q-card-section>
 
-          <span v-if="splitTags">
-            <span v-for="(tagObj, index) in splitTags" :key="index">
-              <q-chip v-if="tagObj">{{ tagObj }}</q-chip>
-            </span>
+        <span v-if="splitTags">
+          <span v-for="(tagObj, index) in splitTags" :key="index">
+            <q-chip v-if="tagObj">{{ tagObj }}</q-chip>
           </span>
+        </span>
 
-          <q-card-actions align="right" class="text-primary">
-            <q-btn flat label="취소" v-close-popup type="reset"/>
-            <q-btn flat label="만들기" @click="createUrl" type="submit"/>
-          </q-card-actions>
-        </q-card>
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="취소" v-close-popup type="reset" />
+          <q-btn flat label="만들기" @click="createUrl" type="submit" />
+        </q-card-actions>
+      </q-card>
     </q-dialog>
   </main>
-  
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useQuasar } from 'quasar'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 
 export default {
   setup() {
+    const $q = useQuasar()
     const $store = useStore()
     const $route = useRoute()
     const isOpen = ref(false)
     const urlName = ref('')
     const customTags = ref('')
     const customTagList = ref([])
+    // const recommendResult = ref($store.state.recommend.recommendTag)
     const recommendResult = computed({
       get: () => {
-        return $store.state.recommend.recommendTag
+        return ref($store.state.recommend.recommendTag)
       }
     })
+
+    const urlList = computed({
+      get: () => {
+        return $store.state.urls.folderNow.urls.map(x => x.url)
+      }
+    });
 
     const splitTags = computed({
       get: () => {
-        return new Set(customTags.value.split(/[\s\,\.]/))
+        return new Set(customTags.value.split(/[\s\,\.]/));
       }
-    })
+    });
 
     const recommendTag = () => {
-      let recommendData = { url: urlName.value, count: 5, folderId: $route.params.folder_id }
-      $store.dispatch('recommend/RECOMMEND_TAG', recommendData)
-    }
+      let recommendData = {
+        url: urlName.value,
+        count: 5,
+        folderId: $route.params.folder_id
+      };
+      $store.dispatch("recommend/RECOMMEND_TAG", recommendData);
+    };
 
     const createUrl = () => {
       splitTags.value.delete('')
-      let urlData = { url: urlName.value, folderId: $route.params.folder_id, tags: Array.from(splitTags.value) }
-      $store.dispatch('urls/CREATE_URL', urlData)
-      isOpen.value = false 
+      let urlData = { url: urlName.value, folder_id: $route.params.folder_id, tags: Array.from(splitTags.value)}
+      if (urlList.value.includes(urlName.value)) {
+        $q.notify({
+          type: 'negative',
+          message: '이미 등록된 URL 입니다.'
+        })
+      } else {
+        $store.dispatch('urls/CREATE_URL', urlData)
+        $store.dispatch('recommend/DELETE_RECOMMEND_TAG')
+        isOpen.value = false 
+        urlName.value = ''
+        customTags.value = ''
+      }
+    }
+
+    const ruleSameUrl = (val) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(!urlList.value.includes(val) || '이미 등록된 URL 입니다.')
+        }, 100)
+      })
     }
 
     const openDialog = () => {
       isOpen.value = true
     }
+
+    watch(isOpen, () => {
+      
+    })
+    
     return {
       recommendTag,
-      splitTags,
-      createUrl,
+      ruleSameUrl,
       openDialog,
+      createUrl,
       recommendResult,
-      customTags,
       customTagList,
-      isOpen,
+      customTags,
+      splitTags,
       urlName,
+      isOpen,
     }
   }
-
-}
+};
 </script>

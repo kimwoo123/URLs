@@ -1,11 +1,12 @@
-export default function () {
+export default function() {
   return {
     folders: [],
     folderNow: {},
     urls: [],
     urlMemoOpen: false,
     memos: [],
-    selectedMemoId: '',
-    selectedMemoTitle: ''
-  }
+    searchData: [],
+    selectedMemoId: "",
+    selectedMemoTitle: ""
+  };
 }
