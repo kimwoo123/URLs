@@ -13,5 +13,6 @@ export default function () {
     token: getAuthFromCookie() || '',
     userid: getUseridFromCookie() || '',
     avatar: getUserAvatarFromCookie() || '',
+    categories: localStorage.getItem('categories') || {},
   }
 }
