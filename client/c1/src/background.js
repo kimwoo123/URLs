@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const baseURL = 'http://k5b201.p.ssafy.io:4000';
 
 chrome.contextMenus.create({
@@ -91,6 +93,13 @@ async function newMemo(token, basic, message) {
     .catch(error => error);
 }
 
+async function inject(token, folderId, payload) {
+  return fetch(
+    `${baseURL}/folder/${folderId}/url`,
+    providePostConfig(token, payload),
+  );
+}
+
 // 백그라운드 로직 처리 => 비동기적인 상황(promise)
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
   if (request.action) {
@@ -112,16 +121,16 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
         sendResponse({result: false, token: ''});
       }
     } else if (request.action === 'share') {
-      const {message} = request;
-      const response = await newUrl(token, basic, message);
-      if (response.status === 200) {
-        const memoResponse = await newMemo(token, basic, message);
-        sendResponse({result: memoResponse.status === 200});
-      } else {
-        sendResponse({result: response.status === 200});
-      }
-    } else if (request.action === 'error') {
-      alert('서버와 통신이 잡히지 않아 공유하기가 힘듭니다.');
+      alert('시작');
+      const response = await inject(token, basic, {
+        url: request.url,
+        tags: [],
+      });
+      const result = response.status === 200;
+      alert(result);
+      sendResponse({result});
+    } else if (request.action === 'newMemo') {
+      alert(request.highlightText);
     }
   }
 });

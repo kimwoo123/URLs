@@ -93,14 +93,12 @@ async def create_folder_url(folder_id, url_in: UrlIn, current_user: User = Depen
     
     await tag_count_increase(url_in.tags, user_id=current_user["_id"])
     
-    html = urlopen(url_in.url)
-    bsObject = BeautifulSoup(html, "html.parser")
-    if bsObject.head:
+    try:
+        html = urlopen(url_in.url)
+        bsObject = BeautifulSoup(html, "html.parser")
         title = bsObject.head.title.text
-        og_image = bsObject.head.find("meta", {"property": "og:image"})
-        if og_image:
-            og_image = og_image.get("content")
-    else:
+        og_image = bsObject.head.find("meta", {"property": "og:image"}).get("content")
+    except:
         title = og_image = None
 
     tmp = db.memo.insert_one(jsonable_encoder(Memos()))

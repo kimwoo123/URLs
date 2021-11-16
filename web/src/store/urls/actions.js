@@ -103,3 +103,29 @@ export async function CREATE_URL({ commit }, urlData) {
     commit('setUrl', result.data)
   })
 }
+
+export async function ADD_FOLDER_USER({ commit, dispatch }, folderUserData) {
+  await urls.folderCreateUser(folderUserData)
+    .then(async (result) => {
+      console.log(result)
+      dispatch('GET_FOLDER')
+      commit('setFolderNow', result.data)
+    })
+}
+
+export async function PUT_FOLDER_USER({ commit, dispatch }, folderUserData) {
+  await urls.folderPutUser(folderUserData)
+    .then(async (result) => {
+      dispatch('GET_FOLDER')
+      commit('setFolderNow', result.data)
+    })
+}
+
+export async function DELETE_FOLDER_USER({ commit, dispatch }, folderUserData) {
+  await urls.folderDeleteUser(folderUserData)
+    .then(async (result) => {
+      console.log(result)
+      dispatch('GET_FOLDER')
+      commit('setFolderNow', result.data)
+    })
+}

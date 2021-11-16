@@ -1,8 +1,8 @@
 import About from '../views/components/About';
 import Login from '../views/components/Login';
+import RealFolder from '../views/components/RealFolder';
 import Releases from '../views/components/Releases';
 import Option from '../views/components/Url';
-import Workspace from '../views/components/Workspace';
 
 export default [
   {
@@ -19,9 +19,9 @@ export default [
   },
   {
     icon: 'el-icon-s-platform',
-    name: '내 공간',
-    path: '/workspace',
-    component: Workspace,
+    name: '나의 폴더',
+    path: '/folders',
+    component: RealFolder,
   },
   {
     icon: 'el-icon-bell',
