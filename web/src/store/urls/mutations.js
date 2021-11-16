@@ -25,3 +25,7 @@ export function setUrlMemo(state, memos) {
 export function setSelectedMemoId(state, memoId) {
   state.selectedMemoId = memoId;
 }
+
+export function setSearchData(state, Data) {
+  state.searchData = Data;
+}

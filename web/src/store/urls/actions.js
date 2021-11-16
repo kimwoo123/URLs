@@ -94,8 +94,14 @@ export async function DELETE_URL_MEMO({ commit }, memoData) {
   });
 }
 
+export async function GET_FOLDER_URL_SEARCH({ commit }, urlData) {
+  await urls.urlFindFolder(urlData).then(async result => {
+    commit("setSearchData", result.data);
+  });
+}
+
 export async function CREATE_URL({ commit }, urlData) {
-  await urls.urlCreate(urlData.folderId, urlData).then(async result => {
+  await urls.urlCreate(urlData.folder_id, urlData).then(async result => {
     commit("setFolderNow", result.data);
     commit("setUrl", result.data.urls);
   });

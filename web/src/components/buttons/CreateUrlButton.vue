@@ -1,13 +1,6 @@
 <template>
   <main>
-    <q-item clickable v-ripple @click="openDialog">
-      <q-item-section avatar>
-        <q-icon name="create" />
-      </q-item-section>
-      <q-item-section>
-        url 추가하기
-      </q-item-section>
-    </q-item>
+    <q-btn flat round icon="create" @click="openDialog" size="13px" />
 
     <q-dialog v-model="isOpen">
       <q-card style="min-width: 350px">

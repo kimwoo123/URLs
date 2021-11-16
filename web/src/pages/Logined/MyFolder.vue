@@ -1,13 +1,24 @@
 <template>
   <main>
-    <div>{{ folderId }}</div>
-    <div>{{ folderData }}</div>
+    <folder-header :folderData="folderData" v-if="folderId" />
 
-    <folder-header :folderData="folderData" />
-
-    <div class="row q-pa-md items-start q-gutter-md">
+    <div
+      class="row q-pa-md items-start q-gutter-lg justify-center"
+      v-if="!searchData"
+    >
       <template
         v-for="urlItem in folderData.urls"
+        :key="urlItem.memos_id"
+        class="col-xs-12 col-sm-6 col-md-4"
+      >
+        <folder-url-card :urlItem="urlItem" />
+      </template>
+    </div>
+
+    <div class="row q-pa-md items-start q-gutter-lg justify-center" v-else>
+      {{ searchData }}
+      <template
+        v-for="urlItem in searchData.urls"
         :key="urlItem.memos_id"
         class="col-xs-12 col-sm-6 col-md-4"
       >
@@ -27,6 +38,9 @@ import FolderHeader from "src/components/FolderHeader.vue";
 export default {
   components: { FolderUrlCard, FolderHeader },
   setup() {
+    const searchData = computed({
+      get: () => $store.state.urls.searchData
+    });
     const $route = useRoute();
     const $store = useStore();
 
@@ -44,7 +58,8 @@ export default {
 
     return {
       folderId,
-      folderData
+      folderData,
+      searchData
     };
   }
 };

@@ -2,9 +2,7 @@
   <div class="row folder-header-container justify-between text-h6">
     <q-item>
       <q-icon name="folder" size="40px" class="folder-icon" />
-      <span v-if="!isUpdatingFolderName" style="margin-top: 4px">{{
-        folderName.value
-      }}</span>
+      <span v-if="!isUpdatingFolderName">{{ folderName.value }}</span>
 
       <q-item-section v-if="isUpdatingFolderName">
         <form
@@ -47,7 +45,6 @@
         v-model="searchText"
         label="folder 내 url 검색"
         maxlength="15"
-        style="margin-top: 5px"
       >
         <template v-slot:append>
           <q-icon
@@ -56,7 +53,7 @@
             @click="searchText = ''"
             class="cursor-pointer"
           />
-          <q-icon name="search" />
+          <q-icon name="search" @click="search" @keyup.enter="search" />
         </template>
       </q-input>
 
@@ -76,13 +73,9 @@
         </q-btn>
       </q-item-section>
 
-      <folder-user-button
-        :folderData="folderData"
-        round
-        style="padding-top: 5px"
-      />
+      <folder-user-button :folderData="folderData" round />
+      <create-url-button />
     </q-item>
-    <create-url-button />
   </div>
 
   <q-dialog v-model="alert">
@@ -118,6 +111,7 @@ import { useRouter } from "vue-router";
 import { useQuasar } from "quasar";
 import FolderUserButton from "./buttons/folderUserButton.vue";
 import CreateUrlButton from "./buttons/CreateUrlButton.vue";
+import { store } from "quasar/wrappers";
 
 export default {
   components: { FolderUserButton, CreateUrlButton },
@@ -228,7 +222,15 @@ export default {
       });
     };
 
-    const searchText = "";
+    const searchText = ref("");
+
+    const search = () => {
+      const urlData = {
+        folder_id: $store.state.urls.folderNow._id,
+        pattern: searchText.value
+      };
+      $store.dispatch("urls/GET_FOLDER_URL_SEARCH", urlData);
+    };
 
     return {
       isUpdatingFolderName,
@@ -240,7 +242,8 @@ export default {
       ruleMinWords,
       ruleSameName,
       ruleMaxWords,
-      searchText
+      searchText,
+      search
     };
   }
 };
