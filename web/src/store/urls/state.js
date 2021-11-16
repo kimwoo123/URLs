@@ -5,7 +5,8 @@ export default function() {
     urls: [],
     urlMemoOpen: false,
     memos: [],
+    searchData: [],
     selectedMemoId: "",
-    searchData: []
+    selectedMemoTitle: ""
   };
 }
