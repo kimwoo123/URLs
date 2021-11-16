@@ -140,20 +140,20 @@ async def update_folder_url(folder_id, url_in: UrlIn, current_user: User = Depen
 
 
 @folder_url.delete('/folder/{folder_id}/url', summary="폴더 내 특정 url 삭제")
-async def delete_folder_url(folder_id, url_in: UrlIn, current_user: User = Depends(get_current_user)):
+async def delete_folder_url(folder_id, url, current_user: User = Depends(get_current_user)):
     tmp = db.folder.find_one(
-        {"_id": ObjectId(folder_id), "urls.url": url_in.url},
+        {"_id": ObjectId(folder_id), "urls.url": url},
         {"urls.$":1}
     )
     if tmp is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {url_in.url} not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {url} not found")
 
     memos_id = tmp["urls"][0]["memos_id"]
     await tag_count_decrease(tmp["urls"][0]["tags"], user_id=current_user["_id"])
     
     folder = db.folder.find_one_and_update(
         {"_id": ObjectId(folder_id)},
-        {"$pull": {"urls": {"url": url_in.url}}}, 
+        {"$pull": {"urls": {"url": url}}}, 
         return_document=ReturnDocument.AFTER
     )
     db.memo.delete_one({"_id": ObjectId(memos_id)})

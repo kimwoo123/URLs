@@ -88,19 +88,19 @@ async def update_folder_user(folder_id, user_in: UserIn, current_user: User = De
 
 
 @folder_user.delete('/folder/{folder_id}/user', summary="폴더 유저 삭제", response_model=FolderOut)
-async def delete_folder_user(folder_id, user_in: UserIn, current_user: User = Depends(get_current_user)):
+async def delete_folder_user(folder_id, email, current_user: User = Depends(get_current_user)):
     await permission_check_me(folder_id, current_user["email"])
-    await permission_check_user_in(folder_id, user_in.email)
+    await permission_check_user_in(folder_id, email)
 
     # 폴더에서 유저 삭제
     folder = db.folder.find_one_and_update(
         {"_id": ObjectId(folder_id)},
-        {"$pull": {"users": {"email": user_in.email}}},
+        {"$pull": {"users": {"email": email}}},
         return_document=ReturnDocument.AFTER
     )
     # 유저의 폴더에서 폴더 삭제
     db.user.find_one_and_update(
-        {"email": user_in.email},
+        {"email": email},
         {"$pull": {"folders": {"folder_id": ObjectId(folder_id)}}},
         return_document=ReturnDocument.AFTER
     )
