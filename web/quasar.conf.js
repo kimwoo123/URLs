@@ -84,6 +84,7 @@ module.exports = configure(function (ctx) {
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
+      
       config: {
         notify: { /* look at QuasarConfOptions from the API card */ }
       },
@@ -95,7 +96,6 @@ module.exports = configure(function (ctx) {
       // (like functional components as one of the examples),
       // you can manually specify Quasar components/directives to be available everywhere:
       //
-      // components: [],
       // directives: [],
 
       // Quasar plugins

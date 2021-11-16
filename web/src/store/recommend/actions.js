@@ -11,6 +11,7 @@ export async function RECOMMEND_TAG({ commit, dispatch }, recommendData) {
   await search.recommendTag(recommendData)
   .then(async (result) => {
     recommendData.tags = result.data
-    await dispatch('urls/CREATE_URL', recommendData, { root: true })
+    await commit('setRecommendTag', result.data)
+    // await dispatch('urls/CREATE_URL', recommendData, { root: true })
   })
 }

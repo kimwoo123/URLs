@@ -16,7 +16,7 @@ export async function GET_ALL_URL({ commit }) {
     }) 
 }
 
-export async function GET_FOLDER_URL({ commit }, folderId) {
+export async function GET_FOLDER_ULR({ commit }, folderId) {
   await urls.folderDetail(folderId)
     .then(async (result) => {
       await commit('setUrl', result.data.urls)

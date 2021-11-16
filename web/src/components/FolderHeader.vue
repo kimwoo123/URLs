@@ -62,6 +62,8 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+
+    <create-url-button/>
   </div>
 </template>
 
@@ -71,9 +73,10 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import FolderUserButton from './buttons/folderUserButton.vue'
+import CreateUrlButton from './buttons/CreateUrlButton.vue'
 
 export default {
-  components: { FolderUserButton },
+  components: { FolderUserButton, CreateUrlButton },
   props: ['folderData'],
   setup(props) {
     const $store = useStore()
