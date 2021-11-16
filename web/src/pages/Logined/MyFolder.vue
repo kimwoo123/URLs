@@ -4,7 +4,6 @@
 
     <div
       class="row q-pa-md items-start q-gutter-lg justify-center"
-      v-if="!searchData"
     >
       <template
         v-for="urlItem in folderData.urls"
@@ -15,7 +14,7 @@
       </template>
     </div>
 
-    <div class="row q-pa-md items-start q-gutter-lg justify-center" v-else>
+    <!-- <div class="row q-pa-md items-start q-gutter-lg justify-center" v-else>
       {{ searchData }}
       <template
         v-for="urlItem in searchData.urls"
@@ -24,7 +23,7 @@
       >
         <folder-url-card :urlItem="urlItem" />
       </template>
-    </div>
+    </div> -->
   </main>
 </template>
 

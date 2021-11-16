@@ -45,6 +45,7 @@
         v-model="searchText"
         label="folder 내 url 검색"
         maxlength="15"
+        @keyup.enter="search"
       >
         <template v-slot:append>
           <q-icon
@@ -53,7 +54,7 @@
             @click="searchText = ''"
             class="cursor-pointer"
           />
-          <q-icon name="search" @click="search" @keyup.enter="search" />
+          <q-icon name="search" @click="search" />
         </template>
       </q-input>
 
@@ -111,7 +112,6 @@ import { useRouter } from "vue-router";
 import { useQuasar } from "quasar";
 import FolderUserButton from "./buttons/folderUserButton.vue";
 import CreateUrlButton from "./buttons/CreateUrlButton.vue";
-import { store } from "quasar/wrappers";
 
 export default {
   components: { FolderUserButton, CreateUrlButton },
@@ -229,6 +229,7 @@ export default {
         folder_id: $store.state.urls.folderNow._id,
         pattern: searchText.value
       };
+      console.log('urlData', urlData)
       $store.dispatch("urls/GET_FOLDER_URL_SEARCH", urlData);
     };
 

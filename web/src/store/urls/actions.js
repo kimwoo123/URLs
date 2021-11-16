@@ -99,6 +99,7 @@ export async function DELETE_URL_MEMO({ commit }, memoData) {
 
 export async function GET_FOLDER_URL_SEARCH({ commit }, urlData) {
   await urls.urlFindFolder(urlData).then(async result => {
+    console.log('잘된다고해줘', result)
     commit("setSearchData", result.data);
   });
 }
