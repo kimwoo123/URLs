@@ -1,6 +1,11 @@
 <template>
   <div class="column q-pa-sm q-gutter-sm">
-    <div class="text-h6">메모 / 타이틀</div>
+    <q-item>
+      <q-item-section>{{ urlTitle }}</q-item-section>
+      <q-item-section side >
+          <q-btn flat round color="grey" icon="close" @click="closeDrawer"/>
+        </q-item-section>
+    </q-item>
     <div v-for="memoItem in memos" :key="memoItem._id">
       <url-memo :memoItem="memoItem"/>
     </div>
@@ -24,9 +29,19 @@ export default {
     const memos = computed({
       get: () => $store.state.urls.memos
     })
+
+    const urlTitle = computed({
+      get: () => $store.state.urls.selectedMemoTitle
+    })
+
+    const closeDrawer = () => {
+      $store.dispatch('urls/CLOSE_MEMO')
+    }
   
     return {
       memos,
+      closeDrawer,
+      urlTitle
     }
   }
 }

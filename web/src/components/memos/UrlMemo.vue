@@ -1,18 +1,18 @@
 <template>
   <main>
   <q-card flat bordered class="my-card bg-grey-1" v-if="!isUpdating">
-    <q-card-section>
-      <div class="row items-center no-wrap justify-between">
-
-        <div class="row">
+    <q-card-section class="q-pa-none">
+      <q-item>
+        <q-item-section avatar>
           <q-avatar size="32px">
-            <img :src="avatarUrl">
+            <img :src="memoItem.user.avatar">
           </q-avatar>
-          <div class="text-subtitle2">{{ memoItem.user.nickname}}</div>
-        </div>
-
-        <div class="col-auto" v-if="isAuthor">
-          <q-btn color="grey-7" round flat icon="more_vert">
+        </q-item-section>
+        <q-item-section>
+          {{ memoItem.user.nickname}}
+        </q-item-section>
+        <q-item-section side v-if="isAuthor">
+          <q-btn color="grey-7" round flat icon="more_vert" size="12px">
             <q-menu cover auto-close>
               <q-list>
                 <q-item clickable @click="deleteMemo"> 
@@ -24,36 +24,38 @@
               </q-list>
             </q-menu>
           </q-btn>
-        </div>
+        </q-item-section>
+      </q-item>
 
-      </div>
     </q-card-section>
 
     <q-separator/>
 
     <q-card-section v-if="!isUpdating">
-      <div>{{ memoItem.content }}</div>
+      <div v-html="computedMemoContent"></div>
     </q-card-section>
     
   </q-card>
 
   <q-card flat bordered v-if="isUpdating">
-    <q-card-section>
-      <div class="row items-center no-wrap justify-between">
-        <div class="row">
+    <q-card-section class="q-pa-none">
+      <q-item>
+        <q-item-section avatar>
           <q-avatar size="32px">
-            <img :src="avatarUrl">
+            <img :src="memoItem.user.avatar">
           </q-avatar>
-          <div class="text-subtitle2">{{ memoItem.user.nickname}}</div>
-        </div>
-      </div>
+        </q-item-section>
+        <q-item-section>
+          {{ memoItem.user.nickname}}
+        </q-item-section>
+      </q-item>
     </q-card-section>
 
-    <q-card-section>
-      <q-input borderless v-model="content" autofocus/>
+    <q-card-section class="q-pt-none">
+      <q-input borderless autogrow v-model="content" autofocus/>
     </q-card-section>
 
-    <q-card-section>
+    <q-card-section class="q-pt-none">
       <div class="row q-gutter-xs justify-end">
         <q-btn 
           no-caps flat
@@ -84,9 +86,12 @@ export default {
   setup(props) {
     const $store = useStore()
 
-    const avatarUrl = $store.state.user.avatar
     let content = ref(props.memoItem.content)
     const isUpdating = ref(false)
+
+    const computedMemoContent = computed({
+      get: () => content.value.toString().replace(/(?:\r\n|\r|\n)/g, '<br />')
+    })
 
     const deleteMemo = () => {
       const memoData = {
@@ -102,7 +107,7 @@ export default {
 
     const cancleUpdating = () => {
       isUpdating.value = !isUpdating.value
-      content.value = ref(props.memoItem.content)     
+      content.value = props.memoItem.content
     }
 
     const updateMemo = () => {
@@ -128,7 +133,7 @@ export default {
     return {
       deleteMemo,
       isAuthor,
-      avatarUrl,
+      computedMemoContent,
       content,
       updateMemo,
       isUpdating,
