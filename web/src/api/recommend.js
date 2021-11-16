@@ -1,8 +1,8 @@
 import { api } from "src/boot/axios";
 
 // 해당 url의 tags 추천
-export function recommendUrlTags(urlData) {
-  return api.get('/tags', urlData)
+export function recommendUrlTags(recommendData) {
+  return api.get(`/tags?url=${recommendData.url}&count=${recommendData.count}`, recommendData)
 }
 
 // 전체 url DB 속 url 있는지 조회

@@ -1,12 +1,15 @@
 <template>
   <main>
-    <div>마이폴더2</div>
+    <div class="row items-center justify-between">
+      <folder-name :folderData="folderData"/>
+      <folder-delete-button :folderId="folderId"></folder-delete-button>
+    </div>
     <div>{{ folderId }}</div>
-    <div>{{ folderUrls }}</div>
-
+    <div>{{ folderData }}</div>
+    <auto-complete></auto-complete>
     <div class="row q-pa-md items-start q-gutter-md">
       <template 
-        v-for="urlItem in folderUrls" 
+        v-for="urlItem in folderData.urls" 
         :key="urlItem.memos_id"
         class="col-xs-12 col-sm-6 col-md-4"
       >
@@ -22,9 +25,12 @@ import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import FolderUrlCard from 'src/components/cards/FolderUrlCard.vue'
+import FolderName from 'src/components/FolderName.vue'
+import FolderDeleteButton from 'src/components/buttons/FolderDeleteButton.vue'
+import AutoComplete from '../../components/AutoComplete.vue'
 
 export default {
-  components: { FolderUrlCard },
+  components: { FolderUrlCard, FolderName, FolderDeleteButton, AutoComplete },
   setup() {
     const $route = useRoute()
     const $store = useStore()
@@ -37,14 +43,14 @@ export default {
         }
     })
 
-    const folderUrls = computed({
-      get: () => $store.state.urls.urls
+    const folderData = computed({
+      get: () => $store.getters['urls/folderNow']
     })
 
 
     return {
       folderId,
-      folderUrls
+      folderData
     }
   }
 }

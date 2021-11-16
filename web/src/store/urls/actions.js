@@ -18,12 +18,40 @@ export async function GET_ALL_URL({ commit }) {
 export async function GET_FOLDER_URL({ commit }, folderId) {
   await urls.folderDetail(folderId)
     .then(async (result) => {
-      const urls = result.data.urls
-      await commit('setUrl', urls)
+      await commit('setUrl', result.data.urls)
+      await commit('setFolderNow', result.data)
     })
     .catch(async (error) => {
       console.log(error)
       await commit('setUrl', [])
+      await commit('setFolderNow', {})
+    })
+}
+
+export async function CREATE_FOLDER({ commit, dispatch }, folderData) {
+  await urls.folderCreate(folderData)
+    .then((result) => {
+      dispatch('GET_FOLDER')
+      commit('setUrl', result.data.urls)
+      commit('setFolderNow', result.data)
+    })
+}
+
+export async function PUT_FOLDER_NAME({ commit, dispatch }, folderData) {
+  await urls.folderPut(folderData)
+    .then(async (result) => {
+      dispatch('GET_FOLDER')
+      commit('setFolderNow', result.data)
+    })
+}
+
+export async function DELETE_FOLDER({ commit, dispatch }, folderId) {
+  await urls.folderDelete(folderId)
+    .then(async (result) => {
+      console.log(result)
+      dispatch('GET_FOLDER')
+      commit('setUrl', [])
+      commit('setFolderNow', {})
     })
 }
 
@@ -55,6 +83,10 @@ export async function PUT_URL_MEMO({ commit }, memoData) {
     .then(async (result) => {
       commit('setUrlMemo', result.data.memos)
     })
+    .catch(error => {
+      console.log('에러다')
+      console.log(error)
+    })
 }
 
 export async function DELETE_URL_MEMO({ commit }, memoData) {
@@ -62,12 +94,11 @@ export async function DELETE_URL_MEMO({ commit }, memoData) {
     .then(async (result) => {
       commit('setUrlMemo', result.data.memos)
     })
-
 }
 
 export async function CREATE_URL({ commit }, urlData) {
   await urls.urlCreate(urlData.folderId, urlData)
   .then(async (result) => {
-    commit('createUrl', result.data)
+    commit('setUrl', result.data)
   })
 }

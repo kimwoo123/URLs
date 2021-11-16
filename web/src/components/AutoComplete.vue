@@ -36,7 +36,7 @@ export default {
   components: { FolderUrlCard },
   setup () {
     const $store = useStore()
-    const route = useRoute()
+    const $route = useRoute()
     const options = ref(stringOptions)
     const searchResult = ref([])
     const searchPage = ref([])
@@ -44,8 +44,10 @@ export default {
     const selectUrl = ref('')
 
     const createUrl = () => {
-      let urlData = { url: selectUrl.value, folderId: route.params.id}
-      $store.dispatch('urls/CREATE_URL', urlData)
+      let urlData = { url: selectUrl.value, folderId: $route.params.folder_id }
+      let recommendData = { url: selectUrl.value, count: 5, folderId: $route.params.folder_id }
+      // $store.dispatch('urls/CREATE_URL', urlData)
+      $store.dispatch('recommend/RECOMMEND_TAG', recommendData)
     }
 
     const tagUrl = (tag) => {
@@ -54,16 +56,16 @@ export default {
 
     watch(selectTag, (val) => {
       if (val !== '') {
-        let queryData = { searchText: val, folderId: route.params.id }
+        let queryData = { searchText: val, folderId: $route.params.folder_id }
         $store.dispatch('recommend/SEARCH_TAG', queryData)
       }
     })
     return {
       searchResult,
-      selectUrl,
       createUrl,
-      selectTag,
       searchPage,
+      selectTag,
+      selectUrl,
       options,
       tagUrl,
     }

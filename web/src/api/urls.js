@@ -11,8 +11,8 @@ export function folderDetail(folderId) {
 }
 
 // 폴더 명 변경
-export function folderPut(folderId) {
-  return api.put(`/folder/${folderId}`)
+export function folderPut(folderData) {
+  return api.put(`/folder/${folderData.id}`, folderData)
 }
 
 // 폴더 삭제
@@ -57,7 +57,6 @@ export function urlPut(folderId, urlData) {
 
 // 폴더 내 새로운 url 생성
 export function urlCreate(folderId, urlData) {
-  console.log(folderId, urlData)
   return api.post(`/folder/${folderId}/url`, urlData)
 }
 
