@@ -1,39 +1,35 @@
 <template>
   <div>
-    <q-btn 
-      flat 
-      icon="person_add_alt_1"
-      @click="isOpen = true"
-    />
+    <q-btn flat round icon="person_add_alt_1" @click="isOpen = true" />
 
-    
     <q-dialog v-model="isOpen">
       <q-card>
         <q-card-actions align="between">
           <span>사용자 관리</span>
-          <q-btn flat icon="close" color="grey" v-close-popup @click="resetForm"/>
+          <q-btn
+            flat
+            icon="close"
+            color="grey"
+            v-close-popup
+            @click="resetForm"
+          />
         </q-card-actions>
 
-        <q-separator/>
+        <q-separator />
 
         <q-card-section>
-          <span class="q-ml-sm">같이 폴더를 사용할 사용자의 이메일을 적어주세요.</span>
-          <q-form 
-            class="row q-gutter-md"
-            @submit="AddUser"
+          <span class="q-ml-sm"
+            >같이 폴더를 사용할 사용자의 이메일을 적어주세요.</span
           >
-            <q-input
-              autofocus
-              v-model="email" 
-              filled type="email"
+          <q-form class="row q-gutter-md" @submit="AddUser">
+            <q-input autofocus v-model="email" filled type="email" />
+            <q-select
+              borderless
+              color="primary"
+              v-model="selectedOption"
+              :options="options"
             />
-              <q-select
-                borderless
-                color="primary" 
-                v-model="selectedOption" 
-                :options="options"
-              />
-            <q-btn label="초대" type="submit" color="primary"/>
+            <q-btn label="초대" type="submit" color="primary" />
           </q-form>
         </q-card-section>
 
@@ -43,90 +39,91 @@
               <q-item v-ripple v-for="user in userList" :key="user.email">
                 <q-item-section avatar>
                   <q-avatar>
-                    <img :src="user.avatar" alt="사용자 프로필 사진">
+                    <img :src="user.avatar" alt="사용자 프로필 사진" />
                   </q-avatar>
                 </q-item-section>
                 <q-item-section>{{ user.nickname }}</q-item-section>
-                <q-item-section side v-if="user.permission.value === 2 ">{{ user.permission.label }}</q-item-section>
+                <q-item-section side v-if="user.permission.value === 2">{{
+                  user.permission.label
+                }}</q-item-section>
                 <q-item-section side v-if="user.permission.value !== 2">
-                  <folder-user-permission-select :user="user"/>
+                  <folder-user-permission-select :user="user" />
                 </q-item-section>
               </q-item>
             </q-list>
           </div>
         </q-card-section>
-
       </q-card>
     </q-dialog>
-
   </div>
 </template>
 
 <script>
-import { ref, computed, watch } from 'vue'
-import { useQuasar } from 'quasar'
-import { useStore } from 'vuex'
-import folderUserPermissionSelect from '../select/folderUserPermissionSelect.vue'
+import { ref, computed, watch } from "vue";
+import { useQuasar } from "quasar";
+import { useStore } from "vuex";
+import folderUserPermissionSelect from "../select/folderUserPermissionSelect.vue";
 
 export default {
   components: { folderUserPermissionSelect },
-  props: ['folderData'],
+  props: ["folderData"],
   setup(props) {
-    const $store = useStore()
-    const isOpen = ref(false)
+    const $store = useStore();
+    const isOpen = ref(false);
 
     const userList = computed({
-      get: () => $store.getters['urls/folderNow'].users.map(x => {
-        let label = '읽기'
-        if (x.permission === 0) {
-          label = '읽기'
-        } else if (x.permission === 1) {
-          label = '편집'
-        } else {
-          label = '소유자'
-        }
-        const user = {
-          avatar : x.avatar,
-          email : x.email,
-          nickname: x.nickname,
-          permission : {
-            label: label,
-            value: x.permission
+      get: () =>
+        $store.getters["urls/folderNow"].users.map(x => {
+          let label = "읽기";
+          if (x.permission === 0) {
+            label = "읽기";
+          } else if (x.permission === 1) {
+            label = "편집";
+          } else {
+            label = "소유자";
           }
-        }
-        return user
-      })
-    })
+          const user = {
+            avatar: x.avatar,
+            email: x.email,
+            nickname: x.nickname,
+            permission: {
+              label: label,
+              value: x.permission
+            }
+          };
+          return user;
+        })
+    });
 
-    const email = ref('')
-    const selectedOption = ref({label: '읽기', value: 0})
+    const email = ref("");
+    const selectedOption = ref({ label: "읽기", value: 0 });
     const options = [
       {
-        label: '읽기',
-        value: 0,
+        label: "읽기",
+        value: 0
       },
       {
-        label: '편집',
+        label: "편집",
         value: 1
       }
-    ]
+    ];
 
     const AddUser = () => {
       const folderUserData = {
         folder_id: props.folderData._id,
         email: email.value,
         permission: selectedOption.value.value
-      }
-      $store.dispatch('urls/ADD_FOLDER_USER', folderUserData)
-    }
+      };
+      $store.dispatch("urls/ADD_FOLDER_USER", folderUserData);
+    };
 
     const resetForm = () => {
-      console.log('리셋')
-      email.value = ''
-      selectedOption.value = {label: '읽기', value: 0}
-    }
+      console.log("리셋");
+      email.value = "";
+      selectedOption.value = { label: "읽기", value: 0 };
+    };
 
-    watch(isOpen, resetForm)
+    watch(isOpen, resetForm);
 
     return {
       isOpen,
@@ -134,15 +131,12 @@ export default {
       email,
       selectedOption,
       options,
-      
+
       AddUser,
       resetForm
-    }
+    };
   }
-
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
