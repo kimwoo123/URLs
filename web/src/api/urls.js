@@ -26,18 +26,31 @@ export function folderCreate(folderData) {
 }
 
 // 폴더 유저 권한 변경
-export function folderPutUser(folderId, userData) {
-  return api.put(`/folder/${folderId}/user`, userData)
+export function folderPutUser(folderUserData) {
+  const userData = {
+    email: folderUserData.email,
+    permission: folderUserData.permission
+  }
+  return api.put(`/folder/${folderUserData.folder_id}/user`, userData)
 }
 
 // 폴더 유저 생성
-export function folderCreateUser(folderId, userData) {
-  return api.post(`/folder/${folderId}/user`, userData)
+export function folderCreateUser(folderUserData) {
+  const userData = {
+    email: folderUserData.email,
+    permission: folderUserData.permission
+  }
+  return api.post(`/folder/${folderUserData.folder_id}/user`, userData)
 }
 
 // 폴더 유저 삭제
-export function folderDeleteUser(folderId, userData) {
-  return api.delete(`/folder/${folderId}/user`, userData)
+export function folderDeleteUser(folderUserData) {
+  const userData = {
+    email: folderUserData.email,
+    permission: null,
+  }
+  console.log(userData)
+  return api.delete(`/folder/${folderUserData.folder_id}/user`, userData)
 }
 
 // 내 모든 폴더에서 내가 작성한 url 검색
