@@ -1,18 +1,18 @@
 import {
-	getUserFromCookie,
+  getUserFromCookie,
   getAuthFromCookie,
   getUseridFromCookie,
   getUserAvatarFromCookie,
-  getUserEmailFromCookie,
-} from 'src/utils/cookies'
+  getUserEmailFromCookie
+} from "src/utils/cookies";
 
-export default function () {
+export default function() {
   return {
-    username: getUserFromCookie() || '',
-    useremail: getUserEmailFromCookie() || '',
-    token: getAuthFromCookie() || '',
-    userid: getUseridFromCookie() || '',
-    avatar: getUserAvatarFromCookie() || '',
-    categories: localStorage.getItem('categories') || {},
-  }
+    username: getUserFromCookie() || "",
+    useremail: getUserEmailFromCookie() || "",
+    token: getAuthFromCookie() || "",
+    userid: getUseridFromCookie() || "",
+    avatar: getUserAvatarFromCookie() || "",
+    categories: localStorage.getItem("categories") || {}
+  };
 }

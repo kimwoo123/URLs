@@ -1,13 +1,6 @@
 <template>
   <main>
-    <q-item clickable v-ripple @click="openDialog">
-      <q-item-section avatar>
-        <q-icon name="create" />
-      </q-item-section>
-      <q-item-section>
-        url 추가하기
-      </q-item-section>
-    </q-item>
+    <q-btn flat round icon="create" @click="openDialog" size="13px" />
 
     <q-dialog v-model="isOpen">
         <q-card style="min-width: 350px">
@@ -39,20 +32,19 @@
             <q-input v-if="false"></q-input>
           </q-card-section>
 
-          <span v-if="splitTags">
-            <span v-for="(tagObj, index) in splitTags" :key="index">
-              <q-chip v-if="tagObj">{{ tagObj }}</q-chip>
-            </span>
+        <span v-if="splitTags">
+          <span v-for="(tagObj, index) in splitTags" :key="index">
+            <q-chip v-if="tagObj">{{ tagObj }}</q-chip>
           </span>
+        </span>
 
-          <q-card-actions align="right" class="text-primary">
-            <q-btn flat label="취소" v-close-popup type="reset"/>
-            <q-btn flat label="만들기" @click="createUrl" type="submit"/>
-          </q-card-actions>
-        </q-card>
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="취소" v-close-popup type="reset" />
+          <q-btn flat label="만들기" @click="createUrl" type="submit" />
+        </q-card-actions>
+      </q-card>
     </q-dialog>
   </main>
-  
 </template>
 
 <script>
@@ -81,18 +73,22 @@ export default {
       get: () => {
         return $store.state.urls.folderNow.urls.map(x => x.url)
       }
-    })
+    });
 
     const splitTags = computed({
       get: () => {
-        return new Set(customTags.value.split(/[\s\,\.]/))
+        return new Set(customTags.value.split(/[\s\,\.]/));
       }
-    })
+    });
 
     const recommendTag = () => {
-      let recommendData = { url: urlName.value, count: 5, folderId: $route.params.folder_id }
-      $store.dispatch('recommend/RECOMMEND_TAG', recommendData)
-    }
+      let recommendData = {
+        url: urlName.value,
+        count: 5,
+        folderId: $route.params.folder_id
+      };
+      $store.dispatch("recommend/RECOMMEND_TAG", recommendData);
+    };
 
     const createUrl = () => {
       splitTags.value.delete('')
@@ -140,6 +136,5 @@ export default {
       isOpen,
     }
   }
-
-}
+};
 </script>
