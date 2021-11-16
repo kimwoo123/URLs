@@ -1,10 +1,9 @@
-
 export function setUserName(state, userName) {
   state.username = userName;
 }
 
 export function clearUsername(state) {
-  state.username = '';
+  state.username = "";
 }
 
 export function setToken(state, token) {
@@ -12,7 +11,7 @@ export function setToken(state, token) {
 }
 
 export function clearToken(state) {
-  state.token = '';
+  state.token = "";
 }
 
 export function setUserid(state, userid) {
@@ -20,7 +19,7 @@ export function setUserid(state, userid) {
 }
 
 export function clearUserid(state) {
-  state.userid = '';
+  state.userid = "";
 }
 
 export function setUserAvatar(state, avatar) {
@@ -28,23 +27,23 @@ export function setUserAvatar(state, avatar) {
 }
 
 export function clearUserAvatar(state) {
-  state.avatar = '';
+  state.avatar = "";
 }
 
 export function setUserEmail(state, useremail) {
-  state.useremail = useremail
+  state.useremail = useremail;
 }
 
 export function clearUserEmail(state) {
-  state.useremail = ''
+  state.useremail = "";
 }
 
 export function getUserCategories(state, categories) {
-  localStorage.setItem('categories', JSON.stringify(categories))
-  state.categories = categories
+  localStorage.setItem("categories", JSON.stringify(categories));
+  state.categories = categories;
 }
 
 export function clearUserCategories(state) {
-  localStorage.clear()
-  state.categories = {}
+  localStorage.clear();
+  state.categories = {};
 }

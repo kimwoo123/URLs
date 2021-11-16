@@ -1,32 +1,31 @@
-
 export function setFolder(state, folders) {
-  state.folders = folders
+  state.folders = folders;
 }
 
 export function setFolderNow(state, folder) {
-  state.folderNow = folder
+  state.folderNow = folder;
 }
 
 export function setUrl(state, urls) {
-  state.urls = urls.urls
+  state.urls = urls.urls;
 }
 
 export function openMemo(state) {
-  state.urlMemoOpen = true
+  state.urlMemoOpen = true;
 }
 
 export function closeMemo(state) {
-  state.urlMemoOpen = false
+  state.urlMemoOpen = false;
 }
 
 export function setUrlMemo(state, memos) {
-  state.memos = memos
+  state.memos = memos;
 }
 
 export function setSelectedMemoId(state, memoId) {
-  state.selectedMemoId = memoId
+  state.selectedMemoId = memoId;
 }
 
 export function setSelectedMemoTitle(state, memoTitle) {
-  state.selectedMemoTitle = memoTitle
+  state.selectedMemoTitle = memoTitle;
 }
