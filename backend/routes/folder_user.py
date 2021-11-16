@@ -8,13 +8,14 @@ from bson import ObjectId
 from pymongo import ReturnDocument
 from .token import get_current_user
 
-
 folder_user = APIRouter()
 
 # 내 권한 확인
 async def permission_check_me(folder_id, current_user_email):
     me = db.folder.find_one({"_id": ObjectId(folder_id), "users.email": current_user_email}, {"users.$":1})
-    if me["users"][0]["permission"] == 0:
+    if me is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user me not found")
+    elif me["users"][0]["permission"] == 0:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"permission 0 is read only")
 
 
