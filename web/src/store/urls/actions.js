@@ -100,6 +100,14 @@ export async function DELETE_URL_MEMO({ commit }, memoData) {
     })
 }
 
+export async function CREATE_URL({ commit }, urlData) {
+  await urls.urlCreate(urlData.folderId, urlData)
+  .then(async (result) => {
+    commit('setFolderNow', result.data)
+    commit('setUrl', result.data.urls)
+  })
+}
+
 export async function ADD_FOLDER_USER({ commit, dispatch }, folderUserData) {
   await urls.folderCreateUser(folderUserData)
     .then(async (result) => {

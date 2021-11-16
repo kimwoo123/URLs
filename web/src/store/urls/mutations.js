@@ -8,7 +8,7 @@ export function setFolderNow(state, folder) {
 }
 
 export function setUrl(state, urls) {
-  state.urls = urls
+  state.urls = urls.urls
 }
 
 export function openMemo(state) {
