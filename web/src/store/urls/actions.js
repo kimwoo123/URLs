@@ -100,7 +100,8 @@ export async function DELETE_URL_MEMO({ commit }, memoData) {
 export async function CREATE_URL({ commit }, urlData) {
   await urls.urlCreate(urlData.folderId, urlData)
   .then(async (result) => {
-    commit('setUrl', result.data)
+    commit('setFolderNow', result.data)
+    commit('setUrl', result.data.urls)
   })
 }
 
