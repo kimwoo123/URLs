@@ -1,6 +1,8 @@
-export default function () {
+export default function() {
   return {
     searchResult: [],
-    searchPage: []
-  }
+    searchPage: [],
+    recommendTag: [],
+    tag: []
+  };
 }

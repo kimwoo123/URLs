@@ -82,6 +82,7 @@
         style="padding-top: 5px"
       />
     </q-item>
+    <create-url-button />
   </div>
 
   <q-dialog v-model="alert">
@@ -116,9 +117,10 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { useQuasar } from "quasar";
 import FolderUserButton from "./buttons/folderUserButton.vue";
+import CreateUrlButton from "./buttons/CreateUrlButton.vue";
 
 export default {
-  components: { FolderUserButton },
+  components: { FolderUserButton, CreateUrlButton },
   props: ["folderData"],
   setup(props) {
     const $store = useStore();
