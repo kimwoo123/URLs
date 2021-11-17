@@ -54,8 +54,47 @@ async def tag_count_decrease(decrease_tags, user_id=None, user_email=None):
 
 @folder_url.get('/folder/url/me', summary="내 모든 폴더에서 내가 작성한 url 검색")
 async def find_all_folder_url_me(user: User = Depends(get_current_user)):
-    folders = db.folder.find({"urls.added_by.email": user["email"]}, {"urls": 1})
+    folders = db.folder.aggregate([
+        {"$match": {"urls.added_by.email": user["email"]}},
+        {"$project": {
+            "urls": {"$filter": {
+                "input": "$urls",
+                "as": "elem",
+                "cond": { "$eq": ["$$elem.added_by.email", user["email"]] }
+                }
+            }}
+        }
+    ])
+    if folders is not None:
+        result = []
+        for folder in folders:
+            for url in folder["urls"]:
+                url["folder_id"] = folder["_id"]
+                url["folder_name"] = db.folder.find_one({"_id": ObjectId(folder["_id"])})["folder_name"]
+                result.append(url)
+        result.sort(key=lambda x: ObjectId(x["memos_id"]).generation_time, reverse=True)
+        return serializeList_folder(result)
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
+
+@folder_url.get('/folder/url/me/search', summary="내 url들에서 특정 단어 포함 url 검색")
+async def find_all_folder_url_me(pattern, user: User = Depends(get_current_user)):
+    folders = db.folder.aggregate([
+        {"$match": {"urls.added_by.email": user["email"]}},
+        {"$project": {
+            "urls": {"$filter": {
+                "input": "$urls",
+                "as": "elem",
+                "cond": {
+                    "$and": [
+                        { "$regexMatch": { "input": "$$elem.url" , "regex": pattern } },
+                        { "$eq": ["$$elem.added_by.email", user["email"]] }
+                    ]
+                }
+                }
+            }}
+        }
+    ])
     if folders is not None:
         result = []
         for folder in folders:
