@@ -8,9 +8,9 @@ export function recommendUrlTags(recommendData) {
   );
 }
 
-// 전체 url DB 속 url 있는지 조회
-export function recommendUrlGet(urlData) {
-  return api.get("/recommend", urlData);
+// urls 추천 (해당 url 누적 수가 3 이상인 것만 대상)
+export function recommendUrlGet(count) {
+  return api.get(`/recommend?count=${count}`);
 }
 
 // 추천을 위한 전체 url DB 속 단일 URL 수정

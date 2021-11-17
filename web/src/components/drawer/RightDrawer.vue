@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <q-scroll-area class="fit">
     <memo-list v-if="isUrlMemoOpen"/>
-  </div>
+  </q-scroll-area>
 </template>
 
 <script>

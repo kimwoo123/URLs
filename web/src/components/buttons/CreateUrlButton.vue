@@ -1,6 +1,6 @@
 <template>
   <main>
-    <q-btn flat round icon="create" @click="openDialog" size="13px" />
+    <q-btn flat round icon="note_add" @click="openDialog" size="13px" />
 
     <q-dialog v-model="isOpen">
         <q-card style="min-width: 350px">

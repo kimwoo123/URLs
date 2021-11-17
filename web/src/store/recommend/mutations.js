@@ -9,3 +9,7 @@ export function setRecommendTag(state, result) {
 export function resetRecommendTag(state) {
   state.recommendTag = []
 }
+
+export function setRecommendUrls(state, urls) {
+  state.recommendUrls = urls
+}
