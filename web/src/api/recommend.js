@@ -20,7 +20,7 @@ export function recommendUrlPut(urlData) {
 
 // 추천을 위한 전체 url DB에 신규 url 추가
 export function recommendUrlCreate(urlData) {
-  return api.post("/recommend", urlData);
+  return api.post(`/recommend?url=${urlData.url}&category=${urlData.categoryName}`);
 }
 
 // url 추천
