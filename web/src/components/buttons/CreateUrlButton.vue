@@ -133,12 +133,8 @@ export default {
         $store.dispatch('recommend/DELETE_RECOMMEND_TAG')
         isOpen.value = false 
 
-        const userCategoryData = {
-          userId: $store.state.user.userid,
-          url: urlName.value,
-          categoryName: category.value
-        }
-        $store.dispatch('recommend/GET_USER_CATEGORY', userCategoryData)
+        const categoryName =  category.value
+        $store.dispatch('recommend/PUT_USER_CATEGORY', categoryName)
         
         urlName.value = ''
         customTags.value = ''

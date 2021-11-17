@@ -16,6 +16,6 @@ export function deleteUser(userId) {
   return api.delete(`/user/${userId}`);
 }
 
-export function userCatergoryUpdate(userId, categories) {
-  return api.put(`/user/${userId}/category`, categories)
+export function userCatergoryUpdate(userId, category) {
+  return api.put(`/user/${userId}/category`, category)
 }
