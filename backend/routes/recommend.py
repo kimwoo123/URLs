@@ -140,27 +140,21 @@ async def recommend_urls(count: int, current_user: UserOut = Depends(get_current
 
 
 @recommend.post('/recommend', summary="추천을 위한 전체 url DB에 신규 url 추가 및 수정", status_code=status.HTTP_201_CREATED)
-async def create_url(url: UrlIn):
-    # Find target category
-    prefer_category = ''
-    for item in url.categories:
-        if url.categories[item] == 1:
-            prefer_category = item
-            break
-
+async def create_url(url: str, category: str):
+    print('요청 시작')
     # Create or Update categories of the url
-    url_in_db = db.recommend.find_one({"url": url.url})
+    url_in_db = db.recommend.find_one({"url": url})
+    print('url 찾음')
     # Make sure that the url is not in recommend DB
     if url_in_db is not None:
         for item in url_in_db["categories"]:
-            if item == prefer_category:
+            if item == category:
                 url_in_db["categories"][item] = (url_in_db["categories"][item] * url_in_db["count"] + 1) / (url_in_db["count"] + 1)
             else:
                 url_in_db["categories"][item] = url_in_db["categories"][item] * url_in_db["count"] / (url_in_db["count"] + 1)
         url_in_db["count"] = url_in_db["count"] + 1
-        db.recommend.find_one_and_update({"url": url.url}, {"$set": dict(url_in_db)})
+        db.recommend.find_one_and_update({"url": url}, {"$set": dict(url_in_db)})
     else:
         db.recommend.insert_one(dict(url))
-        url_in_db = db.recommend.find_one({'url': url.url})
-
-    return serializeDict(url_in_db)
+    print('요청 완료')
+    return 'OK'
