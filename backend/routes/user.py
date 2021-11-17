@@ -61,7 +61,7 @@ async def update_user_category(id, category: str, current_user: UserOut = Depend
     db.user.find_one_and_update({"_id": ObjectId(id)}, {"$set": dict(user)})
     print('db 반영 성공')
 
-    return serializeDict(user)
+    return 'OK'
 
 
 @user.delete('/user/{id}', summary="유저 삭제")
