@@ -61,6 +61,7 @@ async def find_all_folder_url_me(user: User = Depends(get_current_user)):
         for folder in folders:
             for url in folder["urls"]:
                 url["folder_id"] = folder["_id"]
+                url["folder_name"] = db.folder.find_one({"_id": ObjectId(folder["_id"])})["folder_name"]
                 result.append(url)
         result.sort(key=lambda x: ObjectId(x["memos_id"]).generation_time, reverse=True)
 
