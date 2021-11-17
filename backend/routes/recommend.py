@@ -92,6 +92,8 @@ async def recommend_urls(count: int, current_user: UserOut = Depends(get_current
     # If url exists, Recommend!
     if urls_with_weight is not None:
         # Only urls (count > 2) (for preventing noise)
+        for url in urls_with_weight:
+            print(url)
         urls = np.array(
             [[url_with_weight["url"]] for url_with_weight in urls_with_weight
             if url_with_weight["count"] > 2]
