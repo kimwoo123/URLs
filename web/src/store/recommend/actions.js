@@ -33,9 +33,5 @@ export async function PUT_USER_CATEGORY({ commit }, payload) {
 }
 
 export async function POST_URL_RECOMMEND({ commit }, payload) {
-  console.log(payload)
   await recommend.recommendUrlCreate(payload)
-    .then(result => {
-      console.log('성공!', result.data)
-    })
 }
