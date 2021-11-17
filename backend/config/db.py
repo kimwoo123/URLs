@@ -16,5 +16,6 @@ from pymongo import MongoClient
 ip_address = "13.124.101.173"
 replicaSet = "docker-rs"
 mongodb_URI = f"mongodb://{ip_address}:9042,{ip_address}:9142,{ip_address}:9242/?replicaSet={replicaSet}"
+client = MongoClient(mongodb_URI)
 
 db = client['Urls']
