@@ -48,12 +48,17 @@ async def create_update_user(user_in: UserIn):
 
 
 @user.put('/user/{id}/category', summary="유저 카테고리 정보 업데이트")
-async def update_user_category(id, category, current_user: UserOut = Depends(get_current_user)):
+async def update_user_category(id, category: str, current_user: UserOut = Depends(get_current_user)):
     if not id == str(current_user["_id"]):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
     user = db.user.find_one({"_id": ObjectId(id)})
+    print('DEBUG_1 - user =>', user)
+    print('DEBUG_2 - category =>', category)
+    print('DEBUG_3 - category type =>', type(category))
+    print('DEBUG_4 - BEFORE UPDATE CATEGORY', user["categories"][category])
     user["categories"][category] = int(user["categories"][category]) + 1
+    print('DEBUG_5 - AFTER UPDATE CATEGORY', user["categories"][category])
     db.user.find_one_and_update({"_id": ObjectId(id)}, {"$set": dict(user)})
 
     return serializeDict(user)
