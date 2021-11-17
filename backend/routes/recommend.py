@@ -92,10 +92,6 @@ async def recommend_urls(count: int, current_user: UserOut = Depends(get_current
     # If url exists, Recommend!
     if urls_with_weight is not None:
         # Only urls (count > 2) (for preventing noise)
-        for url in urls_with_weight:
-            print(url["url"])
-            print(url["categories"])
-            print(url["count"])
         urls = np.array(
             [[url_with_weight["url"]] for url_with_weight in urls_with_weight
             if url_with_weight["count"] > 2]
@@ -168,7 +164,8 @@ async def create_url(url: str, category: str):
                 "DevOps": 0,
                 "Tools(생산성)": 0,
                 "기획/디자인": 0,
-            }
+            },
+            "count": 1
         }
         url_dict["categories"][category] = 1
         db.recommend.insert_one(url_dict)
