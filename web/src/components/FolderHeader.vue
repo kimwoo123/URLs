@@ -54,7 +54,11 @@
             @click="searchText = ''"
             class="cursor-pointer"
           />
-          <q-icon name="search" @click="search" />
+          <q-icon 
+            name="search" 
+            @click="search" 
+            class="cursor-pointer"
+          />
         </template>
       </q-input>
 
@@ -106,7 +110,7 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { useQuasar } from "quasar";
@@ -128,11 +132,12 @@ export default {
     const folderName = computed({
       get: () => {
         return ref($store.getters["urls/folderNow"].folder_name);
-      },
-      set: () => {
-        console.log(folderName);
       }
     });
+
+    const folderId = computed({
+      get: () => $store.getters["urls/folderNow"]._id
+    })
 
     const folderNameList = computed({
       get: () => {
@@ -232,6 +237,11 @@ export default {
       console.log('urlData', urlData)
       $store.dispatch("urls/GET_FOLDER_URL_SEARCH", urlData);
     };
+
+    watch(folderId, () => {
+      console.log('오잉')
+      searchText.value = ''
+    })
 
     return {
       isUpdatingFolderName,

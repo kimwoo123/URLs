@@ -4,6 +4,7 @@
 
     <div
       class="row q-pa-md items-start q-gutter-lg justify-center"
+      v-if="searchData.length === 0"
     >
       <template
         v-for="urlItem in folderData.urls"
@@ -14,21 +15,24 @@
       </template>
     </div>
 
-    <!-- <div class="row q-pa-md items-start q-gutter-lg justify-center" v-else>
-      {{ searchData }}
+    <div
+      class="row q-pa-md items-start q-gutter-lg justify-center"
+      v-else
+    >
       <template
-        v-for="urlItem in searchData.urls"
+        v-for="urlItem in searchData[0].urls"
         :key="urlItem.memos_id"
         class="col-xs-12 col-sm-6 col-md-4"
       >
         <folder-url-card :urlItem="urlItem" />
       </template>
-    </div> -->
+    </div>
+
   </main>
 </template>
 
 <script>
-import { computed, watch } from "vue";
+import { computed, watch, onUnmounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import FolderUrlCard from "src/components/cards/FolderUrlCard.vue";
@@ -36,6 +40,7 @@ import FolderHeader from "src/components/FolderHeader.vue";
 
 export default {
   components: { FolderUrlCard, FolderHeader },
+
   setup() {
     const $route = useRoute();
     const $store = useStore();
@@ -61,8 +66,12 @@ export default {
       folderData,
       searchData
     };
+
   }
-};
+
+}
 </script>
 
-<style></style>
+<style>
+
+</style>
