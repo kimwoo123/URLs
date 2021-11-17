@@ -52,9 +52,14 @@ async def update_user_category(id, category: str, current_user: UserOut = Depend
     if not id == str(current_user["_id"]):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
-    user = db.user.find_one({"_id": ObjectId(id)})
+    print('user 찾는 중')
+    user = db.user.find_one({"_id": ObjectId(current_user["_id"])})
+    print('user 찾음')
+    print('이건 뭐지', user["categories"][category])
     user["categories"][category] = int(user["categories"][category]) + 1
+    print('user 카테고리 업데이트 성공')
     db.user.find_one_and_update({"_id": ObjectId(id)}, {"$set": dict(user)})
+    print('db 반영 성공')
 
     return serializeDict(user)
 
