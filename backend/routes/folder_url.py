@@ -11,7 +11,6 @@ from .token import get_current_user
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
-
 folder_url = APIRouter()
 
 
@@ -93,22 +92,26 @@ async def create_folder_url(folder_id, url_in: UrlIn, current_user: User = Depen
     
     await tag_count_increase(url_in.tags, user_id=current_user["_id"])
     
+    tmp = db.memo.insert_one(jsonable_encoder(Memos()))
     try:
         html = urlopen(url_in.url)
         bsObject = BeautifulSoup(html, "html.parser")
         title = bsObject.head.title.text
         og_image = bsObject.head.find("meta", {"property": "og:image"}).get("content")
+        url = UrlInDB(
+            **url_in.dict(), 
+            added_by=User(**current_user),
+            title=title,
+            thumbnail=og_image,
+            memos_id=tmp.inserted_id
+        )
     except:
-        title = og_image = None
+        url = UrlInDB(
+            **url_in.dict(), 
+            added_by=User(**current_user),
+            memos_id=tmp.inserted_id
+        )
 
-    tmp = db.memo.insert_one(jsonable_encoder(Memos()))
-    url = UrlInDB(
-        **url_in.dict(), 
-        added_by=User(**current_user),
-        title=title,
-        thumbnail=og_image,
-        memos_id=tmp.inserted_id
-    )
     folder = db.folder.find_one_and_update(
         {"_id": ObjectId(folder_id)}, {"$push": {"urls": jsonable_encoder(url)}},
         return_document=ReturnDocument.AFTER
