@@ -1,6 +1,6 @@
 <template>
   <main>
-    <q-btn flat round icon="create" @click="openDialog" size="13px" />
+    <q-btn flat round icon="note_add" @click="openDialog" size="13px" />
 
     <q-dialog v-model="isOpen">
         <q-card style="min-width: 350px">
@@ -15,6 +15,9 @@
               :rules="[ ruleSameUrl ]"
             />
             <q-input v-if="false"></q-input>
+          </q-card-section>
+          <q-card-section>
+            <q-select v-model="category" :options="categoryOption" label="카테고리" />
           </q-card-section>
           <q-btn flat label="태그 추천:" @click="recommendTag"/>
           <span v-for="(tag, index) in recommendResult.value" :key="index">
@@ -39,7 +42,7 @@
         </span>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="취소" v-close-popup type="reset" />
+          <q-btn flat label="취소" @click="resetCategory" v-close-popup type="reset" />
           <q-btn flat label="만들기" @click="createUrl" type="submit" />
         </q-card-actions>
       </q-card>
@@ -62,6 +65,23 @@ export default {
     const urlName = ref('')
     const customTags = ref('')
     const customTagList = ref([])
+
+    let category = ref('')
+    const categoryOption = [
+      '프론트',
+      '백엔드',
+      '모바일',
+      '빅데이터/AI',
+      'CS',
+      'DevOps',
+      'Tools(생산성)',
+      '기획/디자인'
+    ]
+
+    const resetCategory = () => {
+      category.value = ''
+    }
+
     // const recommendResult = ref($store.state.recommend.recommendTag)
     const recommendResult = computed({
       get: () => {
@@ -98,12 +118,27 @@ export default {
           type: 'negative',
           message: '이미 등록된 URL 입니다.'
         })
+      } else if (urlName.value.trim() === '') {
+        $q.notify({
+          type: 'negative',
+          message: 'URL을 입력해주세요.'
+        })
+      } else if (category.value === '') {
+        $q.notify({
+          type: 'negative',
+          message: '카테고리를 선택해주세요.'
+        })
       } else {
         $store.dispatch('urls/CREATE_URL', urlData)
         $store.dispatch('recommend/DELETE_RECOMMEND_TAG')
         isOpen.value = false 
+
+        const categoryName =  category.value
+        $store.dispatch('recommend/PUT_USER_CATEGORY', categoryName)
+        
         urlName.value = ''
         customTags.value = ''
+        category.value = ''
       }
     }
 
@@ -124,14 +159,17 @@ export default {
     })
     
     return {
+      resetCategory,
       recommendTag,
       ruleSameUrl,
       openDialog,
       createUrl,
       recommendResult,
+      categoryOption,
       customTagList,
       customTags,
       splitTags,
+      category,
       urlName,
       isOpen,
     }

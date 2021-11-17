@@ -26,6 +26,7 @@ const routes = [
         component: () => import('src/pages/Logined/Recommendation.vue'),
         beforeEnter: (to, from, next) => {
           vuexStore.dispatch('urls/CLOSE_MEMO')
+          vuexStore.dispatch('urls/DELETE_URL_SEARCH')
           next()
         },
       },
@@ -35,24 +36,27 @@ const routes = [
         component: () => import('pages/Logined/AllUrls.vue'),
         beforeEnter: (to, from, next) => {
           vuexStore.dispatch('urls/CLOSE_MEMO')
+          vuexStore.dispatch('urls/DELETE_URL_SEARCH')
           next()
         },
       },
       {
         path: 'myfolder/:folder_id',
         name: 'MyFolder',
-        component: () => import('pages/Logined/MyFolder.vue'),
+        component: () => import('src/pages/Logined/FolderPage.vue'),
         beforeEnter: (to, from, next) => {
           vuexStore.dispatch('urls/CLOSE_MEMO')
+          vuexStore.dispatch('urls/DELETE_URL_SEARCH')
           next()
         },
       },
       {
         path: 'ourfolder/:folder_id',
         name: 'OurFolder',
-        component: () => import('pages/Logined/OurFolder.vue'),
+        component: () => import('src/pages/Logined/FolderPage.vue'),
         beforeEnter: (to, from, next) => {
           vuexStore.dispatch('urls/CLOSE_MEMO')
+          vuexStore.dispatch('urls/DELETE_URL_SEARCH')
           next()
         },
       },
@@ -62,6 +66,7 @@ const routes = [
         component: () => import('pages/Logined/Settings.vue'),
         beforeEnter: (to, from, next) => {
           vuexStore.dispatch('urls/CLOSE_MEMO')
+          vuexStore.dispatch('urls/DELETE_URL_SEARCH')
           next()
         },
       }

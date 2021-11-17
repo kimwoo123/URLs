@@ -3,6 +3,7 @@ export default function() {
     searchResult: [],
     searchPage: [],
     recommendTag: [],
-    tag: []
+    tag: [],
+    recommendUrls: []
   };
 }

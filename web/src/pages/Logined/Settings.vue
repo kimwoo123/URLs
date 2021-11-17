@@ -1,12 +1,12 @@
 <template>
   <main>
-    <div class="row justify-center q-mt-xl">
+    <div class="row justify-center q-mt-lg">
       <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
         <q-item>
           <!-- Avatar -->
           <q-item-section avatar>
-            <q-avatar rounded size="150px">
-              <img :src="userInfo.avatar" alt="" />
+            <q-avatar rounded size="100px">
+              <img :src="userInfo.avatar" alt="avatar" />
             </q-avatar>
           </q-item-section>
 
@@ -29,7 +29,8 @@
           </q-item-section>
         </q-item>
 
-        <q-list class="q-mt-lg">
+        <!-- User Catetories -->
+        <q-list class="q-mt-md">
           <q-item
             class="row"
             v-for="(idx, item) in getUserCategories.data"
@@ -54,7 +55,7 @@
         </q-list>
 
         <!-- Buttons -->
-        <q-item class="row justify-center q-mt-lg">
+        <q-item class="row justify-center q-mt-md">
           <div v-if="editMode" class="q-mx-xs">
             <q-btn
               @click="changeDeleteMode"

@@ -10,7 +10,14 @@ export async function GET_FOLDER({ commit }) {
 
 export async function GET_ALL_URL({ commit }) {
   await urls.urlFindAll().then(async result => {
-    console.log("모든 urls 결과", result.data);
+    const allFolderData = {
+      _id: '',
+      folder_name: '모든 Urls',
+      urls: result.data,
+      users: []
+    }
+    await commit("setUrl", result.data);
+    await commit("setFolderNow", allFolderData);
   });
 }
 
@@ -65,8 +72,6 @@ export function CLOSE_MEMO({ commit }) {
 
 export async function GET_URL_MEMO({ commit }, memoId) {
   await urls.memoAll(memoId).then(async result => {
-    console.log(result);
-    console.log(result.data.url_title);
     commit("setSelectedMemoId", memoId);
     commit("setSelectedMemoTitle", result.data.url_title);
     commit("setUrlMemo", result.data.memos);
@@ -98,10 +103,17 @@ export async function DELETE_URL_MEMO({ commit }, memoData) {
 }
 
 export async function GET_FOLDER_URL_SEARCH({ commit }, urlData) {
-  await urls.urlFindFolder(urlData).then(async result => {
-    console.log('잘된다고해줘', result)
-    commit("setSearchData", result.data);
-  });
+  if (urlData.folder_id == '') {
+    console.log('전체 페이지에서 검색은 잠시만...')
+  } else {
+    await urls.urlFindFolder(urlData).then(async result => {
+      commit("setSearchData", result.data);
+    });
+  }
+}
+
+export async function DELETE_URL_SEARCH({ commit }) {
+  commit("setSearchData", []);
 }
 
 export async function CREATE_URL({ commit }, urlData) {
@@ -113,7 +125,6 @@ export async function CREATE_URL({ commit }, urlData) {
 
 export async function ADD_FOLDER_USER({ commit, dispatch }, folderUserData) {
   await urls.folderCreateUser(folderUserData).then(async result => {
-    console.log(result);
     dispatch("GET_FOLDER");
     commit("setFolderNow", result.data);
   });
@@ -128,7 +139,6 @@ export async function PUT_FOLDER_USER({ commit, dispatch }, folderUserData) {
 
 export async function DELETE_FOLDER_USER({ commit, dispatch }, folderUserData) {
   await urls.folderDeleteUser(folderUserData).then(async result => {
-    console.log(result);
     dispatch("GET_FOLDER");
     commit("setFolderNow", result.data);
   });

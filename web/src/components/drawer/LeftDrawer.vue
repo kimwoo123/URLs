@@ -1,6 +1,5 @@
 <template>
-  <q-list>
-
+  <q-list padding>
       <router-link :to="{ name: 'Recommendation'}">
         <q-item clickable v-ripple>
           <q-item-section avatar>

@@ -37,11 +37,12 @@ import FolderHeader from "src/components/FolderHeader.vue";
 export default {
   components: { FolderUrlCard, FolderHeader },
   setup() {
+    const $route = useRoute();
+    const $store = useStore();
+    
     const searchData = computed({
       get: () => $store.state.urls.searchData
     });
-    const $route = useRoute();
-    const $store = useStore();
 
     const folderId = computed({
       get: () => {

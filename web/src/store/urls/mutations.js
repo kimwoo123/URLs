@@ -30,6 +30,6 @@ export function setSelectedMemoTitle(state, memoTitle) {
   state.selectedMemoTitle = memoTitle;
 }
 
-export function setSearchData(state, Data) {
-  state.searchData = Data;
+export function setSearchData(state, data) {
+  state.searchData = data;
 }

@@ -5,6 +5,7 @@ import com.keelim.data.model.CallResult
 import com.keelim.data.model.Folder
 import com.keelim.data.model.auth.User
 import com.keelim.data.model.dash.Dash
+import com.keelim.data.model.fold.Memo
 import com.keelim.data.model.open.Url
 import com.keelim.data.response.MyUrlResponse
 import com.keelim.di.IoDispatcher
@@ -90,7 +91,7 @@ class UrlRepositoryImpl @Inject constructor(
             val result = response.body()?.urls!!.map {
                 Url(
                     url = it.url,
-                    thumbnail = it.thumbnail,
+                    thumbnail = it.thumbnail.orEmpty(),
                     tags = it.tags,
                     memos_id = it.memosId,
                 )
@@ -145,8 +146,23 @@ class UrlRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun urlAllMemo(mid: String): CallResult = withContext(dispatcher) {
-        TODO("Not yet implemented")
+    override suspend fun urlAllMemo(mid: String): List<Memo> = withContext(dispatcher) {
+        try {
+            val response = apiRequestFactory.retrofit.getMemos(mid)
+            val result = response.body()?.memos!!.mapIndexed { index, memo ->
+                Memo(
+                    index.toString(),
+                    memo.content,
+                    memo.updatedAt
+                )
+            }
+            Timber.d("성공한 데이터 $result")
+            return@withContext result
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+        Timber.d("성공하지 않는 데이터")
+        return@withContext emptyList()
     }
 
     override suspend fun urlNewMemo(mid: String, highlight: String, content: String): CallResult =

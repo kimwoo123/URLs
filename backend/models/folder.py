@@ -36,8 +36,8 @@ class UrlIn(BaseModel):
 
 
 class UrlInDB(UrlIn):
-    title: Optional[str]
-    thumbnail: Optional[HttpUrl]
+    title: Optional[str] = None
+    thumbnail: Optional[HttpUrl] = None
     added_by: User
     memos_id: PyObjectId
     class Config:

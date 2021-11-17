@@ -1,16 +1,21 @@
 package com.keelim.free.ui.setting
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.input.key.Key.Companion.F
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.keelim.free.R
 import com.keelim.free.databinding.FragmentSettingBinding
+import com.keelim.free.ui.auth.AuthActivity
 import com.keelim.free.ui.inject.InjectActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,22 +44,30 @@ class SettingFragment : BottomSheetDialogFragment() {
         click()
     }
 
-    private fun click() {
-        binding.themeOption.setOnClickListener {
-            dismiss()
-        }
+    override fun getTheme(): Int {
+        return R.style.CustomBottomSheetDialog
+    }
 
-        binding.aboutButton.setOnClickListener {
+    private fun click() = with(binding){
+        aboutButton.setOnClickListener {
             dismiss()
             findNavController().navigate(R.id.aboutFragment)
         }
 
-        binding.inject.setOnClickListener {
+        signOut.setOnClickListener{
             dismiss()
-            startActivity(Intent(requireActivity(), InjectActivity::class.java))
+            Firebase.auth.signOut()
+            startActivity(Intent(requireActivity(), AuthActivity::class.java))
+            requireActivity().finish()
         }
 
-        binding.openSourceLicensesButton.setOnClickListener {
+        homepage.setOnClickListener {
+            dismiss()
+            startActivity(Intent(requireActivity(), InjectActivity::class.java))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.git_lab_address))))
+        }
+
+        openSourceLicensesButton.setOnClickListener {
             dismiss()
             requireActivity().startActivity(
                 Intent(
