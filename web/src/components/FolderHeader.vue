@@ -1,85 +1,99 @@
 <template>
-  <div class="row folder-header-container justify-between text-h6">
+  <div class="column folder-header-container text-h6">
     <q-item>
-      <q-icon name="folder" size="40px" class="folder-icon" />
-      <span v-if="!isUpdatingFolderName">{{ folderName.value }}</span>
+      <q-item-section avatar>
+        <q-icon name="folder" size="40px" class="folder-icon" />
+      </q-item-section>
 
-      <q-item-section v-if="isUpdatingFolderName">
-        <form
-          @submit.stop.prevent="updateFolderName"
-          @reset.stop.prevent="toggleUpdating"
-          class="row"
-        >
-          <q-input
-            dense
-            v-model="folderName.value"
-            autofocus
-            :rules="[ruleSameName, ruleMinWords, ruleMaxWords]"
-            @keyup.enter="updateFolderName"
-          />
-          <q-btn
-            flat
-            round
-            size="12px"
-            icon="clear"
-            color="negative"
-            type="reset"
-          />
-          <q-btn
-            flat
-            round
-            size="12px"
-            icon="done"
-            color="positive"
-            type="submit"
-          />
-        </form>
+      <q-item-section>
+        <div v-if="!isUpdatingFolderName">
+            {{ folderName.value }}
+            <q-btn flat round>
+            <q-icon name="more_vert" />
+            <q-menu cover auto-close self="bottom right">
+              <q-list>
+                <q-item clickable @click="alert = true">
+                  <q-item-section>폴더 삭제</q-item-section>
+                </q-item>
+                <q-item clickable @click="toggleUpdating">
+                  <q-item-section>폴더명 변경</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
+        </div>
+
+        <div v-if="isUpdatingFolderName">
+          <!-- <form
+            @submit.stop.prevent="updateFolderName"
+            @reset.stop.prevent="toggleUpdating"
+            class="row"
+          > -->
+            <q-input
+              dense
+              v-model="folderName.value"
+              autofocus
+              :rules="[ruleSameName, ruleMinWords, ruleMaxWords]"
+              @keyup.enter="updateFolderName"
+            >
+              <template v-slot:append>
+                <q-btn
+                  flat
+                  round
+                  size="12px"
+                  icon="clear"
+                  color="negative"
+                  @click="toggleUpdating"
+                />
+                <q-btn
+                  flat
+                  round
+                  size="12px"
+                  icon="done"
+                  color="positive"
+                  @click="updateFolderName"
+                />
+              </template>
+            
+            </q-input>
+          <!-- </form> -->
+        </div>
+      </q-item-section>
+
+      <q-item-section side v-if="folderData._id !== ''">
+        <folder-user-button :folderData="folderData" round />
+      </q-item-section>
+      <q-item-section side v-if="folderData._id !== ''">
+        <create-url-button />
       </q-item-section>
     </q-item>
 
-    <q-item>
-      <q-input
-        filled
-        dense
-        bottom-slots
-        v-model="searchText"
-        label="folder 내 url 검색"
-        maxlength="15"
-        @keyup.enter="search"
-      >
-        <template v-slot:append>
-          <q-icon
-            v-if="searchText !== ''"
-            name="close"
-            @click="searchText = ''"
-            class="cursor-pointer"
-          />
-          <q-icon 
-            name="search" 
-            @click="search" 
-            class="cursor-pointer"
-          />
-        </template>
-      </q-input>
-
-      <q-item-section>
-        <q-btn flat round>
-          <q-icon name="more_vert" />
-          <q-menu cover auto-close self="bottom right">
-            <q-list>
-              <q-item clickable @click="alert = true">
-                <q-item-section>폴더 삭제</q-item-section>
-              </q-item>
-              <q-item clickable @click="toggleUpdating">
-                <q-item-section>폴더명 변경</q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
-        </q-btn>
+    <q-item class="row justify-end
+">
+      <q-item-section class="col-xs-6 col-12">
+        <q-input
+          dense
+          bottom-slots
+          v-model="searchText"
+          placeholder="나의 URL을 찾아볼까요?"
+          maxlength="15"
+          @keyup.enter="search" 
+        >
+          <template v-slot:append>
+            <q-icon
+              v-if="searchText !== ''"
+              name="close"
+              @click="searchText = ''"
+              class="cursor-pointer"
+            />
+            <q-icon 
+              name="search" 
+              @click="search" 
+              class="cursor-pointer"
+            />
+          </template>
+        </q-input>
       </q-item-section>
-
-      <folder-user-button :folderData="folderData" round />
-      <create-url-button />
     </q-item>
   </div>
 
@@ -261,12 +275,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.folder-header-container {
-  display: flex;
-  align-items: center;
-  padding: 15px 50px 0px 50px;
-}
-.folder-icon {
-  margin-right: 10px;
-}
+// .folder-header-container {
+//   display: flex;
+//   align-items: center;
+//   padding: 15px 50px 0px 50px;
+// }
+// .folder-icon {
+//   margin-right: 10px;
+// }
 </style>

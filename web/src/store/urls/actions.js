@@ -10,7 +10,14 @@ export async function GET_FOLDER({ commit }) {
 
 export async function GET_ALL_URL({ commit }) {
   await urls.urlFindAll().then(async result => {
-    console.log("모든 urls 결과", result.data);
+    const allFolderData = {
+      _id: '',
+      folder_name: '모든 Urls',
+      urls: result.data,
+      users: []
+    }
+    await commit("setUrl", result.data);
+    await commit("setFolderNow", allFolderData);
   });
 }
 
@@ -96,9 +103,13 @@ export async function DELETE_URL_MEMO({ commit }, memoData) {
 }
 
 export async function GET_FOLDER_URL_SEARCH({ commit }, urlData) {
-  await urls.urlFindFolder(urlData).then(async result => {
-    commit("setSearchData", result.data);
-  });
+  if (urlData.folder_id == '') {
+    console.log('전체 페이지에서 검색은 잠시만...')
+  } else {
+    await urls.urlFindFolder(urlData).then(async result => {
+      commit("setSearchData", result.data);
+    });
+  }
 }
 
 export async function DELETE_URL_SEARCH({ commit }) {
