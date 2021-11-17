@@ -1,5 +1,5 @@
 import { search } from "src/api/index";
-import { recommend } from 'src/api/index'
+import { recommend, auth } from 'src/api/index'
 
 export async function SEARCH_TAG({ commit }, queryData) {
   await search.searchTag(queryData).then(async result => {
@@ -10,6 +10,8 @@ export async function SEARCH_TAG({ commit }, queryData) {
 export async function RECOMMEND_TAG({ commit }, recommendData) {
   await search.recommendTag(recommendData)
   .then(async (result) => {
+    // if (!Object.keys(result.data).includes('status_code')) {
+    // }
     recommendData.tags = result.data
     await commit('setRecommendTag', result.data)
   })
@@ -24,4 +26,20 @@ export async function GET_RECOMMEND_URL({ commit }, count) {
     .then(result => {
       commit('setRecommendUrls',result.data)
   })
+}
+
+export async function GET_USER_CATEGORY({ commit }, userCategoryData) {
+  await auth.getUserInfo(userCategoryData.userId)
+    .then(result => {
+      let categories = {}
+      categories["categories"] = result.data["categories"]
+      categories["categories"][userCategoryData.categoryName] += 1
+      categories["url"] = userCategoryData.url
+
+      PUT_USER_CATEGORY({}, userCategoryData.userId, categories)
+    })
+}
+
+export async function PUT_USER_CATEGORY({ commit }, userId, categories) {
+  await auth.userCatergoryUpdate(userId, categories)
 }
