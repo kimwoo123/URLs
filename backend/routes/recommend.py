@@ -16,8 +16,8 @@ from urllib.request import urlopen
 
 # 로컬 테스트 시 아래는 주석처리 - 1 (아래에 2도 있음)
 # -----------------------------
-from konlpy.tag import Mecab
-mecab = Mecab()
+# from konlpy.tag import Mecab
+# mecab = Mecab()
 # -----------------------------
 
 
@@ -58,24 +58,23 @@ async def find_tags(url, count: int):
             soup = soup.translate(str.maketrans(removal_list, ' '*len(removal_list)))
             soup = soup.strip()
 
-
             # 로컬테스트 시 아래는 주석처리 - 2
             # ---------------------------------------------
-            if soup is not None:
-                soup = mecab.nouns(soup)
-                result = dict()
-                for item in soup:
-                    if result.get(item):
-                        result[item] += 1
-                    else:
-                        result[item] = 1
+            # if soup is not None:
+            #     soup = mecab.nouns(soup)
+            #     result = dict()
+            #     for item in soup:
+            #         if result.get(item):
+            #             result[item] += 1
+            #         else:
+            #             result[item] = 1
                 
-                result = [(k, v) for k, v in result.items() if len(k) > 1]
-                if len(result) != 0:
-                    result.sort(reverse=True, key=lambda x: x[1])
-                    result = [k for k, _ in result]
+            #     result = [(k, v) for k, v in result.items() if len(k) > 1]
+            #     if len(result) != 0:
+            #         result.sort(reverse=True, key=lambda x: x[1])
+            #         result = [k for k, _ in result]
 
-                    return result[:int(count)]
+            #         return result[:int(count)]
             # ---------------------------------------------
         except:
             return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Error occured\nurl {url} prevent request module")
