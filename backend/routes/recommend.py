@@ -11,10 +11,13 @@ import numpy as np
 import requests
 from bs4 import BeautifulSoup
 import re
+
+from urllib.request import urlopen
+
 # 로컬 테스트 시 아래는 주석처리 - 1 (아래에 2도 있음)
 # -----------------------------
-from konlpy.tag import Mecab
-mecab = Mecab()
+# from konlpy.tag import Mecab
+# mecab = Mecab()
 # -----------------------------
 
 
@@ -58,34 +61,26 @@ async def find_tags(url, count: int):
 
             # 로컬테스트 시 아래는 주석처리 - 2
             # ---------------------------------------------
-            if soup is not None:
-                soup = mecab.nouns(soup)
-                result = dict()
-                for item in soup:
-                    if result.get(item):
-                        result[item] += 1
-                    else:
-                        result[item] = 1
+            # if soup is not None:
+            #     soup = mecab.nouns(soup)
+            #     result = dict()
+            #     for item in soup:
+            #         if result.get(item):
+            #             result[item] += 1
+            #         else:
+            #             result[item] = 1
                 
-                result = [(k, v) for k, v in result.items() if len(k) > 1]
-                if len(result) != 0:
-                    result.sort(reverse=True, key=lambda x: x[1])
-                    result = [k for k, _ in result]
+            #     result = [(k, v) for k, v in result.items() if len(k) > 1]
+            #     if len(result) != 0:
+            #         result.sort(reverse=True, key=lambda x: x[1])
+            #         result = [k for k, _ in result]
 
-                    return result[:int(count)]
+            #         return result[:int(count)]
             # ---------------------------------------------
         except:
             return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Error occured\nurl {url} prevent request module")
 
     return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"url {url} not found")
-
-
-# @recommend.get('/recommend', summary="전체 url DB 속 url 있는지 조회")
-# async def find_one_url(url):
-#     url = db.recommend.find_one({"url": url})
-#     if url is not None:
-#         return serializeDict(url)
-#     return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"url {url} not found")
 
 
 @recommend.get('/recommend', summary="urls 추천 (해당 url 누적 수가 3 이상인 것만 대상)")
@@ -124,6 +119,24 @@ async def recommend_urls(count: int, current_user: UserOut = Depends(get_current
             recommended_urls.sort(key=lambda x: float(x[1]))
             recommended_urls = [url_with_score[0] for url_with_score in recommended_urls][:count]
 
+            result = []
+            for url in recommended_urls:
+                url_dict = {
+                    "url": url,
+                    "title": None,
+                    "og_image": None,
+                }
+                try:
+                    html = urlopen(url)
+                    bsObject = BeautifulSoup(html, "html.parser")
+                    url_dict["title"] = bsObject.head.title.text
+                    url_dict["og_image"] = bsObject.head.find("meta", {"property": "og:image"}).get("content")
+                except:
+                    url_dict["title"] = url_dict["og_image"] = None
+                
+                result.append(url_dict)
+            return result
+
     return recommended_urls
 
 
@@ -152,25 +165,3 @@ async def create_url(url: UrlIn):
         url_in_db = db.recommend.find_one({'url': url.url})
 
     return serializeDict(url_in_db)
-
-
-# @recommend.put('/recommend', summary="추천을 위한 전체 url DB 속 단일 URL 수정")
-# async def update_url(url: UrlIn):
-#     # Find target category
-#     prefer_category = ''
-#     for item in url.categories:
-#         if url.categories[item] == 1:
-#             prefer_category = item
-#             break
-    
-#     # Update categories of the url
-#     url_in_db = db.recommend.find_one({"url": url.url})
-#     for item in url_in_db["categories"]:
-#         if item == prefer_category:
-#             url_in_db["categories"][item] = (url_in_db["categories"][item] * url_in_db["count"] + 1) / (url_in_db["count"] + 1)
-#         else:
-#             url_in_db["categories"][item] = url_in_db["categories"][item] * url_in_db["count"] / (url_in_db["count"] + 1)
-#     url_in_db["count"] += 1
-#     db.recommend.find_one_and_update({"url": url.url}, {"$set": dict(url_in_db)})
-
-#     return serializeDict(url_in_db)
