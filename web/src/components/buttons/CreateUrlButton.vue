@@ -138,6 +138,12 @@ export default {
           category: category.value
         }
         $store.dispatch('recommend/PUT_USER_CATEGORY', payload)
+
+        const recommendPayload = {
+          url: urlName,
+          categoryName: category.value
+        }
+        $store.dispatch('recommend/POST_URL_RECOMMEND', recommendPayload)
         
         urlName.value = ''
         customTags.value = ''
