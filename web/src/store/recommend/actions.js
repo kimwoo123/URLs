@@ -28,6 +28,6 @@ export async function GET_RECOMMEND_URL({ commit }, count) {
   })
 }
 
-export async function PUT_USER_CATEGORY({ commit }, userId, category) {
-  await auth.userCatergoryUpdate(userId, category)
+export async function PUT_USER_CATEGORY({ commit }, payload) {
+  await auth.userCatergoryUpdate(payload)
 }
