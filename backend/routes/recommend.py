@@ -93,7 +93,9 @@ async def recommend_urls(count: int, current_user: UserOut = Depends(get_current
     if urls_with_weight is not None:
         # Only urls (count > 2) (for preventing noise)
         for url in urls_with_weight:
-            print(url)
+            print(url["url"])
+            print(url["categories"])
+            print(url["count"])
         urls = np.array(
             [[url_with_weight["url"]] for url_with_weight in urls_with_weight
             if url_with_weight["count"] > 2]
@@ -143,13 +145,10 @@ async def recommend_urls(count: int, current_user: UserOut = Depends(get_current
 
 @recommend.post('/recommend', summary="추천을 위한 전체 url DB에 신규 url 추가 및 수정", status_code=status.HTTP_201_CREATED)
 async def create_url(url: str, category: str):
-    print('요청 시작')
     # Create or Update categories of the url
     url_in_db = db.recommend.find_one({"url": url})
-    print('url 찾음')
     # Make sure that the url is not in recommend DB
     if url_in_db is not None:
-        print('기존에 있던 것!')
         for item in url_in_db["categories"]:
             if item == category:
                 url_in_db["categories"][item] = (url_in_db["categories"][item] * url_in_db["count"] + 1) / (url_in_db["count"] + 1)
@@ -157,9 +156,7 @@ async def create_url(url: str, category: str):
                 url_in_db["categories"][item] = url_in_db["categories"][item] * url_in_db["count"] / (url_in_db["count"] + 1)
         url_in_db["count"] = url_in_db["count"] + 1
         db.recommend.find_one_and_update({"url": url}, {"$set": dict(url_in_db)})
-        print('기존에 있던 것 업데이트 완료')
     else:
-        print('기존에 없던 것!')
         url_dict = {
             "url": "https://www.google.com",
             "categories": {
@@ -175,6 +172,5 @@ async def create_url(url: str, category: str):
         }
         url_dict["categories"][category] = 1
         db.recommend.insert_one(url_dict)
-        print('기존에 없던 것 업데이트 완료')
-    print('요청 완료')
+
     return 'OK'
