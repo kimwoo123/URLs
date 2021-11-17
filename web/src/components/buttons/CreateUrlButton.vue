@@ -140,7 +140,7 @@ export default {
         $store.dispatch('recommend/PUT_USER_CATEGORY', payload)
 
         const recommendPayload = {
-          url: urlName,
+          url: urlName.value,
           categoryName: category.value
         }
         $store.dispatch('recommend/POST_URL_RECOMMEND', recommendPayload)
