@@ -77,6 +77,37 @@ async def find_all_folder_url_me(user: User = Depends(get_current_user)):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
 
+@folder_url.get('/folder/url/me/search', summary="내 url들에서 특정 단어 포함 url 검색")
+async def find_all_folder_url_me(pattern, user: User = Depends(get_current_user)):
+    folders = db.folder.aggregate([
+        {"$match": {"urls.added_by.email": user["email"]}},
+        {"$project": {
+            "urls": {"$filter": {
+                "input": "$urls",
+                "as": "elem",
+                "cond": {
+                    "$and": [
+                        { "$regexMatch": { "input": "$$elem.url" , "regex": pattern } },
+                        { "$eq": ["$$elem.added_by.email", user["email"]] }
+                    ]
+                }
+                }
+            }}
+        }
+    ])
+    if folders is not None:
+        result = []
+        for folder in folders:
+            for url in folder["urls"]:
+                url["folder_id"] = folder["_id"]
+                url["folder_name"] = db.folder.find_one({"_id": ObjectId(folder["_id"])})["folder_name"]
+                result.append(url)
+        result.sort(key=lambda x: ObjectId(x["memos_id"]).generation_time, reverse=True)
+
+        return serializeList_folder(result)
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+
+
 @folder_url.get('/folder/{folder_id}/url', summary="폴더 내에서 특정 단어 포함 url 검색")
 async def find_one_folder_url(folder_id, pattern):
     folder = db.folder.aggregate([
