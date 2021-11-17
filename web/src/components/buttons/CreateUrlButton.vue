@@ -134,7 +134,7 @@ export default {
         isOpen.value = false 
 
         const categoryName =  category.value
-        $store.dispatch('recommend/PUT_USER_CATEGORY', $store.state.user.userid, categoryName)
+        $store.dispatch('recommend/PUT_USER_CATEGORY', $store.state.user.userid, String(categoryName))
         
         urlName.value = ''
         customTags.value = ''
