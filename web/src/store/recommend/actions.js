@@ -28,18 +28,6 @@ export async function GET_RECOMMEND_URL({ commit }, count) {
   })
 }
 
-export async function GET_USER_CATEGORY({ commit }, userCategoryData) {
-  await auth.getUserInfo(userCategoryData.userId)
-    .then(result => {
-      let categories = {}
-      categories["categories"] = result.data["categories"]
-      categories["categories"][userCategoryData.categoryName] += 1
-      categories["url"] = userCategoryData.url
-
-      PUT_USER_CATEGORY({}, userCategoryData.userId, categories)
-    })
-}
-
-export async function PUT_USER_CATEGORY({ commit }, userId, categories) {
-  await auth.userCatergoryUpdate(userId, categories)
+export async function PUT_USER_CATEGORY({ commit }, userId, category) {
+  await auth.userCatergoryUpdate(userId, category)
 }
