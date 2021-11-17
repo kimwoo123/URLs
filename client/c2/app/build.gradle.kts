@@ -102,10 +102,10 @@ dependencies {
     // firebase
 
     implementation(platform("com.google.firebase:firebase-bom:28.4.1"))
+    implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-messaging")
-    implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.android.gms:play-services-auth:19.2.0")
 
     implementation(Dep.AndroidX.datastore.datastore)
@@ -129,7 +129,8 @@ dependencies {
     debugImplementation("com.facebook.soloader:soloader:0.10.1")
 
     releaseImplementation("com.facebook.flipper:flipper-noop:0.119.0")
-
+    implementation("kr.co.prnd:persistBottomSheetFragment:1.0.0")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 }
 
 kapt {

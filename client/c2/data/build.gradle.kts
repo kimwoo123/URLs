@@ -55,6 +55,10 @@ dependencies {
     implementation(Dep.moshi_codegen)
 
     implementation("com.mocklets:pluto:1.1.1")
+
+    implementation(platform("com.google.firebase:firebase-bom:28.4.1"))
+    implementation("com.google.firebase:firebase-auth-ktx")
+
 }
 
 kapt {

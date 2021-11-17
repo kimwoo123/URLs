@@ -37,5 +37,9 @@
         android:id="@+id/searchFragment"
         android:name="com.keelim.free.ui.main.dash.search.SearchFragment"
         android:label="SearchFragment" />
+    <fragment
+        android:id="@+id/serviceFragment"
+        android:name="com.keelim.free.ui.setting.ServiceFragment"
+        android:label="ServiceFragment" />
 
 </navigation>

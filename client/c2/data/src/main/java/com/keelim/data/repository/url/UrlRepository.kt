@@ -4,6 +4,7 @@ import com.keelim.data.model.CallResult
 import com.keelim.data.model.Folder
 import com.keelim.data.model.auth.User
 import com.keelim.data.model.dash.Dash
+import com.keelim.data.model.fold.Memo
 import com.keelim.data.model.open.Url
 
 interface UrlRepository {
@@ -27,7 +28,7 @@ interface UrlRepository {
         tags: String
     ): CallResult
 
-    suspend fun urlAllMemo(mid: String): CallResult
+    suspend fun urlAllMemo(mid: String): List<Memo>
     suspend fun urlNewMemo(mid: String, highlight: String, content: String): CallResult
     suspend fun urlChangeMemo(mid: String, highlight: String, content: String): CallResult
     suspend fun urlDeleteMemo(msid: String, mid: String): CallResult

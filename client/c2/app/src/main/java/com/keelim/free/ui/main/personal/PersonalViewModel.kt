@@ -23,7 +23,7 @@ class PersonalViewModel @Inject constructor(
     val folder: StateFlow<List<Folder>> get() = _folder
 
     fun init() = viewModelScope.launch {
-        val result = kotlin.runCatching {
+        runCatching {
             val data = urlUseCase.myFolder()
             Timber.d("data hello $data")
             _folder.emit(data)

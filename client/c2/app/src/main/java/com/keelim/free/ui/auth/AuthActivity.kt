@@ -8,6 +8,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -15,11 +21,13 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.snackbar.Snackbar
+import com.keelim.free.MyApplication
 import com.keelim.free.databinding.ActivityAuthBinding
 import com.keelim.free.ui.main.MenuActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json.Default.context
 import showToast
 import timber.log.Timber
 import java.util.concurrent.Executor
@@ -57,7 +65,7 @@ class AuthActivity : AppCompatActivity() {
     private fun tokenCheck() {
         val pref = getSharedPreferences("token", MODE_PRIVATE)
         val token = pref.getString("token", "")
-        if (token != "") {
+        if (token!!.isNotEmpty()) {
             biometricPrompt.authenticate(
                 BiometricPrompt.PromptInfo.Builder()
                     .setTitle("Biometric login for my app")
@@ -81,11 +89,15 @@ class AuthActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             // Successfully signed in
             val pref = getSharedPreferences("token", Context.MODE_PRIVATE)
-            with(pref.edit()) {
+            val editor = pref.edit()
+            editor.apply{
                 putString("token", response?.idpToken)
                 apply()
             }
-            startActivity(Intent(this@AuthActivity, MenuActivity::class.java))
+
+            startActivity(Intent(this@AuthActivity, MenuActivity::class.java).apply {
+                putExtra("token", response?.idpToken)
+            })
             finish()
         } else {
             Timber.e("onSignInResult ${response?.error}")
@@ -104,6 +116,7 @@ class AuthActivity : AppCompatActivity() {
         val tv = signInButton.getChildAt(0) as (android.widget.TextView)
         tv.text = "Please Add Google Login"
         signInButton.setOnClickListener {
+            logout()
             signIn()
         }
 
