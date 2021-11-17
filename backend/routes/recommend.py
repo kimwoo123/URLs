@@ -147,6 +147,7 @@ async def create_url(url: str, category: str):
     print('url 찾음')
     # Make sure that the url is not in recommend DB
     if url_in_db is not None:
+        print('기존에 있던 것!')
         for item in url_in_db["categories"]:
             if item == category:
                 url_in_db["categories"][item] = (url_in_db["categories"][item] * url_in_db["count"] + 1) / (url_in_db["count"] + 1)
@@ -154,7 +155,24 @@ async def create_url(url: str, category: str):
                 url_in_db["categories"][item] = url_in_db["categories"][item] * url_in_db["count"] / (url_in_db["count"] + 1)
         url_in_db["count"] = url_in_db["count"] + 1
         db.recommend.find_one_and_update({"url": url}, {"$set": dict(url_in_db)})
+        print('기존에 있던 것 업데이트 완료')
     else:
-        db.recommend.insert_one(dict(url))
+        print('기존에 없던 것!')
+        url_dict = {
+            "url": "https://www.google.com",
+            "categories": {
+                "프론트": 0,
+                "백엔드": 0,
+                "모바일": 0,
+                "빅데이터/AI": 0,
+                "CS": 0,
+                "DevOps": 0,
+                "Tools(생산성)": 0,
+                "기획/디자인": 0,
+            }
+        }
+        url_dict["categories"][category] = 1
+        db.recommend.insert_one(url_dict)
+        print('기존에 없던 것 업데이트 완료')
     print('요청 완료')
     return 'OK'
