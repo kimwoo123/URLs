@@ -19,11 +19,18 @@
           <q-card-section>
             <q-select v-model="category" :options="categoryOption" label="카테고리" />
           </q-card-section>
-          <q-btn flat label="태그 추천:" @click="recommendTag"/>
-          <span v-for="(tag, index) in recommendResult.value" :key="index">
-            <span>#{{ tag }}&nbsp;&nbsp;
+          <q-card-section>
+          <q-btn flat label="태그 추천 받기" class="full-width" @click="recommendTag"/>
+          <div v-if="recommendResult.value[0]">
+            추천된 태그:
+            <span v-for="(tag, index) in recommendResult.value" :key="index">
+              <span>#{{ tag }}&nbsp;&nbsp;
+              </span>
             </span>
-          </span>
+          </div>
+          <div v-else>
+          </div>
+          </q-card-section>
           <q-card-section>
             <div class="text-h6">함께 저장할 태그를 입력해주세요.</div>
           </q-card-section>
