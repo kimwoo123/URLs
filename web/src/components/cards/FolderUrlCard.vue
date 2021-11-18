@@ -74,12 +74,13 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input dense v-model="newTags" autofocus @keyup.enter="tagAddMode = false" />
+          <q-input dense v-model="newTags" autofocus
+            @keyup.enter="tagAddMode = false; addTag(newTags); newTags = '';" />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="취소" v-close-popup />
-          <q-btn @click="addTag(newTags)" flat label="추가" v-close-popup />
+          <q-btn flat @click="newTags = '';" label="취소" v-close-popup />
+          <q-btn flat @click="addTag(newTags); newTags = '';" label="추가" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -183,18 +184,28 @@ export default {
     let newTags = ''
 
     const addTag = (tag) => {
-      let tags = Object.values(props.urlItem.tags)
-      tags.push(tag)
-
-      const payload = {
-        folderId: $store.getters['urls/folderNow']._id,
-        data: {
-          url: props.urlItem.url,
-          tags: tags
+      if (tag.trim() === '') {
+        tagAddMode.value = false
+      } else {
+        let tags = Object.values(props.urlItem.tags)
+        if (tags.includes(tag.trim())) {
+          tagAddMode.value = false
+        } else {
+          tags.push(tag)
+    
+          const payload = {
+            folderId: $store.getters['urls/folderNow']._id,
+            data: {
+              url: props.urlItem.url,
+              tags: tags
+            }
+          }
+    
+          $store.dispatch("urls/PUT_URL_TAG", payload)
         }
       }
 
-      $store.dispatch("urls/PUT_URL_TAG", payload)
+      newTags = ''
     }
 
     const deleteTag = (tag, index) => {
