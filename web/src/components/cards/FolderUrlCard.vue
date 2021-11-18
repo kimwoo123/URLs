@@ -33,16 +33,18 @@
           }}</span>
           <q-btn class="tag-add">+ 태그 추가</q-btn>
         </div>
-        <hr style="margin-top: 16px" />
-        <span class="url"
-          ><a :href="urlItem.url">{{ urlItem.url }}</a></span
-        >
+        <q-separator class="q-mt-md q-mb-sm"/>
+        <div class="url">
+          <a :href="urlItem.url">{{ urlItem.url }}</a>
+        </div>
+        <!-- <div>{{ urlItem }}</div> -->
       </q-card-section>
     </q-card>
   </main>
 </template>
 
 <script>
+import { ref, computed, watch } from 'vue'
 import { useStore } from "vuex";
 
 export default {
@@ -54,7 +56,7 @@ export default {
     const tmp_title = "제목 없음";
 
     const avatarUrl = $store.state.user.avatar;
-    const storeMemoOpen = $store.state.urls.urlMemoOpen;
+    const storeMemoOpen = ref($store.state.urls.urlMemoOpen);
 
     const toggleMemo = () => {
       $store.dispatch("urls/GET_URL_MEMO", props.urlItem.memos_id);

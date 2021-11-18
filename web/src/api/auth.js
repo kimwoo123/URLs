@@ -15,3 +15,7 @@ export function tokenMe() {
 export function deleteUser(userId) {
   return api.delete(`/user/${userId}`);
 }
+
+export function userCatergoryUpdate(payload) {
+  return api.put(`/user/${payload.userid}/category?category=${payload.category}`)
+}
