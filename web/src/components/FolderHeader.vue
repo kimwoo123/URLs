@@ -253,7 +253,6 @@ export default {
     };
 
     watch(folderId, () => {
-      console.log('오잉')
       searchText.value = ''
     })
 

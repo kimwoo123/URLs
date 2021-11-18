@@ -27,6 +27,7 @@
         <folder-url-card :urlItem="urlItem" />
       </template>
     </div>
+    <auto-complete></auto-complete>
 
   </main>
 </template>
@@ -37,9 +38,10 @@ import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import FolderUrlCard from "src/components/cards/FolderUrlCard.vue";
 import FolderHeader from "src/components/FolderHeader.vue";
+import AutoComplete from '../../components/AutoComplete.vue';
 
 export default {
-  components: { FolderUrlCard, FolderHeader },
+  components: { FolderUrlCard, FolderHeader, AutoComplete },
 
   setup() {
     const $route = useRoute();
