@@ -13,3 +13,7 @@ export function resetRecommendTag(state) {
 export function setRecommendUrls(state, urls) {
   state.recommendUrls = urls
 }
+
+export function setSearchResult(state, urls) {
+  state.searchResult = urls
+}

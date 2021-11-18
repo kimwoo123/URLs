@@ -8,14 +8,11 @@
           {{ searchResult }}
         </span>
       </span>
-      <p>My URLS</p>
       <div v-for="(urlItem, index) in searchPage" :key="index">
-        <div>
-          <folder-url-card :urlItem="urlItem"></folder-url-card>
+        <div v-if="urlItem._source">
+          <folder-url-card :urlItem="urlItem._source"></folder-url-card>
         </div>
       </div>
-      <q-input v-model="selectUrl" />
-      <button @Click="createUrl">실험</button>
     </div>
   </div>
 </template>
@@ -35,39 +32,24 @@ export default {
     const $route = useRoute();
     const options = ref(stringOptions);
     const searchResult = ref([]);
-    const searchPage = ref([]);
     const selectTag = ref("");
-    const selectUrl = ref("");
+    const searchPage = computed({
+      get: () => $store.getters["recommend/searchResult"]
+    }) 
 
-    const createUrl = () => {
-      let urlData = { url: selectUrl.value, folderId: $route.params.folder_id };
-      let recommendData = {
-        url: selectUrl.value,
-        count: 5,
-        folderId: $route.params.folder_id
-      };
-      // $store.dispatch('urls/CREATE_URL', urlData)
-      $store.dispatch("recommend/RECOMMEND_TAG", recommendData);
-    };
-
-    const tagUrl = tag => {
-      console.log(tag);
-    };
 
     watch(selectTag, val => {
       if (val !== "") {
         let queryData = { searchText: val, folderId: $route.params.folder_id };
         $store.dispatch("recommend/SEARCH_TAG", queryData);
+        
       }
     });
     return {
       searchResult,
-      createUrl,
       searchPage,
       selectTag,
-      selectUrl,
       options,
-      tagUrl
     };
   }
 };
