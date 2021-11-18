@@ -1,27 +1,49 @@
 <template>
   <main>
     <q-card flat bordered style="width:300px">
-      <div class="card-header">
-        <div class="profile">
-          <img
-            :src="urlItem.added_by.avatar"
-            alt="사용자 프로필 사진"
-            class="avatar"
-          />
-          <span>{{ urlItem.added_by.nickname }}</span>
-        </div>
-        <div>
-          <q-btn
-            size="12px"
-            flat
-            round
-            color="grey"
-            icon="sticky_note_2"
-            @click="toggleMemo"
-          />
-          <span class="memo-count">{{ urlItem.memos_count }}</span>
-        </div>
-      </div>
+      <q-item dense>
+        <q-item-section avatar class="q-pa-xs">
+          <q-avatar size="md">
+            <img :src="urlItem.added_by.avatar" alt="사용자 프로필 사진"/>
+          </q-avatar>
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label>{{ urlItem.added_by.nickname }}</q-item-label>
+        </q-item-section>
+
+        <q-item-section side>
+          <div>
+            <q-btn
+              size="12px"
+              flat
+              round
+              color="grey"
+              icon="sticky_note_2"
+              @click="toggleMemo"
+            />
+            <span class="memo-count">{{ urlItem.memos_count }}</span>
+            <q-btn
+              v-if="willDeleted"
+              size="12px"
+              flat
+              round
+              color="grey"
+              icon="bookmark_border"
+              @click="openDelete"
+            />
+            <q-btn
+              v-else
+              size="12px"
+              flat
+              round
+              color="grey"
+              icon="bookmark"
+              @click="openDelete"
+            />
+          </div>
+        </q-item-section>
+      </q-item>
 
       <img :src="urlItem.thumbnail ? urlItem.thumbnail : tmp_url" class="img" />
 
@@ -61,16 +83,33 @@
       </q-card>
     </q-dialog>
   </main>
+
+  <!-- <q-dialog v-model="isOpen">
+    <q-card>
+      <q-card-section class="row items-center">
+        <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
+        <span class="q-ml-sm">URL을 삭제하시면 되돌릴 수 없어요!</span>
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="취소" color="grey" v-close-popup />
+        <q-btn flat label="URL 삭제" color="primary" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog> -->
 </template>
 
 <script>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onUnmounted } from 'vue'
 import { useStore } from "vuex";
+import { useQuasar } from "quasar";
 
 export default {
   props: ["urlItem"],
   setup(props) {
     const $store = useStore();
+    const $q = useQuasar();
+    const willDeleted = ref(false)
 
     const tmp_url = "https://i.imgur.com/iYwIYZy.png";
     const tmp_title = "제목 없음";
@@ -83,6 +122,57 @@ export default {
       $store.dispatch("urls/OPEN_MEMO");
     };
 
+    const folderId = computed({
+      get: () => {
+        if($store.getters['urls/folderNow']._id === '') {
+          return props.urlItem.folder_id
+        } else {
+          return $store.getters['urls/folderNow']._id
+        }
+      }
+    })
+
+    let timer = null
+    const StartTimeOut = () => {
+        timer = setTimeout(() => {
+            console.log('타이머로 영구삭제!')
+            $store.dispatch('urls/DELETE_URL_BY_TIMER', urlData)
+          }, 10000)
+    }
+    const deleteTimeOut = () => {
+      clearTimeout(timer)
+      console.log('삭제취소')
+      $store.dispatch('urls/DELETE_WILL_DELETE_URL', urlData)
+    }
+
+    const urlData = {
+      folder_id: folderId.value,
+      url: props.urlItem.url,
+      memos_id: props.urlItem.memos_id
+    }
+
+    const openDelete = () => {
+      willDeleted.value = !willDeleted.value
+      if (willDeleted.value === true) {
+        $q.notify({
+          color: "primary",
+          message: "곧 URL을 완전히 지울게요.",
+          caption: '한 번 더 눌러서 취소할 수 있습니다.',
+          icon: 'bookmark_border'
+        });
+        $store.dispatch('urls/ADD_WILL_DELETE_URL', urlData)
+        StartTimeOut()
+      } else {
+        $q.notify({
+          color: "grey",
+          message: "URL을 삭제를 취소할게요.",
+          icon: 'bookmark'
+        });
+        $store.dispatch('urls/DELETE_WILL_DELETE_URL', urlData)
+        deleteTimeOut()
+      }
+    }
+    
     const tagAddMode = ref(false)
 
     let newTags = ''
@@ -118,18 +208,20 @@ export default {
     }
 
     return {
+      willDeleted,
       avatarUrl,
       storeMemoOpen,
       toggleMemo,
       tmp_url,
       tmp_title,
+      openDelete,
       tagAddMode,
       newTags,
       addTag,
       deleteTag,
     };
   }
-};
+}
 </script>
 
 <style scoped lang="scss">
