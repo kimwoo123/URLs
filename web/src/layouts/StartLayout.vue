@@ -1,11 +1,11 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <q-header bordered class="bg-white text-black" id="navbar">
-    <q-toolbar>
+    <q-toolbar style="padding: 0 35px 0 44px;">
       <q-toolbar-title>
-        율스
+        <img src="../assets/logo/logo_primary.png" alt="" class="navbar-logo">
       </q-toolbar-title>
-      <google-login-button/>
+      <google-login-button />
     </q-toolbar>
     </q-header>
     <div>
@@ -40,5 +40,9 @@ body {
   position: fixed;
   top: -50px;
   transition: top 0.5s;
+}
+.navbar-logo {
+  height: 16px;
+  widows: 100%;
 }
 </style>

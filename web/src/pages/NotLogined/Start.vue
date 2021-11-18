@@ -10,7 +10,7 @@
           <div class="header-text">
             <img class="logo-img" src="../../assets/logo/logo_white.png" alt="">
             <span class="logo-explain">똑똑하게 저장하고 나누는 방법</span>
-            <google-login-button/>
+            <google-login-button color="white"/>
           </div>
 
           <div class="header-img"></div>
@@ -115,7 +115,7 @@
       <div id="function2" class="function-box">
         <div class="row justify-center">
           <div class="img-box small-display-on">
-            <img :src="img[3]" alt="" id="img-second" />
+            <img :src="img[3]" alt="" id="img-second1" />
           </div>
           <div class="text-box">
             <p>팀원과 url을 공유하세요.</p>
@@ -162,7 +162,7 @@
             </div>
           </div>
           <div class="img-box small-display-off">
-            <img :src="img[3]" alt="" id="img-second" />
+            <img :src="img[3]" alt="" id="img-second2" />
           </div>
         </div>
       </div>
@@ -220,7 +220,7 @@
     </div>
 
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
-      <q-btn fab icon="keyboard_arrow_up" color="accent" />
+      <q-btn fab icon="keyboard_arrow_up" color="primary" />
     </q-page-scroller>
   </div>
 
@@ -261,7 +261,8 @@ export default {
         details[3].removeAttribute("open");
         details[4].removeAttribute("open");
         details[5].removeAttribute("open");
-        document.getElementById("img-second").src = img[imgNum];
+        document.getElementById("img-second1").src = img[imgNum];
+        document.getElementById("img-second2").src = img[imgNum];
       } else {
         details[6].removeAttribute("open");
         details[7].removeAttribute("open");
