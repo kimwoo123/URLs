@@ -2,15 +2,15 @@
   <div>
     <!-- start -->
     <div class="start scroll-ani">
-      <a @click="scroll" href="#function1"><span></span>Scroll</a>
+      <a @click="scroll" href="#function1" style="z-index: 1000"><span></span>Scroll</a>
 
       <div class="header">
         <!-- wave-header -->
         <div class="inner-header flex">
           <div class="header-text">
-            <h2>urls로고</h2>
-            <span>urls설명urls설명urls설명urls설명urls설명urls설명</span>
-            <span>urls설명urls설명urls설명urls설명urls설명urls설명</span>
+            <h2>URLS</h2>
+            <span>똑똑하게 저장하고 나누는 방법</span>
+            <span>urls 설명</span>
             <google-login-button/>
           </div>
 
@@ -56,15 +56,16 @@
             </g>
           </svg>
         </div>
+        <div class="white-margin"></div>
       </div>
     </div>
 
     <div class="function-container">
       <!-- url입력/태그 추천 -->
       <div id="function1" class="function-box">
-        <div class="row">
+        <div class="row justify-center">
           <div class="img-box">
-            <img src="https://i.imgur.com/5CCzZj3.png" alt="" id="img-first" />
+            <img :src="img[0]" alt="" id="img-first" />
           </div>
           <div class="text-box">
             <p>맞춤형 태그와 url을 제공받으세요.</p>
@@ -113,14 +114,16 @@
 
       <!-- 공유/메모/하이라이트 -->
       <div id="function2" class="function-box">
-        <div class="row">
+        <div class="row justify-center">
+          <div class="img-box small-display-on">
+            <img :src="img[3]" alt="" id="img-second" />
+          </div>
           <div class="text-box">
             <p>팀원과 url을 공유하세요.</p>
             <span class="sub-title">Urls는 공유 폴더 기능을 제공합니다.</span>
             <span class="sub-title"
               >팀원과 함께 url을 공유하고 폴더를 편집해보세요.</span
             >
-
             <div class="explain-box">
               <details @click="explainOnOff(3)" open>
                 <summary>공유 폴더 생성하기</summary>
@@ -159,17 +162,17 @@
               </details>
             </div>
           </div>
-          <div class="img-box">
-            <img src="https://i.imgur.com/5CCzZj3.png" alt="" id="img-second" />
+          <div class="img-box small-display-off">
+            <img :src="img[3]" alt="" id="img-second" />
           </div>
         </div>
       </div>
 
       <!-- 플랫폼 -->
       <div id="function3" class="function-box">
-        <div class="row">
+        <div class="row justify-center">
           <div class="img-box">
-            <img src="https://i.imgur.com/5CCzZj3.png" alt="" id="img-third" />
+            <img :src="img[6]" alt="" id="img-third" />
           </div>
           <div class="text-box">
             <p>다양한 플랫폼에서 활용하세요.</p>
@@ -232,15 +235,15 @@ export default {
   components: { GoogleLoginButton },
   setup() {
     const img = [
-      "https://i.imgur.com/5CCzZj3.png",
-      "https://i.imgur.com/zAirBhb.png",
-      "https://i.imgur.com/q3irXZL.png",
-      "https://i.imgur.com/5CCzZj3.png",
-      "https://i.imgur.com/zAirBhb.png",
-      "https://i.imgur.com/q3irXZL.png",
-      "https://i.imgur.com/5CCzZj3.png",
-      "https://i.imgur.com/zAirBhb.png",
-      "https://i.imgur.com/q3irXZL.png"
+      "https://i.imgur.com/NCsq97v.png",
+      "https://i.imgur.com/gis60jR.png",
+      "https://i.imgur.com/1IP49tw.png",
+      "https://i.imgur.com/UTLf4fJ.png",
+      "https://i.imgur.com/Mb2jOOT.png",
+      "https://i.imgur.com/ySgwPdk.png",
+      "https://i.imgur.com/D148kx4.png",
+      "https://i.imgur.com/rLymy73.png",
+      "https://i.imgur.com/IqL8YR8.png"
     ];
 
     const scroll = event => {
@@ -272,7 +275,8 @@ export default {
       slide: ref(1),
       autoplay: ref(true),
       scroll,
-      explainOnOff
+      explainOnOff,
+      img
     };
   }
 };
@@ -371,8 +375,17 @@ $tertiary: #ff538f;
 .inner-header {
   height: 58vh;
 }
+.white-margin {
+  position: absolute;
+  background-color: white;
+  width: 100%;
+  height: 30vh;
+  z-index: 10;
+}
 .header-img {
-  background-image: url("https://i.imgur.com/kCHOLLb.png");
+  background-image: url("https://i.imgur.com/yGaXeDy.png");
+  background-repeat : no-repeat;
+  background-size : cover;
   width: 50vw;
   height: 73vh;
   margin-left: 11vw;
@@ -459,17 +472,33 @@ $tertiary: #ff538f;
   justify-content: center;
   margin: 16vw 0px;
 }
+.small-display-off {
+  display: block;
+
+}
+.small-display-on {
+  display: none;
+
+}
+@media (max-width: 1294px) {
+.small-display-off {
+  display: none;
+}
+.small-display-on {
+  display: block;
+}
+}
 .img-box {
   margin: 10px 0px;
   img {
-    // width: 630px;
-    // height: 730px;
-    // object-fit: contain;
+    padding: 0px 20px;
+    max-width: 100%; 
+    height: auto;
     object-fit: cover;
   }
 }
 .text-box {
-  margin: 0px 40px;
+  margin: 20px 40px 0px 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
