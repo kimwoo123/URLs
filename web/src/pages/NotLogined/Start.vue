@@ -234,16 +234,15 @@ export default {
   components: { GoogleLoginButton },
   setup() {
     const img = [
-      "https://i.imgur.com/8jTzeJs.png",
-      "https://i.imgur.com/8jTzeJs.png",
-      "https://i.imgur.com/8jTzeJs.png",
-      "https://i.imgur.com/8jTzeJs.png",
-      "https://i.imgur.com/8jTzeJs.png",
-      "https://i.imgur.com/8jTzeJs.png",
-      "https://i.imgur.com/8jTzeJs.png",
-      "https://i.imgur.com/8jTzeJs.png",
-      "https://i.imgur.com/8jTzeJs.png",
-      "https://i.imgur.com/8jTzeJs.png",
+      require("../../assets/explain/1.png"),
+      require("../../assets/explain/2.png"),
+      require("../../assets/explain/3.png"),
+      require("../../assets/explain/4.png"),
+      require("../../assets/explain/5.png"),
+      require("../../assets/explain/6.png"),
+      require("../../assets/explain/7.png"),
+      require("../../assets/explain/8.png"),
+      require("../../assets/explain/9.png"),
     ];
 
     const scroll = event => {
@@ -384,7 +383,7 @@ $tertiary: #ff538f;
   z-index: 10;
 }
 .header-img {
-  background-image: url("https://i.imgur.com/8jTzeJs.png");
+  background-image: url("../../assets/explain/10.png");
   background-repeat : no-repeat;
   background-size : cover;
   width: 50vw;
@@ -398,7 +397,7 @@ $tertiary: #ff538f;
     width: 280px
   }
   .logo-explain { 
-    letter-spacing: 5px;
+    letter-spacing: 4px;
     margin-top: 15px;
     margin-bottom: 5vh;
     font-weight: 300;
