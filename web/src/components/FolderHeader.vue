@@ -25,7 +25,8 @@
       <q-item-section>
         <q-item-label :lines="1" v-if="!isUpdatingFolderName">
           {{ folderName.value }}
-          <q-btn flat round>
+
+          <q-btn flat round v-if="folderData._id !== '' && myPermission === 2">
             <q-icon name="more_vert" />
             <q-menu cover auto-close self="bottom right">
               <q-list>
@@ -41,11 +42,6 @@
         </q-item-label>
 
         <div v-if="isUpdatingFolderName">
-          <!-- <form
-            @submit.stop.prevent="updateFolderName"
-            @reset.stop.prevent="toggleUpdating"
-            class="row"
-          > -->
           <q-input
             dense
             v-model="folderName.value"
@@ -83,33 +79,6 @@
         <create-url-button />
       </q-item-section>
     </q-item>
-
-    <!-- <q-item class="row justify-end">
-      <q-item-section class="col-xs-6 col-12">
-        <q-input
-          dense
-          bottom-slots
-          v-model="searchText"
-          placeholder="URL을 찾아볼까요?"
-          maxlength="15"
-          @keyup.enter="search" 
-        >
-          <template v-slot:append>
-            <q-icon
-              v-if="searchText !== ''"
-              name="close"
-              @click="searchText = ''"
-              class="cursor-pointer"
-            />
-            <q-icon 
-              name="search" 
-              @click="search" 
-              class="cursor-pointer"
-            />
-          </template>
-        </q-input>
-      </q-item-section>
-    </q-item> -->
   </div>
 
   <q-dialog v-model="alert">
@@ -153,6 +122,10 @@ export default {
     const $store = useStore();
     const $router = useRouter();
     const $q = useQuasar();
+
+    const myPermission = computed({
+      get: () => $store.getters["urls/permissionNow"]
+    });
 
     const originalFolderName = computed({
       get: () => $store.getters["urls/folderNow"].folder_name
@@ -271,6 +244,7 @@ export default {
     });
 
     return {
+      myPermission,
       isUpdatingFolderName,
       toggleUpdating,
       folderName,

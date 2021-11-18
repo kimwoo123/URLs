@@ -15,15 +15,16 @@ export function permissionNow(state, getters, rootState, rootGetters) {
     return 2;
   } else {
     const myEmail = rootState.user.useremail;
-    const findUser = user => {
-      return user.email === myEmail;
-    };
-    const result = getters.folderNow.users.find(findUser);
 
-    if (result.permission == undefined) {
-      return -1;
+    if (getters.folderNow.users) {
+      const result = getters.folderNow.users.find(x => x.email === myEmail);
+      if (result.permission == undefined) {
+        return -1;
+      } else {
+        return result.permission;
+      }
     } else {
-      return result.permission;
+      return 2;
     }
   }
 }
