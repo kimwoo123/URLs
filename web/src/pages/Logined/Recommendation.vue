@@ -48,7 +48,10 @@
         </q-card>
       </div>
     </div>
-    <q-spinner-ios v-else color="primary" size="10em" />
+
+    <div v-else class="row q-gutter-lg justify-center">
+      <q-spinner-ios color="primary" size="10em" class="q-pt-xl" />
+    </div>
   </main>
 </template>
 

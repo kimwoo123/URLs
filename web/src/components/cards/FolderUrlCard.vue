@@ -187,7 +187,6 @@ export default {
     };
     const deleteTimeOut = () => {
       clearTimeout(timer);
-      console.log("삭제취소");
       $store.dispatch("urls/DELETE_WILL_DELETE_URL", urlData);
     };
 
