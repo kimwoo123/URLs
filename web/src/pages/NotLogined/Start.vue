@@ -8,7 +8,7 @@
         <!-- wave-header -->
         <div class="inner-header flex">
           <div class="header-text">
-            <img class="logo-img" src="../../assets/logo/logo_white.png" alt="">
+            <img class="logo-img" src="https://i.imgur.com/6Fiq3yT.png" alt="">
             <span class="logo-explain">똑똑하게 저장하고 나누는 방법</span>
             <google-login-button color="white"/>
           </div>
@@ -234,15 +234,16 @@ export default {
   components: { GoogleLoginButton },
   setup() {
     const img = [
-      require("../../assets/explain/1.png"),
-      require("../../assets/explain/2.png"),
-      require("../../assets/explain/3.png"),
-      require("../../assets/explain/4.png"),
-      require("../../assets/explain/5.png"),
-      require("../../assets/explain/6.png"),
-      require("../../assets/explain/7.png"),
-      require("../../assets/explain/8.png"),
-      require("../../assets/explain/9.png"),
+      "https://i.imgur.com/8jTzeJs.png",
+      "https://i.imgur.com/8jTzeJs.png",
+      "https://i.imgur.com/8jTzeJs.png",
+      "https://i.imgur.com/8jTzeJs.png",
+      "https://i.imgur.com/8jTzeJs.png",
+      "https://i.imgur.com/8jTzeJs.png",
+      "https://i.imgur.com/8jTzeJs.png",
+      "https://i.imgur.com/8jTzeJs.png",
+      "https://i.imgur.com/8jTzeJs.png",
+      "https://i.imgur.com/8jTzeJs.png",
     ];
 
     const scroll = event => {
@@ -383,7 +384,7 @@ $tertiary: #ff538f;
   z-index: 10;
 }
 .header-img {
-  background-image: url("../../assets/explain/10.png");
+  background-image: url("https://i.imgur.com/8jTzeJs.png");
   background-repeat : no-repeat;
   background-size : cover;
   width: 50vw;
