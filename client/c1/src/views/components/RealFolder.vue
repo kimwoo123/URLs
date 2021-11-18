@@ -12,10 +12,9 @@
               <el-card :body-style="{padding: '10px'}">
                 <span slot="header">
                   <el-button type="text">
-                    {{ index }}. {{ folder.folder_name }}
+                    <h3>{{ index }}. {{ folder.folder_name }}</h3>
                   </el-button>
                 </span>
-                <h5>{{ folder.folder_id }}</h5>
                 <div>
                   <el-button
                     type="text"
@@ -42,14 +41,10 @@
                 <span slot="header">
                   <a :href="url.url" target="_blank">
                     <el-button type="text" style="margin-left: 10px">
-                      {{ index + 1 }}. {{ url.url }}
+                      <h3>{{ index + 1 }}. {{ url.url }}</h3>
                     </el-button>
                   </a>
                 </span>
-
-                <h5>
-                  {{ url.url }}
-                </h5>
                 <a href="https://k5b201.p.ssafy.io/" target="_blank">
                   <el-button> 관리 페이지 이동하기</el-button>
                 </a>

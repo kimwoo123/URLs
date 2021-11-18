@@ -53,7 +53,7 @@
           >
             <span v-if="saved">
               <i class="el-icon-check"></i>
-              URL 저장됨
+              기본 폴더 저장됨
             </span>
             <span v-else-if="net_false">네트워크를 확인해주세요</span>
             <span v-else>기본 폴더 저장</span>
