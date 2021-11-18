@@ -178,8 +178,8 @@ async def update_folder_url(folder_id, url_in: UrlIn, current_user: User = Depen
             await tag_count_increase(url_in.tags, user_id=current_user["_id"])
 
             return serializeDict(folder)
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder or url not found")
-    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"url is not in the folder")
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder is not in my folder")
 
 
 @folder_url.delete('/folder/{folder_id}/url', summary="폴더 내 특정 url 삭제")
