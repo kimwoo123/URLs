@@ -3,7 +3,7 @@
     <q-header bordered class="bg-white text-black" id="navbar">
     <q-toolbar style="padding: 0 35px 0 44px;">
       <q-toolbar-title>
-        <img src="https://i.imgur.com/2Ojcuu9.png" alt="" class="navbar-logo">
+        <img src="~assets/logo/logo_primary.png" alt="" class="navbar-logo">
       </q-toolbar-title>
       <google-login-button />
     </q-toolbar>

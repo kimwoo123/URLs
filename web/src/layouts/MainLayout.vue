@@ -5,7 +5,7 @@
         <!-- <q-btn flat @click="drawer = !drawer" round dense icon="menu" /> -->
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
         <q-toolbar-title>
-          <img src="https://i.imgur.com/MuBrMAH.png" alt="" class="navbar-logo">
+          <img src="~assets/logo/logo_black.png" alt="" class="navbar-logo">
         </q-toolbar-title>
 
         <!-- <q-btn flat round dense icon="fas fa-bell" class="q-mr-md">
@@ -33,7 +33,7 @@
         <left-drawer />
       </q-scroll-area>
 
-      <q-img class="absolute-top" src="https://i.imgur.com/q46q4ai.png" style="height: 110px; ">
+      <q-img class="absolute-top" src="~assets/avatar_bg.png" style="height: 110px; ">
         <div class="absolute-bottom bg-transparent column">
           <div class="row">
               <q-item clickable class="q-pa-none" @click="goToSettings">
