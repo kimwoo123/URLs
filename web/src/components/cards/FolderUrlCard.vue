@@ -1,7 +1,7 @@
 <template>
   <main>
     <q-card flat bordered style="width:300px">
-      <q-item dense>
+      <q-item >
         <q-item-section avatar class="q-pa-xs">
           <q-avatar size="md">
             <img :src="urlItem.added_by.avatar" alt="사용자 프로필 사진"/>
@@ -24,7 +24,7 @@
             />
             <span class="memo-count">{{ urlItem.memos_count }}</span>
             <q-btn
-              v-if="willDeleted"
+              v-if="myPermission !== 0 && willDeleted"
               size="12px"
               flat
               round
@@ -33,7 +33,7 @@
               @click="openDelete"
             />
             <q-btn
-              v-else
+              v-if="myPermission !== 0 && !willDeleted"
               size="12px"
               flat
               round
@@ -44,6 +44,8 @@
           </div>
         </q-item-section>
       </q-item>
+
+      <q-separator />
 
       <img :src="urlItem.thumbnail ? urlItem.thumbnail : tmp_url" class="img" />
 
@@ -62,7 +64,6 @@
         <div class="url">
           <a :href="urlItem.url">{{ urlItem.url }}</a>
         </div>
-        <!-- <div>{{ urlItem }}</div> -->
       </q-card-section>
     </q-card>
 
@@ -110,6 +111,10 @@ export default {
     const $store = useStore();
     const $q = useQuasar();
     const willDeleted = ref(false)
+
+    const myPermission = computed({
+      get: () => $store.getters['urls/permissionNow']
+    })
 
     const tmp_url = "https://i.imgur.com/iYwIYZy.png";
     const tmp_title = "제목 없음";
@@ -208,6 +213,7 @@ export default {
     }
 
     return {
+      myPermission,
       willDeleted,
       avatarUrl,
       storeMemoOpen,
