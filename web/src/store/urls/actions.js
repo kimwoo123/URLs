@@ -132,23 +132,19 @@ export async function CREATE_URL({ commit }, urlData) {
 }
 
 export function ADD_WILL_DELETE_URL({ commit }, data) {
-  console.log('기존data', data)
   commit('addWillDeleteURL', data)
 }
 
 export function DELETE_WILL_DELETE_URL({ commit }, data) {
-  console.log('삭제data', data)
   commit('deleteWillDeleteURL', data)
 }
 
 export async function DELETE_URL({ commit }, urlData) {
   await urls.urlDelete(urlData)
     .then(result => {
-      console.log('삭제완료!!', console.log(result))
       commit("deleteWillDeleteURL", urlData);
     }
   ).catch(err => {
-    console.log('삭제 실패', err)
     commit("deleteWillDeleteURL", urlData);
   })
 }
@@ -156,13 +152,11 @@ export async function DELETE_URL({ commit }, urlData) {
 export async function DELETE_URL_BY_TIMER({ commit }, urlData) {
   await urls.urlDelete(urlData)
     .then(result => {
-      console.log('타이머삭제완료!!', console.log(result))
       commit("deleteWillDeleteURL", urlData);
       commit("setFolderNow", result.data);
       commit("setUrl", result.data.urls);
     }
   ).catch(err => {
-    console.log('삭제 실패', err)
     commit("deleteWillDeleteURL", urlData);
   })
 }

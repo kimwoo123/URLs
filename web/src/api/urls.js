@@ -45,11 +45,7 @@ export function folderCreateUser(folderUserData) {
 
 // 폴더 유저 삭제
 export function folderDeleteUser(folderUserData) {
-  const userData = {
-    email: folderUserData.email
-  };
-  console.log(userData);
-  return api.delete(`/folder/${folderUserData.folder_id}/user`, userData);
+  return api.delete(`/folder/${folderUserData.folder_id}/user?email=${folderUserData.email}`);
 }
 
 // 내 모든 폴더에서 내가 작성한 url 검색
