@@ -9,8 +9,9 @@
       v-if="searchData.length === 0 && searchPage.length === 0"
     >
       <template v-if="folderData.urls == false">
-        <div class="colum">
-          <div class="text-h5 text-grey">폴더가 비었어요!</div>
+        <div class="column">
+          <img src="../../assets/empty_color_pink.png" alt="" style="width: 250px; margin: 11vh 0 2vh;">
+          <div class="text-h5 text-grey text-center">폴더가 비었어요!</div>
         </div>
       </template>
       <template

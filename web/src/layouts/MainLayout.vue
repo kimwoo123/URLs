@@ -5,7 +5,7 @@
         <!-- <q-btn flat @click="drawer = !drawer" round dense icon="menu" /> -->
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
         <q-toolbar-title>
-          율스
+          <img src="../assets/logo/logo_black.png" alt="" class="navbar-logo">
         </q-toolbar-title>
 
         <!-- <q-btn flat round dense icon="fas fa-bell" class="q-mr-md">
@@ -33,7 +33,7 @@
         <left-drawer />
       </q-scroll-area>
 
-      <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 110px">
+      <q-img class="absolute-top" src="../assets/avatar_bg.png" style="height: 110px; ">
         <div class="absolute-bottom bg-transparent column">
           <div class="row">
               <q-item clickable class="q-pa-none" @click="goToSettings">
@@ -50,7 +50,7 @@
                 </q-item-section>
               </q-item>
           </div>
-          <div class="text-weight-light">{{ useremail }}</div>
+          <div class="text-weight-light text-caption">{{ useremail }}</div>
         </div>
       </q-img>
     </q-drawer>
@@ -168,5 +168,10 @@ a:active,
 a:visited {
   text-decoration: None;
   color: gray;
+}
+
+.navbar-logo {
+  height: 16px;
+  widows: 100%;
 }
 </style>
