@@ -21,8 +21,9 @@ import com.google.firebase.ktx.Firebase
 import com.keelim.free.R
 import com.keelim.free.databinding.ActivityMenuBinding
 import com.keelim.free.databinding.AppBarMenuBinding
+import com.keelim.free.databinding.ContentMenuBinding
 import com.keelim.free.databinding.NavHeaderMenuBinding
-import com.keelim.free.ui.main.inject.InjectFragment2
+import com.keelim.free.ui.main.inject.PersistBottomSheetFragment
 import com.keelim.free.ui.main.search.SearchResultsActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,9 +39,13 @@ class MenuActivity : AppCompatActivity() {
         AppBarMenuBinding.bind(binding.appBarMenu.root)
     }
 
+    private val contentBinding: ContentMenuBinding by lazy {
+        ContentMenuBinding.bind(barBinding.contentMenu.root)
+    }
+
     private val auth by lazy { Firebase.auth.currentUser!!}
 
-    private lateinit var injectFragment2: InjectFragment2
+    private lateinit var persistBottomSheetFragment: PersistBottomSheetFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,7 +105,7 @@ class MenuActivity : AppCompatActivity() {
     }
 
     private fun initViews() = with(binding) {
-        injectFragment2 = InjectFragment2.show(supportFragmentManager, R.id.view_bottom_sheet)
+        persistBottomSheetFragment = PersistBottomSheetFragment.show(supportFragmentManager, R.id.view_bottom_sheet)
         with(headerBinding){
             imageView.load(auth.photoUrl)
             headerUsername.text = auth.displayName
@@ -129,10 +134,12 @@ class MenuActivity : AppCompatActivity() {
                 R.id.nav_home -> {
                     barBinding.searchBar.visibility = View.VISIBLE
                     barBinding.titleToolbar.visibility = View.INVISIBLE
+                    contentBinding.viewBottomSheet.visibility = View.VISIBLE
                 }
                 else -> {
                     barBinding.searchBar.visibility = View.INVISIBLE
                     barBinding.titleToolbar.visibility = View.VISIBLE
+                    contentBinding.viewBottomSheet.visibility = View.INVISIBLE
                 }
             }
         }

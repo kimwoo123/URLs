@@ -1,4 +1,4 @@
-package com.keelim.free.ui.inject
+package com.keelim.free.ui.main.inject
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class InjectViewModel @Inject constructor(
+class Inject2ViewModel @Inject constructor(
     private val urlUseCase: UrlUseCase
 ) : ViewModel() {
     private val _state: MutableStateFlow<UrlState> = MutableStateFlow(UrlState.UnInitialized)
@@ -46,5 +46,5 @@ class InjectViewModel @Inject constructor(
             }.onFailure {
                 _state.emit(UrlState.Error("에러를 표시해줍니다."))
             }
-    }
+        }
 }

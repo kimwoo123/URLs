@@ -14,6 +14,8 @@
     <color name="main_bg_color">#ffffff</color>
     <color name="white">#ffffff</color>
     <color name="preview_edit_button_parent_bg">#ffffff</color>
+    <color name="main_color">#fd6a7f</color>
+    <color name="sub_color">#ff9cae</color>
 
     <color name="icon_normal_color">#121212</color>
     <color name="bg_for_alpha_image">#EEEEEE</color>
@@ -26,7 +28,8 @@
     <color name="light_gray">#FFCFCFCF</color>
     <color name="dark_gray">#FF707070</color>
     <color name="transparent">#000000</color>
-    <color name="orange">#F83C00</color>
+
+    <color name="orange">#FA764D</color>
     <color name="orange_w">#FFAB91</color>
     <color name="bg_orange">#FFAD03</color>
 

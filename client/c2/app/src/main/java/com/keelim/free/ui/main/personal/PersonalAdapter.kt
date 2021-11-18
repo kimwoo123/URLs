@@ -5,7 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.keelim.data.model.Folder
+import com.keelim.free.R
 import com.keelim.free.databinding.ItemFolderBinding
 
 
@@ -33,6 +35,13 @@ class PersonalAdapter(
             }
             title.text = item.folder_id
             description.text = item.folder_name
+            if(item.shared){
+                permission.text =  "팀 공유 폴더"
+                ivPermission.load(R.drawable.ic_baseline_groups_24)
+            } else{
+                permission.text = "개인 폴더"
+                ivPermission.load(R.drawable.ic_baseline_emoji_people_24)
+            }
         }
     }
 

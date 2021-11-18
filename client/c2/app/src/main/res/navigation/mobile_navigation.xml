@@ -41,5 +41,9 @@
         android:id="@+id/serviceFragment"
         android:name="com.keelim.free.ui.setting.ServiceFragment"
         android:label="ServiceFragment" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.keelim.free.ui.main.notification.NotificationFragment"
+        android:label="NotificationFragment" />
 
 </navigation>

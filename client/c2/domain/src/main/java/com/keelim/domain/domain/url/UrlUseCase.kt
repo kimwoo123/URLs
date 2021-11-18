@@ -2,8 +2,10 @@ package com.keelim.domain.domain.url
 
 import com.keelim.data.model.CallResult
 import com.keelim.data.model.Folder
+import com.keelim.data.model.Recommend
 import com.keelim.data.model.dash.Dash
 import com.keelim.data.model.fold.Memo
+import com.keelim.data.model.notification.Release
 import com.keelim.data.model.open.Url
 import com.keelim.data.repository.url.UrlRepository
 import timber.log.Timber
@@ -45,6 +47,12 @@ class UrlUseCase(
         return result
     }
 
+    suspend fun getRecommend(): List<Recommend>{
+        val result = urlRepository.getRecommend()
+        Timber.d("getRecommend $result")
+        return result
+    }
+
     suspend fun getMemos(urlId:String): List<Memo>{
         val result = urlRepository.urlAllMemo(urlId)
         Timber.d("folderUrlMe $result")
@@ -53,5 +61,21 @@ class UrlUseCase(
 
     suspend fun getRecommended(): List<Url> {
         return emptyList()
+    }
+
+    suspend fun getRelease(): List<Release>{
+        val result = urlRepository.getRelease()
+        Timber.d("folderUrlMe $result")
+        return result
+    }
+
+    suspend fun newUrl(folderId: String, url: String, change: List<String>): String{
+        val result = urlRepository.newUrl(folderId, url, change)
+        Timber.d("folderUrlMe $result")
+        return result
+    }
+
+    suspend fun newMemo(memosId: String, memo: String) {
+        urlRepository.newMemo(memosId, memo)
     }
 }
