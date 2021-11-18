@@ -112,6 +112,14 @@ export async function GET_FOLDER_URL_SEARCH({ commit }, urlData) {
   }
 }
 
+export async function PUT_URL_TAG({ commit, dispatch }, payload) {
+  await urls.urlPut(payload.folderId, payload.data)
+    .then(result => {
+      dispatch('GET_FOLDER_ULR', payload.folderId)
+    })
+}
+
+
 export async function DELETE_URL_SEARCH({ commit }) {
   commit("setSearchData", []);
 }

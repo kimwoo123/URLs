@@ -28,10 +28,13 @@
       <q-card-section>
         <div class="title">{{ urlItem.title ? urlItem.title : tmp_title }}</div>
         <div class="tags">
-          <span v-for="(tag, index) in urlItem.tags" :key="index" class="tag">{{
-            "#" + tag
-          }}</span>
-          <q-btn class="tag-add">+ 태그 추가</q-btn>
+          <span v-for="(tag, index) in urlItem.tags" :key="index" class="tag">
+            <span>{{ "#" + tag }}</span>
+            <q-popup-proxy :offset="[0, 5]">
+              <q-btn @click="deleteTag(tag, index)" flat size="sm" style="color: #FD6A7F;">Delete</q-btn>
+            </q-popup-proxy>
+          </span>
+          <q-btn class="tag-add" @click="tagAddMode = true">+ 태그 추가</q-btn>
         </div>
         <q-separator class="q-mt-md q-mb-sm"/>
         <div class="url">
@@ -40,6 +43,23 @@
         <!-- <div>{{ urlItem }}</div> -->
       </q-card-section>
     </q-card>
+
+    <q-dialog v-model="tagAddMode" persistent>
+      <q-card style="min-width: 250px">
+        <q-card-section>
+          <div class="text-h6">태그 추가</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input dense v-model="newTags" autofocus @keyup.enter="tagAddMode = false" />
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="취소" v-close-popup />
+          <q-btn @click="addTag(newTags)" flat label="추가" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </main>
 </template>
 
@@ -63,12 +83,50 @@ export default {
       $store.dispatch("urls/OPEN_MEMO");
     };
 
+    const tagAddMode = ref(false)
+
+    let newTags = ''
+
+    const addTag = (tag) => {
+      let tags = Object.values(props.urlItem.tags)
+      tags.push(tag)
+
+      const payload = {
+        folderId: $store.getters['urls/folderNow']._id,
+        data: {
+          url: props.urlItem.url,
+          tags: tags
+        }
+      }
+
+      $store.dispatch("urls/PUT_URL_TAG", payload)
+    }
+
+    const deleteTag = (tag, index) => {
+      let tags = Object.values(props.urlItem.tags)
+      tags.splice(index, 1)
+      
+      const payload = {
+        folderId: $store.getters['urls/folderNow']._id,
+        data: {
+          url: props.urlItem.url,
+          tags: tags
+        }
+      }
+
+      $store.dispatch("urls/PUT_URL_TAG", payload)
+    }
+
     return {
       avatarUrl,
       storeMemoOpen,
       toggleMemo,
       tmp_url,
-      tmp_title
+      tmp_title,
+      tagAddMode,
+      newTags,
+      addTag,
+      deleteTag,
     };
   }
 };
@@ -119,6 +177,7 @@ export default {
     border-radius: 14px;
     background-color: $verylightgray;
     color: $darkgray;
+    cursor: pointer;
   }
 
   .tag-add {
