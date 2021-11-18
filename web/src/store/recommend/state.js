@@ -5,6 +5,7 @@ export default function() {
     recommendTag: [],
     tag: [],
     recommendUrls: [],
-    searchMode: true
+    searchMode: true,
+    recommendLoading: false
   };
 }

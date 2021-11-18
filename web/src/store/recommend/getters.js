@@ -9,3 +9,7 @@ export function searchResult(state) {
 export function searchMode(state) {
   return state.searchMode;
 }
+
+export function recommendLoading(state) {
+  return state.recommendLoading;
+}

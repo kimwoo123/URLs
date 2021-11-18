@@ -62,11 +62,11 @@ export default {
     });
 
     const resetSearch = () => {
-      $store.dispatch("urls/DELETE_URL_SEARCH");
-      $store.dispatch("recommend/DELETE_TAG_SEARCH_RESULT");
-      if (searchResult.value.length !== 0) {
+      if (searchPage.value.length !== 0) {
         $store.dispatch("recommend/CHANGE_SEARCH_MODE");
       }
+      $store.dispatch("urls/DELETE_URL_SEARCH");
+      $store.dispatch("recommend/DELETE_TAG_SEARCH_RESULT");
     };
 
     return {

@@ -12,6 +12,7 @@ export function resetRecommendTag(state) {
 
 export function setRecommendUrls(state, urls) {
   state.recommendUrls = urls;
+  state.recommendLoading = true;
 }
 
 export function setSearchResult(state, urls) {

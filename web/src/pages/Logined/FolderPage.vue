@@ -3,7 +3,11 @@
     <folder-header :folderData="folderData" v-if="folderId" />
     <search-header />
     <search-result />
-    <div class="row q-pa-md items-start q-gutter-lg justify-center">
+
+    <div
+      class="row q-pa-md items-start q-gutter-lg justify-center"
+      v-if="searchData.length === 0 && searchPage.length === 0"
+    >
       <template v-if="folderData.urls == false">
         <div class="colum">
           <div class="text-h5 text-grey">폴더가 비었어요!</div>
@@ -38,7 +42,11 @@ export default {
     const $store = useStore();
 
     const searchData = computed({
-      get: () => $store.state.urls.searchData
+      get: () => $store.getters["urls/searchData"]
+    });
+
+    const searchPage = computed({
+      get: () => $store.getters["recommend/searchResult"]
     });
 
     const folderId = computed({
@@ -65,7 +73,8 @@ export default {
     return {
       folderId,
       folderData,
-      searchData
+      searchData,
+      searchPage
     };
   }
 };
