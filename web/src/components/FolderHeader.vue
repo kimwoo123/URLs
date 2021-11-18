@@ -39,6 +39,9 @@
               </q-list>
             </q-menu>
           </q-btn>
+          <q-item-label caption v-if="myPermission === 0">
+            Read Only
+          </q-item-label>
         </q-item-label>
 
         <div v-if="isUpdatingFolderName">
@@ -75,7 +78,7 @@
       <q-item-section side v-if="folderData._id !== ''">
         <folder-user-button :folderData="folderData" round />
       </q-item-section>
-      <q-item-section side v-if="folderData._id !== ''">
+      <q-item-section side v-if="myPermission !== 0 && folderData._id !== ''">
         <create-url-button />
       </q-item-section>
     </q-item>
