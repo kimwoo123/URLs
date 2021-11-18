@@ -6,7 +6,7 @@ from serializers.common import serializeList_folder
 from fastapi.encoders import jsonable_encoder
 # from fastapi.responses import JSONResponse
 from bson import ObjectId
-from pymongo import ReturnDocument
+from pymongo import ReturnDocument, DESCENDING, ASCENDING
 from .token import get_current_user
 from .folder_url import tag_count_decrease
 
@@ -30,6 +30,7 @@ async def find_one_folder(id):
         for idx, url in enumerate(folder["urls"]):
             memo = db.memo.find_one({"_id": ObjectId(folder["urls"][idx]["memos_id"])})
             folder["urls"][idx]["memos_count"] = len(memo["memos"])
+        folder["urls"] = folder["urls"][::-1]
         return serializeDict(folder)
         
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
