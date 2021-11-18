@@ -1,6 +1,5 @@
 <template>
   <main class="q-pa-sm">
-    <!-- <auto-complete></auto-complete> -->
     <q-item class="q-pb-lg">
       <q-item-section avatar>
         <q-icon name="auto_awesome" size="40px" class="folder-icon" />
@@ -9,9 +8,8 @@
         추천 페이지
       </q-item-section>
     </q-item>
-
     <!-- <q-list> -->
-    <div class="row">
+    <div class="row" v-if="loading">
       <div class="row q-gutter-lg justify-center">
         <q-card 
           class="my-card col-xl-2 col-lg-3 col-md-4 col-sm-5 col-10" 
@@ -50,18 +48,21 @@
       </div>
 
     </div>
+    <q-spinner-ios 
+    v-else
+    color="primary"
+    size="10em"
+    />
 
   </main>
 </template>
 
 <script>
-// import AutoComplete from 'src/components/AutoComplete.vue'
 import { useStore } from 'vuex'
 import { computed, toRaw } from "vue";
 import { openURL } from 'quasar'
 
 export default {
-  // components: { AutoComplete }
   setup() {
     const $store = useStore()
     $store.dispatch('recommend/GET_RECOMMEND_URL', 20)
@@ -70,12 +71,17 @@ export default {
       get: () => $store.getters['recommend/recommendUrls']
     })
 
+    const loading = computed({
+      get: () => $store.getters['recommend/recommendLoading']
+    })
+
     const clickImg = (url, e) => {
       openURL(toRaw(url).url)
     }
 
     return {
       recommendUrls,
+      loading,
       clickImg
     }
   }

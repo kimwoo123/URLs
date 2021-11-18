@@ -5,3 +5,7 @@ export function recommendUrls(state) {
 export function searchResult(state) {
   return state.searchResult
 }
+
+export function recommendLoading(state) {
+  return state.recommendLoading
+}
