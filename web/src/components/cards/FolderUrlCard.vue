@@ -15,15 +15,6 @@
         <q-item-section side>
           <div>
             <q-btn
-              size="12px"
-              flat
-              round
-              color="grey"
-              icon="sticky_note_2"
-              @click="toggleMemo"
-            />
-            <span class="memo-count">{{ urlItem.memos_count }}</span>
-            <q-btn
               v-if="myPermission !== 0 && willDeleted"
               size="12px"
               flat
@@ -41,6 +32,15 @@
               icon="bookmark"
               @click="openDelete"
             />
+            <q-btn
+              size="12px"
+              flat
+              round
+              color="grey"
+              icon="sticky_note_2"
+              @click="toggleMemo"
+            />
+            <span class="memo-count">{{ urlItem.memos_count }}</span>
           </div>
         </q-item-section>
       </q-item>
