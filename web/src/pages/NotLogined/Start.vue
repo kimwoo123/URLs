@@ -8,9 +8,8 @@
         <!-- wave-header -->
         <div class="inner-header flex">
           <div class="header-text">
-            <h2>URLS</h2>
-            <span>똑똑하게 저장하고 나누는 방법</span>
-            <span>urls 설명</span>
+            <img class="logo-img" src="../../assets/logo/logo_white.png" alt="">
+            <span class="logo-explain">똑똑하게 저장하고 나누는 방법</span>
             <google-login-button/>
           </div>
 
@@ -235,15 +234,15 @@ export default {
   components: { GoogleLoginButton },
   setup() {
     const img = [
-      "https://i.imgur.com/NCsq97v.png",
-      "https://i.imgur.com/gis60jR.png",
-      "https://i.imgur.com/1IP49tw.png",
-      "https://i.imgur.com/UTLf4fJ.png",
-      "https://i.imgur.com/Mb2jOOT.png",
-      "https://i.imgur.com/ySgwPdk.png",
-      "https://i.imgur.com/D148kx4.png",
-      "https://i.imgur.com/rLymy73.png",
-      "https://i.imgur.com/IqL8YR8.png"
+      require("../../assets/explain/1.png"),
+      require("../../assets/explain/2.png"),
+      require("../../assets/explain/3.png"),
+      require("../../assets/explain/4.png"),
+      require("../../assets/explain/5.png"),
+      require("../../assets/explain/6.png"),
+      require("../../assets/explain/7.png"),
+      require("../../assets/explain/8.png"),
+      require("../../assets/explain/9.png"),
     ];
 
     const scroll = event => {
@@ -383,7 +382,7 @@ $tertiary: #ff538f;
   z-index: 10;
 }
 .header-img {
-  background-image: url("https://i.imgur.com/yGaXeDy.png");
+  background-image: url("../../assets/explain/10.png");
   background-repeat : no-repeat;
   background-size : cover;
   width: 50vw;
@@ -393,8 +392,14 @@ $tertiary: #ff538f;
 .header-text {
   display: flex;
   flex-direction: column;
-  h2 {
-    margin-top: 0;
+  .logo-img {
+    width: 280px
+  }
+  .logo-explain { 
+    letter-spacing: 5px;
+    margin-top: 15px;
+    margin-bottom: 5vh;
+    font-weight: 300;
   }
 }
 .flex {
@@ -455,7 +460,7 @@ $tertiary: #ff538f;
   .header-img {
     display: none;
   }
-  h1 {
+  .logo-img {
     font-size: 24px;
   }
 }
