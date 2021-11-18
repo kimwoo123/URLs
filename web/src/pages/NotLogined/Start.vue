@@ -8,7 +8,7 @@
         <!-- wave-header -->
         <div class="inner-header flex">
           <div class="header-text">
-            <img class="logo-img" src="https://i.imgur.com/6Fiq3yT.png" alt="">
+            <img class="logo-img" src="~assets/logo/logo_white.png" alt="">
             <span class="logo-explain">똑똑하게 저장하고 나누는 방법</span>
             <google-login-button color="white"/>
           </div>

@@ -33,7 +33,7 @@
             <q-img
               v-if="urlItem.og_image === null"
               class="col-5 cursor-pointer"
-              src="https://i.imgur.com/JhuMozt.png"
+              src="~assets/none_pic_pink.png"
               :ratio="1"
               @click="clickImg"
             />
