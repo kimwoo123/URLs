@@ -136,26 +136,19 @@ function onChangeColorBtnClicked() {
 }
 
 function onShareBtnClicked() {
-  chrome.runtime.sendMessage(
-    {action: 'share', url: window.location.href},
-    response => {
-      if (response.result) {
-        const highlightId = currentHighlightEl.getAttribute(
-          'data-highlight-id',
-        );
-        const highlights = $(
-          `.highlighter--highlighted[data-highlight-id='${highlightId}']`,
-        );
-        const highlightText = Array.from(highlights)
-          .map(el => el.textContent.replace(/\s+/gmu, ' '))
-          .join('');
-        chrome.runtime.sendMessage({
-          action: 'newMemo',
-          highlightText,
-        });
-      }
-    },
+  const highlightId = currentHighlightEl.getAttribute('data-highlight-id');
+  const highlights = $(
+    `.highlighter--highlighted[data-highlight-id='${highlightId}']`,
   );
+  const highlightText = Array.from(highlights)
+    .map(el => el.textContent.replace(/\s+/gmu, ' '))
+    .join('');
+
+  chrome.runtime.sendMessage({
+    action: 'share',
+    url: window.location.href,
+    memo: highlightText,
+  });
 }
 
 $.get(chrome.extension.getURL('hoverTools/hoverTools.html'), data => {
