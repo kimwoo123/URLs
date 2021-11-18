@@ -1,8 +1,10 @@
 <template>
   <div class="column folder-header-container text-h6">
     <q-item>
-      <q-item-section avatar>
-        <q-icon name="folder" size="40px" class="folder-icon" />
+      <q-item-section avatar >
+        <q-icon name="home" size="40px" class="folder-icon" v-if="folderData._id === ''"/>
+        <q-icon name="folder_shared" size="40px" class="folder-icon" v-if="folderData._id !== '' && folderData.shared === true"/>
+        <q-icon name="folder_open" size="40px" class="folder-icon" v-if="folderData._id !== '' && folderData.shared === false"/>
       </q-item-section>
 
       <q-item-section>
@@ -248,12 +250,10 @@ export default {
         folder_id: $store.state.urls.folderNow._id,
         pattern: searchText.value
       };
-      console.log('urlData', urlData)
       $store.dispatch("urls/GET_FOLDER_URL_SEARCH", urlData);
     };
 
     watch(folderId, () => {
-      console.log('오잉')
       searchText.value = ''
     })
 

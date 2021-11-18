@@ -3,7 +3,7 @@
     <!-- <auto-complete></auto-complete> -->
     <q-item class="q-pb-lg">
       <q-item-section avatar>
-        <q-icon name="recommend" size="40px" class="folder-icon" />
+        <q-icon name="auto_awesome" size="40px" class="folder-icon" />
       </q-item-section>
       <q-item-section class="text-h6">
         추천 페이지

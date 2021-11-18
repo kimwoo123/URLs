@@ -21,8 +21,6 @@ export function permissionNow(state, getters, rootState, rootGetters) {
     }
     const result = getters.folderNow.users.find(findUser)
 
-    console.log(result.permission)
-
     if (result.permission == undefined) {
       return -1
     } else {
