@@ -2,14 +2,21 @@ package com.keelim.data.api
 
 import com.keelim.data.model.auth.User
 import com.keelim.data.model.open.Url
+import com.keelim.data.request.NewMemoRequest
+import com.keelim.data.request.NewUrlRequest
 import com.keelim.data.response.FolderResponse
 import com.keelim.data.response.MemoResponse
 import com.keelim.data.response.MyUrlResponse
+import com.keelim.data.response.NewUrlResponse
+import com.keelim.data.response.RecommendResponse
+import com.keelim.data.response.ReleaseResponse
 import com.keelim.data.response.URLResponse
 import com.keelim.data.response.notification.NotificationResponse
 import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -42,9 +49,26 @@ interface FreeServices {
 
     @GET("/memo/{id}")
     suspend fun getMemos(
-        @Path("id") id:String
+        @Path("id") id: String
     ): Response<MemoResponse>
 
+    @GET("/other")
+    suspend fun getRelease(): Response<List<ReleaseResponse>>
+
+    @GET("/recommend?count=10")
+    suspend fun getRecommend(): Response<List<RecommendResponse>>
+
+    @POST("/folder/{folder_id}/url")
+    suspend fun postNewUrl(
+        @Path("folder_id") folderId: String,
+        @Body body: NewUrlRequest
+    ): Response<NewUrlResponse>
+
+    @POST("/memo/{memos_id}")
+    suspend fun postNewMemo(
+        @Path("memos_id") folderId: String,
+        @Body body: NewMemoRequest
+    ): Response<NewUrlResponse>
 
 
 //

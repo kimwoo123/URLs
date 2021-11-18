@@ -31,7 +31,7 @@
                     android:id="@+id/title_toolbar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/pretendard"
+                    android:fontFamily="@font/pretendard_bold"
                     android:text="Hi This is URLS"
                     android:textColor="@color/black"
                     android:textSize="24sp"
@@ -60,6 +60,8 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_menu" />
+    <include
+        android:id="@+id/content_menu"
+        layout="@layout/content_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

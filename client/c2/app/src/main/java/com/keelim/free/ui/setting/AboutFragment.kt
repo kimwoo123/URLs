@@ -52,9 +52,10 @@ class AboutFragment : Fragment() {
             }
         }
         gitlab.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW).apply {
-                Uri.parse(getString(R.string.git_lab_address))
-            })
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW, Uri.parse("")
+                ))
         }
 
         openSourceLicensesCard.setOnClickListener {

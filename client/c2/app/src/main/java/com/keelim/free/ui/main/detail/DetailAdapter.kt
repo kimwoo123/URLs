@@ -42,6 +42,7 @@ class DetailAdapter(
                 tags.addView(
                     Chip(ctx).apply {
                         text = it
+                        setTextAppearanceResource(R.style.ChipTextStyle_Selected)
                         setChipBackgroundColorResource(colors.random())
                     }
                 )
