@@ -78,7 +78,6 @@ export default {
     // })
 
     watch(folderId, () => {
-      console.log('폴더아이디 변함!')
       const deleteList = $store.getters['urls/willDeleteURL']
       deleteList.forEach(element => {
         $store.dispatch('urls/DELETE_URL', element)
