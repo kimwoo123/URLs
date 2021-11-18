@@ -3,7 +3,7 @@
       <router-link :to="{ name: 'Recommendation'}">
         <q-item clickable v-ripple>
           <q-item-section avatar>
-            <q-icon name="home" />
+            <q-icon name="auto_awesome" />
           </q-item-section>
           <q-item-section>
             추천 페이지
@@ -27,14 +27,14 @@
       <q-separator/>
 
       <q-item>
-        <q-item-section>개인폴더</q-item-section>
+        <q-item-section class="text-grey">개인폴더</q-item-section>
       </q-item>              
 
       <template v-for="folderItem in folders" :key="folderItem.folder_id">
         <router-link :to="{ name: 'MyFolder', params: { folder_id: folderItem.folder_id }}">
           <q-item clickable v-ripple v-if="!folderItem.shared">
             <q-item-section avatar>
-              <q-icon name="folder" />
+              <q-icon name="folder_open" />
             </q-item-section>
             <q-item-section>
               {{ folderItem.folder_name}}
@@ -47,14 +47,14 @@
       <q-separator/>
 
       <q-item>
-        <q-item-section>공용 폴더</q-item-section>
+        <q-item-section class="text-grey">공용 폴더</q-item-section>
       </q-item>
 
       <template v-for="folderItem in folders" :key="folderItem.folder_id">
         <router-link :to="{ name: 'OurFolder', params: { folder_id: folderItem.folder_id }}">
           <q-item clickable v-ripple v-if="folderItem.shared">
             <q-item-section avatar>
-              <q-icon name="folder" />
+              <q-icon name="folder_shared" />
             </q-item-section>
             <q-item-section>
               {{ folderItem.folder_name}}
