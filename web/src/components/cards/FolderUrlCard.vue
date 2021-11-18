@@ -157,7 +157,7 @@ export default {
       get: () => $store.getters["urls/permissionNow"]
     });
 
-    const tmp_url = require("../../assets/none_pic_pink.png");
+    const tmp_url = "https://i.imgur.com/JhuMozt.png";
     const tmp_title = "제목 없음";
 
     const avatarUrl = $store.state.user.avatar;
