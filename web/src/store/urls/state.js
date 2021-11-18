@@ -7,6 +7,7 @@ export default function() {
     memos: [],
     searchData: [],
     selectedMemoId: "",
-    selectedMemoTitle: ""
+    selectedMemoTitle: "",
+    willDeleteURL: []
   };
 }

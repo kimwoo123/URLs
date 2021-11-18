@@ -61,6 +61,7 @@
       bordered
       :width="300"
       :breakpoint="500"
+      class="scroll overflow-hidden"
     >
       <right-drawer/>
 

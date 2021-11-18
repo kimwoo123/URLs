@@ -73,8 +73,8 @@ export function urlCreate(folderId, urlData) {
 }
 
 // 폴더 내 특정 url 삭제
-export function urlDelete(folderId, urlData) {
-  return api.put(`/folder/${folderId}/url`, urlData);
+export function urlDelete(urlData) {
+  return api.delete(`/folder/${urlData.folder_id}/url?url=${urlData.url}`);
 }
 
 // url에 달린 모든 메모 조회
