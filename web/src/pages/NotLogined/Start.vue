@@ -2,16 +2,16 @@
   <div>
     <!-- start -->
     <div class="start scroll-ani">
-      <a @click="scroll"><span></span>Scroll</a>
+      <a @click="scroll" href="#function1" style="z-index: 1000"><span></span>Scroll</a>
 
       <div class="header">
         <!-- wave-header -->
         <div class="inner-header flex">
           <div class="header-text">
-            <h2>urls로고</h2>
-            <span>urls설명urls설명urls설명urls설명urls설명urls설명</span>
-            <span>urls설명urls설명urls설명urls설명urls설명urls설명</span>
-            <button>지금 바로 시작하기</button>
+            <h2>URLS</h2>
+            <span>똑똑하게 저장하고 나누는 방법</span>
+            <span>urls 설명</span>
+            <google-login-button/>
           </div>
 
           <div class="header-img"></div>
@@ -56,15 +56,16 @@
             </g>
           </svg>
         </div>
+        <div class="white-margin"></div>
       </div>
     </div>
 
     <div class="function-container">
       <!-- url입력/태그 추천 -->
       <div id="function1" class="function-box">
-        <div class="row">
+        <div class="row justify-center">
           <div class="img-box">
-            <img src="https://i.imgur.com/5CCzZj3.png" alt="" id="img-first" />
+            <img :src="img[0]" alt="" id="img-first" />
           </div>
           <div class="text-box">
             <p>맞춤형 태그와 url을 제공받으세요.</p>
@@ -113,14 +114,16 @@
 
       <!-- 공유/메모/하이라이트 -->
       <div id="function2" class="function-box">
-        <div class="row">
+        <div class="row justify-center">
+          <div class="img-box small-display-on">
+            <img :src="img[3]" alt="" id="img-second" />
+          </div>
           <div class="text-box">
             <p>팀원과 url을 공유하세요.</p>
             <span class="sub-title">Urls는 공유 폴더 기능을 제공합니다.</span>
             <span class="sub-title"
               >팀원과 함께 url을 공유하고 폴더를 편집해보세요.</span
             >
-
             <div class="explain-box">
               <details @click="explainOnOff(3)" open>
                 <summary>공유 폴더 생성하기</summary>
@@ -159,17 +162,17 @@
               </details>
             </div>
           </div>
-          <div class="img-box">
-            <img src="https://i.imgur.com/5CCzZj3.png" alt="" id="img-second" />
+          <div class="img-box small-display-off">
+            <img :src="img[3]" alt="" id="img-second" />
           </div>
         </div>
       </div>
 
       <!-- 플랫폼 -->
       <div id="function3" class="function-box">
-        <div class="row">
+        <div class="row justify-center">
           <div class="img-box">
-            <img src="https://i.imgur.com/5CCzZj3.png" alt="" id="img-third" />
+            <img :src="img[6]" alt="" id="img-third" />
           </div>
           <div class="text-box">
             <p>다양한 플랫폼에서 활용하세요.</p>
@@ -217,105 +220,35 @@
       </div>
     </div>
 
-    <!-- <div >
-    <button class="learn-more">
-      <span class="circle" aria-hidden="true">
-        <span class="icon arrow"></span>
-      </span>
-      <span class="button-text">지금 Url 시작하기</span>
-    </button>
-  </div> -->
+    <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+      <q-btn fab icon="keyboard_arrow_up" color="accent" />
+    </q-page-scroller>
   </div>
 
-  <!-- <div class="wrapper">
-  <div class="typing-demo">
-    https://k5b201.p.ssafy.io/
-  </div>
-</div> -->
-  <!-- <div class="options">
-   <div class="option active" @click="select_option" style="--optionBackground:url(https://66.media.tumblr.com/6fb397d822f4f9f4596dff2085b18f2e/tumblr_nzsvb4p6xS1qho82wo1_1280.jpg);">
-      <div class="shadow"></div>
-      <div class="label">
-         <div class="icon">
-            <i class="fas fa-walking"></i>
-         </div>
-         <div class="info">
-            <div class="main">Blonkisoaz</div>
-            <div class="sub">Omuke trughte a otufta</div>
-         </div>
-      </div>
-   </div>
-   <div class="option" @click="select_option"  style="--optionBackground:url(https://66.media.tumblr.com/8b69cdde47aa952e4176b4200052abf4/tumblr_o51p7mFFF21qho82wo1_1280.jpg);">
-      <div class="shadow"></div>
-      <div class="label">
-         <div class="icon">
-            <i class="fas fa-snowflake"></i>
-         </div>
-         <div class="info">
-            <div class="main">Oretemauw</div>
-            <div class="sub">Omuke trughte a otufta</div>
-         </div>
-      </div>
-   </div>
-   <div class="option" @click="select_option"  style="--optionBackground:url(https://66.media.tumblr.com/5af3f8303456e376ceda1517553ba786/tumblr_o4986gakjh1qho82wo1_1280.jpg);">
-      <div class="shadow"></div>
-      <div class="label">
-         <div class="icon">
-            <i class="fas fa-tree"></i>
-         </div>
-         <div class="info">
-            <div class="main">Iteresuselle</div>
-            <div class="sub">Omuke trughte a otufta</div>
-         </div>
-      </div>
-   </div>
-   <div class="option" @click="select_option"  style="--optionBackground:url(https://66.media.tumblr.com/5516a22e0cdacaa85311ec3f8fd1e9ef/tumblr_o45jwvdsL11qho82wo1_1280.jpg);">
-      <div class="shadow"></div>
-      <div class="label">
-         <div class="icon">
-            <i class="fas fa-tint"></i>
-         </div>
-         <div class="info">
-            <div class="main">Idiefe</div>
-            <div class="sub">Omuke trughte a otufta</div>
-         </div>
-      </div>
-   </div>
-   <div class="option" @click="select_option"  style="--optionBackground:url(https://66.media.tumblr.com/f19901f50b79604839ca761cd6d74748/tumblr_o65rohhkQL1qho82wo1_1280.jpg);">
-      <div class="shadow"></div>
-      <div class="label">
-         <div class="icon">
-            <i class="fas fa-sun"></i>
-         </div>
-         <div class="info">
-            <div class="main">Inatethi</div>
-            <div class="sub">Omuke trughte a otufta</div>
-         </div>
-      </div>
-   </div>
-</div> -->
 </template>
 
 <script>
+import GoogleLoginButton from '../../components/buttons/GoogleLoginButton.vue'
 import { ref } from "vue";
 
 export default {
+  components: { GoogleLoginButton },
   setup() {
     const img = [
-      "https://i.imgur.com/5CCzZj3.png",
-      "https://i.imgur.com/zAirBhb.png",
-      "https://i.imgur.com/q3irXZL.png",
-      "https://i.imgur.com/5CCzZj3.png",
-      "https://i.imgur.com/zAirBhb.png",
-      "https://i.imgur.com/q3irXZL.png",
-      "https://i.imgur.com/5CCzZj3.png",
-      "https://i.imgur.com/zAirBhb.png",
-      "https://i.imgur.com/q3irXZL.png"
+      "https://i.imgur.com/NCsq97v.png",
+      "https://i.imgur.com/gis60jR.png",
+      "https://i.imgur.com/1IP49tw.png",
+      "https://i.imgur.com/UTLf4fJ.png",
+      "https://i.imgur.com/Mb2jOOT.png",
+      "https://i.imgur.com/ySgwPdk.png",
+      "https://i.imgur.com/D148kx4.png",
+      "https://i.imgur.com/rLymy73.png",
+      "https://i.imgur.com/IqL8YR8.png"
     ];
 
     const scroll = event => {
       event.preventDefault();
-      window.scrollTo({ top: 1000, behavior: "smooth" });
+      window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
     };
 
     const explainOnOff = imgNum => {
@@ -342,7 +275,8 @@ export default {
       slide: ref(1),
       autoplay: ref(true),
       scroll,
-      explainOnOff
+      explainOnOff,
+      img
     };
   }
 };
@@ -373,7 +307,7 @@ $tertiary: #ff538f;
 .scroll-ani a {
   padding-top: 50px;
   position: absolute;
-  bottom: 50px;
+  bottom: 0px;
   left: 50%;
   z-index: 2;
   display: inline-block;
@@ -441,8 +375,17 @@ $tertiary: #ff538f;
 .inner-header {
   height: 58vh;
 }
+.white-margin {
+  position: absolute;
+  background-color: white;
+  width: 100%;
+  height: 30vh;
+  z-index: 10;
+}
 .header-img {
-  background-image: url("https://i.imgur.com/kCHOLLb.png");
+  background-image: url("https://i.imgur.com/yGaXeDy.png");
+  background-repeat : no-repeat;
+  background-size : cover;
   width: 50vw;
   height: 73vh;
   margin-left: 11vw;
@@ -463,7 +406,7 @@ $tertiary: #ff538f;
 .waves {
   position: relative;
   width: 100%;
-  height: 15vh;
+  height: 20vh;
   margin-bottom: -7px;
   min-height: 100px;
   max-height: 150px;
@@ -501,7 +444,7 @@ $tertiary: #ff538f;
     }
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .waves {
     height: 40px;
     min-height: 40px;
@@ -529,17 +472,33 @@ $tertiary: #ff538f;
   justify-content: center;
   margin: 16vw 0px;
 }
+.small-display-off {
+  display: block;
+
+}
+.small-display-on {
+  display: none;
+
+}
+@media (max-width: 1294px) {
+.small-display-off {
+  display: none;
+}
+.small-display-on {
+  display: block;
+}
+}
 .img-box {
   margin: 10px 0px;
   img {
-    // width: 630px;
-    // height: 730px;
-    // object-fit: contain;
+    padding: 0px 20px;
+    max-width: 100%; 
+    height: auto;
     object-fit: cover;
   }
 }
 .text-box {
-  margin: 0px 40px;
+  margin: 20px 40px 0px 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -650,126 +609,5 @@ summary {
   }
 }
 // --------------------------------------------------------------
-// function number css
-.function1 {
-}
 
-.wrapper {
-  height: 100vh;
-  /*This part is important for centering*/
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
-  .typing-demo {
-    width: 26ch;
-    animation: typing 2s steps(26), blink 0.5s step-end infinite alternate;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 2px solid;
-    font-family: monospace;
-    font-size: 2em;
-  }
-
-  @keyframes typing {
-    from {
-      width: 0;
-    }
-  }
-
-  @keyframes blink {
-    50% {
-      border-color: transparent;
-    }
-  }
-}
-
-button {
-  @mixin transition(
-    $property: all,
-    $duration: 0.45s,
-    $ease: cubic-bezier(0.65, 0, 0.076, 1)
-  ) {
-    transition: $property $duration $ease;
-  }
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  outline: none;
-  border: 0;
-  vertical-align: middle;
-  text-decoration: none;
-  background: transparent;
-  padding: 0;
-  font-size: inherit;
-  font-family: inherit;
-  &.learn-more {
-    width: 12rem;
-    height: auto;
-    .circle {
-      @include transition(all, 0.45s, cubic-bezier(0.65, 0, 0.076, 1));
-      position: relative;
-      display: block;
-      margin: 0;
-      width: 3rem;
-      height: 3rem;
-      background: $dark;
-      border-radius: 1.625rem;
-      .icon {
-        @include transition(all, 0.45s, cubic-bezier(0.65, 0, 0.076, 1));
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-        background: $light;
-        &.arrow {
-          @include transition(all, 0.45s, cubic-bezier(0.65, 0, 0.076, 1));
-          left: 0.625rem;
-          width: 1.125rem;
-          height: 0.125rem;
-          background: none;
-          &::before {
-            position: absolute;
-            content: "";
-            top: -0.25rem;
-            right: 0.0625rem;
-            width: 0.625rem;
-            height: 0.625rem;
-            border-top: 0.125rem solid #fff;
-            border-right: 0.125rem solid #fff;
-            transform: rotate(45deg);
-          }
-        }
-      }
-    }
-    .button-text {
-      @include transition(all, 0.45s, cubic-bezier(0.65, 0, 0.076, 1));
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 0.75rem 0;
-      margin: 0 0 0 1.85rem;
-      color: $dark;
-      font-weight: 700;
-      line-height: 1.6;
-      text-align: center;
-      text-transform: uppercase;
-    }
-  }
-  &:hover {
-    .circle {
-      width: 100%;
-      .icon {
-        &.arrow {
-          background: $light;
-          transform: translate(1rem, 0);
-        }
-      }
-    }
-    .button-text {
-      color: $light;
-    }
-  }
-}
 </style>
