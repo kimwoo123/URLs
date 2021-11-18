@@ -1,20 +1,24 @@
 export function setTag(state, result) {
-  state.tag = result
+  state.tag = result;
 }
 
 export function setRecommendTag(state, result) {
-  state.recommendTag = result
+  state.recommendTag = result;
 }
 
 export function resetRecommendTag(state) {
-  state.recommendTag = []
+  state.recommendTag = [];
 }
 
 export function setRecommendUrls(state, urls) {
-  state.recommendUrls = urls
-  state.recommendLoading = true
+  state.recommendUrls = urls;
+  state.recommendLoading = true;
 }
 
 export function setSearchResult(state, urls) {
-  state.searchResult = urls
+  state.searchResult = urls;
+}
+
+export function changeSearchMode(state) {
+  state.searchMode = !state.searchMode;
 }

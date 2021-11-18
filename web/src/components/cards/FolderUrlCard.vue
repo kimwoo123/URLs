@@ -82,8 +82,10 @@
           class="row text-caption text-grey items-center text-weight-thin cursor-pointer"
           @click="urlCopy(urlItem.url, e)"
         >
-          <q-icon name="content_copy" />
-          <div class="q-pl-sm">{{ urlItem.url }}</div>
+          <div class="url q-pa-xs">
+            <q-icon name="content_copy" class="q-pr-sm" />
+            {{ urlItem.url }}
+          </div>
         </div>
       </q-card-section>
     </q-card>

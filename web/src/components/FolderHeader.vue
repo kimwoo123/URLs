@@ -1,16 +1,31 @@
 <template>
   <div class="column folder-header-container text-h6">
     <q-item>
-      <q-item-section avatar >
-        <q-icon name="home" size="40px" class="folder-icon" v-if="folderData._id === ''"/>
-        <q-icon name="folder_shared" size="40px" class="folder-icon" v-if="folderData._id !== '' && folderData.shared === true"/>
-        <q-icon name="folder_open" size="40px" class="folder-icon" v-if="folderData._id !== '' && folderData.shared === false"/>
+      <q-item-section avatar>
+        <q-icon
+          name="home"
+          size="40px"
+          class="folder-icon"
+          v-if="folderData._id === ''"
+        />
+        <q-icon
+          name="folder_shared"
+          size="40px"
+          class="folder-icon"
+          v-if="folderData._id !== '' && folderData.shared === true"
+        />
+        <q-icon
+          name="folder_open"
+          size="40px"
+          class="folder-icon"
+          v-if="folderData._id !== '' && folderData.shared === false"
+        />
       </q-item-section>
 
       <q-item-section>
-        <div v-if="!isUpdatingFolderName">
-            {{ folderName.value }}
-            <q-btn flat round>
+        <q-item-label :lines="1" v-if="!isUpdatingFolderName">
+          {{ folderName.value }}
+          <q-btn flat round>
             <q-icon name="more_vert" />
             <q-menu cover auto-close self="bottom right">
               <q-list>
@@ -23,7 +38,7 @@
               </q-list>
             </q-menu>
           </q-btn>
-        </div>
+        </q-item-label>
 
         <div v-if="isUpdatingFolderName">
           <!-- <form
@@ -31,33 +46,32 @@
             @reset.stop.prevent="toggleUpdating"
             class="row"
           > -->
-            <q-input
-              dense
-              v-model="folderName.value"
-              autofocus
-              :rules="[ruleSameName, ruleMinWords, ruleMaxWords]"
-              @keyup.enter="updateFolderName"
-            >
-              <template v-slot:append>
-                <q-btn
-                  flat
-                  round
-                  size="12px"
-                  icon="clear"
-                  color="negative"
-                  @click="toggleUpdating"
-                />
-                <q-btn
-                  flat
-                  round
-                  size="12px"
-                  icon="done"
-                  color="positive"
-                  @click="updateFolderName"
-                />
-              </template>
-            
-            </q-input>
+          <q-input
+            dense
+            v-model="folderName.value"
+            autofocus
+            :rules="[ruleSameName, ruleMinWords, ruleMaxWords]"
+            @keyup.enter="updateFolderName"
+          >
+            <template v-slot:append>
+              <q-btn
+                flat
+                round
+                size="12px"
+                icon="clear"
+                color="negative"
+                @click="toggleUpdating"
+              />
+              <q-btn
+                flat
+                round
+                size="12px"
+                icon="done"
+                color="positive"
+                @click="updateFolderName"
+              />
+            </template>
+          </q-input>
           <!-- </form> -->
         </div>
       </q-item-section>
@@ -70,14 +84,13 @@
       </q-item-section>
     </q-item>
 
-    <q-item class="row justify-end
-">
+    <!-- <q-item class="row justify-end">
       <q-item-section class="col-xs-6 col-12">
         <q-input
           dense
           bottom-slots
           v-model="searchText"
-          placeholder="나의 URL을 찾아볼까요?"
+          placeholder="URL을 찾아볼까요?"
           maxlength="15"
           @keyup.enter="search" 
         >
@@ -96,7 +109,7 @@
           </template>
         </q-input>
       </q-item-section>
-    </q-item>
+    </q-item> -->
   </div>
 
   <q-dialog v-model="alert">
@@ -112,7 +125,7 @@
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn flat label="취소" color="primary" v-close-popup />
+        <q-btn flat label="취소" color="grey" v-close-popup />
         <q-btn
           flat
           label="삭제하기"
@@ -153,7 +166,7 @@ export default {
 
     const folderId = computed({
       get: () => $store.getters["urls/folderNow"]._id
-    })
+    });
 
     const folderNameList = computed({
       get: () => {
@@ -254,8 +267,8 @@ export default {
     };
 
     watch(folderId, () => {
-      searchText.value = ''
-    })
+      searchText.value = "";
+    });
 
     return {
       isUpdatingFolderName,
