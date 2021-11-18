@@ -68,7 +68,7 @@ async function serverCheck(token) {
     .catch(error => error);
 }
 
-async function newUrl(token, basic, url) {
+async function newUrl(token, mid, url) {
   return fetch(
     `${baseURL}/folder/${basic}/url`,
     providePostConfig(token, {
@@ -81,23 +81,19 @@ async function newUrl(token, basic, url) {
     .catch(error => error);
 }
 
-async function newMemo(token, basic, message) {
-  return fetch(
-    `${baseURL}/folder/${basic}/url`,
-    providePostConfig(token, {
-      highlight: message,
-      content: message,
-    }),
-  )
-    .then(result => result)
-    .catch(error => error);
+async function newMemo(token, basic, payload) {
+  return fetch(`${baseURL}/memo/${basic}`, providePostConfig(token, payload))
+    .then(result => result.json())
+    .catch(error => console.log(error));
 }
 
 async function inject(token, folderId, payload) {
   return fetch(
     `${baseURL}/folder/${folderId}/url`,
     providePostConfig(token, payload),
-  );
+  )
+    .then(result => result.json())
+    .catch(error => console.log(error));
 }
 
 // 백그라운드 로직 처리 => 비동기적인 상황(promise)
@@ -121,14 +117,26 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
         sendResponse({result: false, token: ''});
       }
     } else if (request.action === 'share') {
-      alert('시작');
       const response = await inject(token, basic, {
         url: request.url,
         tags: [],
       });
-      const result = response.status === 200;
-      alert(result);
-      sendResponse({result});
+
+      if (response) {
+        console.log(response);
+        const mid = response.urls[response.urls.length - 1].memos_id;
+        const response2 = await newMemo(token, mid, {
+          highlight: request.memo,
+          content: request.memo,
+        });
+        if (response2) {
+          alert('정상적으로 메모가 등록되었습니다.');
+        } else {
+          alert('관리자에게 문의를 주세요');
+        }
+      } else {
+        alert('이미 등록된 url 입니다.');
+      }
     } else if (request.action === 'newMemo') {
       alert(request.highlightText);
     }
