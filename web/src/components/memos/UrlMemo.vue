@@ -31,7 +31,25 @@
       <q-separator />
 
       <q-card-section v-if="!isUpdating">
-        <div v-html="computedMemoContent"></div>
+
+        <q-expansion-item
+          dense
+          dense-toggle
+          expand-icon-toggle
+          expand-separator
+          label="HIGHLIGHT"
+          header-class="text-primary q-pa-none q-px-3"
+          v-if="memoItem.highlight"
+          
+        >
+          <q-card style="background:transparent;">
+            <q-card-section class="q-pa-none transparent" style="padding-bottom: 15px;">
+              {{ memoItem.highlight }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
+        <div v-html="computedMemoContent" v-else></div>
       </q-card-section>
     </q-card>
 
