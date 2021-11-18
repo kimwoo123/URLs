@@ -33,3 +33,12 @@ export function setSelectedMemoTitle(state, memoTitle) {
 export function setSearchData(state, data) {
   state.searchData = data;
 }
+
+export function addWillDeleteURL(state, data) {
+  state.willDeleteURL.push(data)
+}
+
+export function deleteWillDeleteURL(state, data) {
+  const filltered = state.willDeleteURL.filter((x) => x.memos_id !== data.memos_id)
+  state.willDeleteURL = filltered
+}

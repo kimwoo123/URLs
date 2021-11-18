@@ -3,10 +3,14 @@ package com.keelim.data.repository.url
 import com.keelim.data.api.ApiRequestFactory
 import com.keelim.data.model.CallResult
 import com.keelim.data.model.Folder
+import com.keelim.data.model.Recommend
 import com.keelim.data.model.auth.User
 import com.keelim.data.model.dash.Dash
 import com.keelim.data.model.fold.Memo
+import com.keelim.data.model.notification.Release
 import com.keelim.data.model.open.Url
+import com.keelim.data.request.NewMemoRequest
+import com.keelim.data.request.NewUrlRequest
 import com.keelim.data.response.MyUrlResponse
 import com.keelim.di.IoDispatcher
 import javax.inject.Inject
@@ -115,7 +119,6 @@ class UrlRepositoryImpl @Inject constructor(
             return@withContext Dash(
                 result.size,
                 response.body()?.size ?: 0,
-                ""
             )
         } catch (e: Exception) {
             Timber.e(e)
@@ -124,8 +127,26 @@ class UrlRepositoryImpl @Inject constructor(
         return@withContext Dash(
             0,
             0,
-            ""
         )
+    }
+
+    override suspend fun getRecommend(): List<Recommend>  = withContext(dispatcher){
+        try {
+            val response = apiRequestFactory.retrofit.getRecommend()
+            val result = response.body()?.map {
+                Recommend(
+                    it.title,
+                    it.url,
+                    it.ogImage,
+                )
+            }
+            Timber.d("성공한 데이터 $result")
+            return@withContext result!!
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+        Timber.d("성공하지 않는 데이터")
+        return@withContext emptyList()
     }
 
     override suspend fun folderNewUrl(
@@ -201,5 +222,58 @@ class UrlRepositoryImpl @Inject constructor(
             Timber.e(e)
         }
         return@withContext User("", "", "")
+    }
+
+    override suspend fun getRelease(): List<Release> = withContext(dispatcher) {
+        try {
+            val response = apiRequestFactory.retrofit.getRelease()
+            val result = response.body()?.mapIndexed { index, release ->
+                Release(
+                    release.date,
+                    release.description,
+                    release.title,
+                    release.version
+                )
+            }
+            Timber.d("성공한 데이터 $result")
+            return@withContext result!!
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+        Timber.d("성공하지 않는 데이터")
+        return@withContext emptyList()
+    }
+
+    override suspend fun newUrl(folderId: String, url: String, change: List<String>): String =
+        withContext(dispatcher) {
+            try {
+
+                val response = apiRequestFactory.retrofit.postNewUrl(folderId, NewUrlRequest(
+                    url,
+                    change
+                ))
+                Timber.d("제대로 된 응답 ${response.body()}")
+                val result = response.body()!!.urls.last().memosId
+                return@withContext result
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+            Timber.d("성공하지 않는 데이터")
+            return@withContext ""
+        }
+
+    override suspend fun newMemo(memoId: String, memo: String): String  = withContext(dispatcher){
+        try {
+            val response = apiRequestFactory.retrofit.postNewMemo(memoId, NewMemoRequest(
+                memo,
+                memo
+            ))
+            val result = response.body()!!.urls.last().memosId
+            return@withContext result
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+        Timber.d("성공하지 않는 데이터")
+        return@withContext ""
     }
 }

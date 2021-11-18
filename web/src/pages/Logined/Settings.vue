@@ -58,28 +58,29 @@
         <q-item class="row justify-center q-mt-md">
           <div v-if="editMode" class="q-mx-xs">
             <q-btn
+              flat
               @click="changeDeleteMode"
-              color="negative"
+              color="grey"
               label="회원 탈퇴"
             />
           </div>
 
-          <div v-if="editMode" class="q-mx-xs">
+          <!-- <div v-if="editMode" class="q-mx-xs">
             <q-btn
               @click="changeEditMode"
               padding="5px 30px"
               color="warning"
               label="수정"
             />
-          </div>
-          <div v-else class="q-mx-xs">
+          </div> -->
+          <!-- <div v-else class="q-mx-xs">
             <q-btn
               @click="updateUserInfo"
               padding="5px 30px"
               color="warning"
               label="완료"
             />
-          </div>
+          </div> -->
 
           <logout-button v-if="editMode" class="q-mx-xs" />
         </q-item>
@@ -98,7 +99,7 @@
                 flat
                 @click="deleteUser"
                 label="회원 탈퇴"
-                color="negative"
+                color="grey"
                 v-close-popup
               />
               <q-btn flat label="취소" color="primary" v-close-popup />
@@ -164,12 +165,6 @@ export default {
         if (typeof data === typeof String) {
           data = JSON.parse(data);
         }
-
-        // for debuging
-        // data = {
-        //   "프론트": 3, "백엔드": 4, "모바일": 1, "빅데이터/AI": 3,
-        //   "CS": 4, "DevOps": 5, "Tools(생산성)": 2, "기획/디자인": 1
-        // }
 
         const cnt = Object.keys(data).reduce((stack, key) => {
           return stack + data[key];

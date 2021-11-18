@@ -45,11 +45,7 @@ export function folderCreateUser(folderUserData) {
 
 // 폴더 유저 삭제
 export function folderDeleteUser(folderUserData) {
-  const userData = {
-    email: folderUserData.email
-  };
-  console.log(userData);
-  return api.delete(`/folder/${folderUserData.folder_id}/user`, userData);
+  return api.delete(`/folder/${folderUserData.folder_id}/user?email=${folderUserData.email}`);
 }
 
 // 내 모든 폴더에서 내가 작성한 url 검색
@@ -73,8 +69,8 @@ export function urlCreate(folderId, urlData) {
 }
 
 // 폴더 내 특정 url 삭제
-export function urlDelete(folderId, urlData) {
-  return api.put(`/folder/${folderId}/url`, urlData);
+export function urlDelete(urlData) {
+  return api.delete(`/folder/${urlData.folder_id}/url?url=${urlData.url}`);
 }
 
 // url에 달린 모든 메모 조회

@@ -64,7 +64,7 @@ class SettingFragment : BottomSheetDialogFragment() {
         homepage.setOnClickListener {
             dismiss()
             startActivity(Intent(requireActivity(), InjectActivity::class.java))
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.git_lab_address))))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://k5b201.p.ssafy.io")))
         }
 
         openSourceLicensesButton.setOnClickListener {

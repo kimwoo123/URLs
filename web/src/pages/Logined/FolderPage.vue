@@ -1,11 +1,17 @@
 <template>
-  <main>
+  <main class="q-pa-sm">
     <folder-header :folderData="folderData" v-if="folderId" />
 
     <div
       class="row q-pa-md items-start q-gutter-lg justify-center"
       v-if="searchData.length === 0"
     >
+      <template v-if="folderData.urls == false">
+        <div class="colum">
+        <div class="text-h5 text-grey">폴더가 비었어요!</div>
+        </div>
+        
+      </template>
       <template
         v-for="urlItem in folderData.urls"
         :key="urlItem.memos_id"
@@ -19,6 +25,9 @@
       class="row q-pa-md items-start q-gutter-lg justify-center"
       v-else
     >
+      <template v-if="searchData[0].urls == false">
+        <div>검색 결과를 찾을 수 없어요!</div>
+      </template>
       <template
         v-for="urlItem in searchData[0].urls"
         :key="urlItem.memos_id"
@@ -33,9 +42,9 @@
 </template>
 
 <script>
-import { computed, watch, onUnmounted } from "vue";
+import { computed, watch, onUnmounted} from "vue";
 import { useStore } from "vuex";
-import { useRoute } from "vue-router";
+import { useRoute, onBeforeRouteLeave } from "vue-router";
 import FolderUrlCard from "src/components/cards/FolderUrlCard.vue";
 import FolderHeader from "src/components/FolderHeader.vue";
 import AutoComplete from '../../components/AutoComplete.vue';
@@ -62,6 +71,29 @@ export default {
     const folderData = computed({
       get: () => $store.getters["urls/folderNow"]
     });
+
+    // onUnmounted(() => {
+    //   const deleteList = $store.getters['urls/willDeleteURL']
+    //   deleteList.forEach(element => {
+    //     $store.dispatch('urls/DELETE_URL', element)
+    //   })
+    // })
+
+    watch(folderId, () => {
+      const deleteList = $store.getters['urls/willDeleteURL']
+      deleteList.forEach(element => {
+        $store.dispatch('urls/DELETE_URL', element)
+      })
+    })
+
+    // onBeforeRouteLeave(() => {
+    //   console.log('라우트이동!')
+    //   const deleteList = $store.getters['urls/willDeleteURL']
+    //   deleteList.forEach(element => {
+    //     $store.dispatch('urls/DELETE_URL', element)
+    //   })
+    //   next()
+    // })
 
     return {
       folderId,

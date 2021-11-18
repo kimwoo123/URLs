@@ -4,32 +4,40 @@
 
     <q-dialog v-model="isOpen">
       <q-card>
-        <q-card-actions align="between">
-          <span>사용자 관리</span>
-          <q-btn
-            flat
-            icon="close"
-            color="grey"
-            v-close-popup
-            @click="resetForm"
-          />
-        </q-card-actions>
+          <q-item class="row ">
+            <q-item-section class="q-pl-sm">
+              팀원 관리
+            </q-item-section>
+
+              <q-btn
+                flat
+                icon="close"
+                color="grey"
+                v-close-popup
+                @click="resetForm"
+              />
+          </q-item>
 
         <q-separator />
 
-        <q-card-section>
-          <span class="q-ml-sm"
-            >같이 폴더를 사용할 사용자의 이메일을 적어주세요.</span
-          >
+        <q-card-section v-if="myPermission !== 0">
           <q-form class="row q-gutter-md" @submit="AddUser">
-            <q-input autofocus v-model="email" filled type="email" />
-            <q-select
-              borderless
-              color="primary"
-              v-model="selectedOption"
-              :options="options"
-            />
-            <q-btn label="초대" type="submit" color="primary" />
+            <q-item>
+              <q-item-section>
+                <div class="row">
+                  <q-input autofocus v-model="email" placeholder="이메일을 적어주세요." type="email" class="q-mr-md"/>
+                  <q-select
+                    borderless
+                    color="primary"
+                    v-model="selectedOption"
+                    :options="options"
+                  />
+                </div>
+              </q-item-section>
+              <q-item-section side>
+                <q-btn unelevated rounded label="초대" type="submit" color="primary" class="q-px-lg q-py-xs"/>
+              </q-item-section>
+            </q-item>
           </q-form>
         </q-card-section>
 
@@ -43,12 +51,19 @@
                   </q-avatar>
                 </q-item-section>
                 <q-item-section>{{ user.nickname }}</q-item-section>
-                <q-item-section side v-if="user.permission.value === 2">{{
-                  user.permission.label
-                }}</q-item-section>
-                <q-item-section side v-if="user.permission.value !== 2">
-                  <folder-user-permission-select :user="user" />
+
+                  <q-item-section side v-if="myPermission ===2 && user.permission.value === 2" class="q-mr-lg">
+                    {{user.permission.label}}
+                  </q-item-section>
+
+                  <q-item-section side v-if="myPermission ===2 && user.permission.value !== 2">
+                    <folder-user-permission-select :user="user" />
+                  </q-item-section>
+
+                <q-item-section side class="q-ml-xl" v-if="myPermission !==2">
+                  {{user.permission.label}}
                 </q-item-section>
+
               </q-item>
             </q-list>
           </div>
@@ -70,6 +85,10 @@ export default {
   setup(props) {
     const $store = useStore();
     const isOpen = ref(false);
+
+    const myPermission = computed({
+      get: () => $store.getters['urls/permissionNow']
+    })
 
     const userList = computed({
       get: () =>
@@ -126,6 +145,7 @@ export default {
     watch(isOpen, resetForm);
 
     return {
+      myPermission,
       isOpen,
       userList,
       email,

@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="q-pa-sm">
     <folder-header :folderData="folderData" />
 
     <div
@@ -34,7 +34,7 @@
 <script>
 import { computed, watch, onUnmounted } from "vue";
 import { useStore } from 'vuex'
-import { useRoute } from "vue-router";
+import { useRoute, onBeforeRouteLeave } from "vue-router";
 import FolderUrlCard from "src/components/cards/FolderUrlCard.vue";
 import FolderHeader from "src/components/FolderHeader.vue";
 
@@ -54,6 +54,13 @@ export default {
     const folderData = computed({
       get: () => $store.getters["urls/folderNow"]
     });
+
+    onBeforeRouteLeave(() => {
+      const deleteList = $store.getters['urls/willDeleteURL']
+      deleteList.forEach(element => {
+        $store.dispatch('urls/DELETE_URL', element)
+      })
+    })
 
     return {
       folderData,

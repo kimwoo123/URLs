@@ -112,6 +112,14 @@ export async function GET_FOLDER_URL_SEARCH({ commit }, urlData) {
   }
 }
 
+export async function PUT_URL_TAG({ commit, dispatch }, payload) {
+  await urls.urlPut(payload.folderId, payload.data)
+    .then(result => {
+      dispatch('GET_FOLDER_ULR', payload.folderId)
+    })
+}
+
+
 export async function DELETE_URL_SEARCH({ commit }) {
   commit("setSearchData", []);
 }
@@ -121,6 +129,36 @@ export async function CREATE_URL({ commit }, urlData) {
     commit("setFolderNow", result.data);
     commit("setUrl", result.data.urls);
   });
+}
+
+export function ADD_WILL_DELETE_URL({ commit }, data) {
+  commit('addWillDeleteURL', data)
+}
+
+export function DELETE_WILL_DELETE_URL({ commit }, data) {
+  commit('deleteWillDeleteURL', data)
+}
+
+export async function DELETE_URL({ commit }, urlData) {
+  await urls.urlDelete(urlData)
+    .then(result => {
+      commit("deleteWillDeleteURL", urlData);
+    }
+  ).catch(err => {
+    commit("deleteWillDeleteURL", urlData);
+  })
+}
+
+export async function DELETE_URL_BY_TIMER({ commit }, urlData) {
+  await urls.urlDelete(urlData)
+    .then(result => {
+      commit("deleteWillDeleteURL", urlData);
+      commit("setFolderNow", result.data);
+      commit("setUrl", result.data.urls);
+    }
+  ).catch(err => {
+    commit("deleteWillDeleteURL", urlData);
+  })
 }
 
 export async function ADD_FOLDER_USER({ commit, dispatch }, folderUserData) {
