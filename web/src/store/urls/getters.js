@@ -1,34 +1,37 @@
-
 export function folderUrls(state) {
-  return state.urls
+  return state.urls;
 }
 
 export function isUrlMemoOpen(state) {
-  return state.urlMemoOpen
+  return state.urlMemoOpen;
 }
 
 export function folderNow(state) {
-  return state.folderNow
+  return state.folderNow;
 }
 
 export function permissionNow(state, getters, rootState, rootGetters) {
-  if (getters.folderNow._id === '') {
-    return 2
+  if (getters.folderNow._id === "") {
+    return 2;
   } else {
-    const myEmail = rootState.user.useremail
-    const findUser = (user) => {
-      return user.email === myEmail
-    }
-    const result = getters.folderNow.users.find(findUser)
+    const myEmail = rootState.user.useremail;
+    const findUser = user => {
+      return user.email === myEmail;
+    };
+    const result = getters.folderNow.users.find(findUser);
 
     if (result.permission == undefined) {
-      return -1
+      return -1;
     } else {
-      return result.permission
+      return result.permission;
     }
   }
 }
 
 export function willDeleteURL(state) {
-  return state.willDeleteURL
+  return state.willDeleteURL;
+}
+
+export function searchData(state) {
+  return state.searchData;
 }
