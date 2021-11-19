@@ -39,7 +39,7 @@ export default {
           }
           await $store.dispatch('user/LOGIN', userData);
           const userid = $store.state.user.userid
-          await $router.push({ name: 'Recommendation', params: { id: userid }})
+          await $router.push({ name: 'AllUrls', params: { id: userid }})
         }).catch((error) => {
           console.log('팝업로그인실패', error)
           const errorCode = error.code;
