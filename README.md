@@ -1,36 +1,48 @@
 # S05P31B201
 
-## 프로젝트 명: URL 자동화 분류를 통한 아카이빙 시스템
+![image-1.png](assets/image-1.png)
 
-## 팀명:
+## 프로젝트 명: URLS - 똑똑하게 저장하고 나누는 방법
 
-
+## 팀명: 이글 아이팀
 
 ## Preview
 
+![image-1.png](assets/image-1.png)
+
+![image-2.png](assets/image-2.png)
+
+![image-3.png](assets/image-3.png)
+
+![image-5.png](assets/image-5.png)
+
 ## 기술 스택
 
-- Chrome Extensions
+![image-4.png](assets/image-4.png)
 
-- Vue or React
+### Cient
+- Android
+- chrome-extensions
 
-- Fast API
+### Frontend
+- Vue with Quasar
 
-- MongoDB
+### Backend
+- FastAPI
 
-- Tensor Flow
-
-  
-
-## Architecture
+### Infra
+- Kubernetes
+- mongo db 
+- elasticsearch
+- Nginx
 
 ## 팀원
 
-- 김재현
-- 김문희
-- 김우석
-- 이다은
-- 이두호
+- 김재현 (client)
+- 김문희 (FE)
+- 김우석 (DevOps. FE)
+- 이다은 (BE)
+- 이두호 (AI)
 
 ## Git Flow
 
@@ -47,6 +59,3 @@
 - **SET :** 변수 값을 변경하는 등의 작은 수정에 주로 사용합니다.
 - **REFACTOR :** 리팩토링할 때 사용합니다.
 - **DOCS :** 사이트/문서 업그레이드 할 때 사용합니다.
-
-
-
