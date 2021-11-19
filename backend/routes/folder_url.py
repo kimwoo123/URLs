@@ -158,6 +158,7 @@ async def create_folder_url(folder_id, url_in: UrlIn, current_user: User = Depen
     )
 
     if folder is not None:
+        folder["urls"] = folder["urls"][::-1]
         return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {folder_id} not found")
 
@@ -202,6 +203,7 @@ async def delete_folder_url(folder_id, url, current_user: User = Depends(get_cur
     db.memo.delete_one({"_id": ObjectId(memos_id)})
     
     if folder is not None:
+        folder["urls"] = folder["urls"][::-1]
         return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {folder_id} not found")
 
