@@ -63,7 +63,13 @@ import { openURL } from "quasar";
 export default {
   setup() {
     const $store = useStore();
-    $store.dispatch("recommend/GET_RECOMMEND_URL", 10);
+    const vuex = localStorage.getItem('vuex')
+    const vuexObject = JSON.parse(vuex)
+    if (!vuexObject['recommend']['recommendUrls'][0]) {
+      $store.dispatch("recommend/GET_RECOMMEND_URL", 10);
+    } else {
+      console.log('이미 추천된 상태입니다.')
+    }
 
     const recommendUrls = computed({
       get: () => $store.getters["recommend/recommendUrls"]
