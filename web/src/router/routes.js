@@ -40,27 +40,6 @@ const routes = [
           next()
         },
       },
-      
-      // {
-      //   path: '',
-      //   name: 'Recommendation',
-      //   component: () => import('src/pages/Logined/Recommendation.vue'),
-      //   beforeEnter: (to, from, next) => {
-      //     vuexStore.dispatch('urls/CLOSE_MEMO')
-      //     vuexStore.dispatch('urls/DELETE_URL_SEARCH')
-      //     next()
-      //   },
-      // },
-      // {
-      //   path: 'allurls',
-      //   name: 'AllUrls',
-      //   component: () => import('pages/Logined/AllUrls.vue'),
-      //   beforeEnter: (to, from, next) => {
-      //     vuexStore.dispatch('urls/CLOSE_MEMO')
-      //     vuexStore.dispatch('urls/DELETE_URL_SEARCH')
-      //     next()
-      //   },
-      // },
       {
         path: 'myfolder/:folder_id',
         name: 'MyFolder',
