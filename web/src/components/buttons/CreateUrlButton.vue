@@ -19,12 +19,6 @@
           />
         </q-card-section>
         <q-card-section>
-          <q-btn
-            flat
-            label="태그 추천 받기"
-            class="full-width"
-            @click="recommendTag"
-          />
           <div v-if="recommendResult.value[0]">
             추천된 태그:
             <span v-for="(tag, index) in recommendResult.value" :key="index">
