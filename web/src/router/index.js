@@ -25,7 +25,7 @@ export default route(function ({ store }) {
     if (to.meta.auth && !store.getters['user/isLogin']) {
       next({ name: 'BeforeLogin' })
     } else if (!to.meta.auth && store.getters['user/isLogin']) {
-      next({ name : 'Recommendation', params: { id: store.state.user.userid }})
+      next({ name : 'AllUrls', params: { id: store.state.user.userid }})
     } else {
       next()
     }

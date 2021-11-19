@@ -63,7 +63,7 @@ import { openURL } from "quasar";
 export default {
   setup() {
     const $store = useStore();
-    $store.dispatch("recommend/GET_RECOMMEND_URL", 20);
+    $store.dispatch("recommend/GET_RECOMMEND_URL", 10);
 
     const recommendUrls = computed({
       get: () => $store.getters["recommend/recommendUrls"]
@@ -74,6 +74,8 @@ export default {
     });
 
     const clickImg = (url, e) => {
+      console.log(e)
+      console.log('here')
       openURL(toRaw(url).url);
     };
 
