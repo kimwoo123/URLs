@@ -113,6 +113,7 @@
 
 <script>
 import { useStore } from "vuex";
+import { useRouter } from 'vue-router'
 import { ref, computed, onMounted } from "vue";
 import LogoutButton from "components/buttons/LogoutButton.vue";
 
@@ -120,6 +121,7 @@ export default {
   components: { LogoutButton },
   setup() {
     const $store = useStore();
+    const $router = useRouter()
 
     let nickname = ref($store.state.user.username);
     let avatar = ref($store.state.user.avatar);
@@ -176,7 +178,8 @@ export default {
 
     const deleteUser = async () => {
       await $store.dispatch("user/DELETE_USER", $store.state.user.userid);
-      await $router.push("/");
+      await $store.dispatch("user/LOGOUT")
+      $router.go()
     };
 
     const colorRange = [

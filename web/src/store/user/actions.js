@@ -70,7 +70,6 @@ export async function DELETE_USER({ commit }, userId) {
     commit("clearUserid");
     commit("clearUserEmail");
     commit("clearUserAvatar");
-    commit("urls/cloeseMemo", null, { root: true });
     deleteCookie("til_auth");
     deleteCookie("til_user");
     deleteCookie("til_userid");
