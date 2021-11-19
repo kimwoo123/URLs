@@ -77,9 +77,11 @@ async def find_tags(url, count: int):
                     return result[:int(count)]
             # ---------------------------------------------
         except:
-            return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Error occured\nurl {url} prevent request module")
+            # return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Error occured\nurl {url} prevent request module")
+            return ["추천해드릴 태그가 없습니다"]
 
-    return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"url {url} not found")
+    # return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"url {url} not found")
+    return ["추천해드릴 태그가 없습니다"]
 
 
 @recommend.get('/recommend', summary="urls 추천 (해당 url 누적 수가 3 이상인 것만 대상)")
