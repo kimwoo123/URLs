@@ -63,8 +63,9 @@ import { openURL } from "quasar";
 export default {
   setup() {
     const $store = useStore();
-    $store.dispatch("recommend/GET_RECOMMEND_URL", 10);
-
+    if (!$store.getters["recommend/recommendUrls"]) {
+      $store.dispatch("recommend/GET_RECOMMEND_URL", 10);
+    } 
     const recommendUrls = computed({
       get: () => $store.getters["recommend/recommendUrls"]
     });
