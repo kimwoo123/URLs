@@ -8,7 +8,7 @@
           <div class="text-h6">추가할 URL을 입력해주세요.</div>
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <q-input v-model="urlName" dense autofocus :rules="[ruleSameUrl]" />
+          <q-input @blur="recommendTag" v-model="urlName" dense autofocus :rules="[ruleSameUrl]" />
           <q-input v-if="false"></q-input>
         </q-card-section>
         <q-card-section>
