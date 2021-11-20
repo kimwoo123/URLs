@@ -28,6 +28,8 @@ export async function LOGIN({ commit }, userData) {
 }
 
 export async function LOGOUT({ commit }) {
+  localStorage.removeItem('vuex')
+  localStorage.removeItem('needRecommend')
   commit("clearUserCategories");
   commit("clearUsername");
   commit("clearToken");
