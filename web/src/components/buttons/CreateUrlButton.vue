@@ -19,10 +19,10 @@
           />
         </q-card-section>
         <q-card-section>
-          <div v-if="recommendResult.value[0]">
+          <div v-if="recommendResult.value[0]" class="tags">
             추천된 태그:
-            <span v-for="(tag, index) in recommendResult.value" :key="index">
-              <span>#{{ tag }}&nbsp;&nbsp; </span>
+            <span v-for="(tag, index) in recommendResult.value" :key="index" class="tag-add">
+              <span @click="addTag(tag)"># {{ tag }}&nbsp;&nbsp; </span>
             </span>
           </div>
           <div v-else></div>
@@ -107,6 +107,10 @@ export default {
       }
     });
 
+    const addTag = (tag) => {
+      customTags.value = customTags.value + tag + ', '
+    }
+
     const recommendTag = () => {
       let recommendData = {
         url: urlName.value,
@@ -181,6 +185,7 @@ export default {
       ruleSameUrl,
       openDialog,
       createUrl,
+      addTag,
       recommendResult,
       categoryOption,
       customTagList,
@@ -193,3 +198,35 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  font-size: 15px;
+
+  .tag {
+    padding: 1px 8px;
+    border: 1px solid $lightgray;
+    border-radius: 14px;
+    background-color: $verylightgray;
+    color: $darkgray;
+    cursor: pointer;
+  }
+
+  .tag-add {
+    cursor: pointer;
+    padding: 1px 8px;
+    border: 1px solid $lightgray;
+    border-radius: 14px;
+    color: $darkgray;
+    font-size: 12px;
+    min-height: 0;
+  }
+
+  .q-btn:before {
+    box-shadow: 0 0 0 0;
+  }
+}
+</style>
