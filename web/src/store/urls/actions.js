@@ -1,5 +1,6 @@
 import { urls } from "src/api/index";
 import { vueRouter } from "src/router";
+import axios from "axios";
 
 export async function GET_FOLDER({ commit }) {
   await urls.folderAll().then(async result => {
@@ -10,6 +11,7 @@ export async function GET_FOLDER({ commit }) {
 
 export async function GET_ALL_URL({ commit }) {
   await urls.urlFindAll().then(async result => {
+    console.log(result)
     const allFolderData = {
       _id: '',
       folder_name: '모든 Urls',
@@ -126,6 +128,7 @@ export async function DELETE_URL_SEARCH({ commit }) {
 
 export async function CREATE_URL({ commit }, urlData) {
   await urls.urlCreate(urlData.folder_id, urlData).then(async result => {
+    localStorage.setItem('needRecommend', true)
     commit("setFolderNow", result.data);
     commit("setUrl", result.data.urls);
   });
