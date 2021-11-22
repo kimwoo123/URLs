@@ -40,6 +40,8 @@ export async function LOGOUT({ commit }) {
   deleteCookie("til_userid");
   deleteCookie("til_avatar");
   deleteCookie("til_user_email");
+  localStorage.removeItem('vuex')
+  localStorage.removeItem('needRecommend')
 }
 
 export async function GET_USER_INFO({ commit }, userId) {

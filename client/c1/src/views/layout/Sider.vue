@@ -1,6 +1,9 @@
 <template>
   <div id="sider">
     <el-menu :default-active="defaultActive" :router="true">
+      <el-menu-item>
+        <span>URLS</span>
+      </el-menu-item>
       <el-menu-item
         v-for="route in routes"
         :key="route.name"
@@ -148,7 +151,7 @@ export default {
   position: fixed;
   width: $sider-width;
   height: $sider-height;
-  background-color: white;
+  background-color: #f2f6fc;
 
   /deep/ .sider-badge {
     display: inline;

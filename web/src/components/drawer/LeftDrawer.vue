@@ -1,5 +1,17 @@
 <template>
   <q-list padding>
+      <router-link :to="{ name: 'AllUrls'}">
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="home" />
+          </q-item-section>
+          <q-item-section>
+            모든 Urls
+          </q-item-section>
+        </q-item>
+      </router-link>
+
+      <q-separator/>
       <router-link :to="{ name: 'Recommendation'}">
         <q-item clickable v-ripple>
           <q-item-section avatar>
@@ -11,18 +23,6 @@
         </q-item>
       </router-link>
 
-      <q-separator/>
-
-      <router-link :to="{ name: 'AllUrls'}">
-        <q-item clickable v-ripple>
-          <q-item-section avatar>
-            <q-icon name="home" />
-          </q-item-section>
-          <q-item-section>
-            모든 Urls
-          </q-item-section>
-        </q-item>
-      </router-link>
 
       <q-separator/>
 
