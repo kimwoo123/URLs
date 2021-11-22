@@ -19,4 +19,8 @@ class AuthViewModel @Inject constructor(
     fun tokenCheck(token: String) = viewModelScope.launch {
         _token.emit(urlUseCase.tokenCheck(token))
     }
+
+    fun setTokenCheck() = viewModelScope.launch {
+        _token.emit(true)
+    }
 }

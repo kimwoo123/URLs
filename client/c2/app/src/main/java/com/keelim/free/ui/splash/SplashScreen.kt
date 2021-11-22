@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.ProgressIndicatorDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.keelim.free.R
 import kotlinx.coroutines.delay
 
 
@@ -54,7 +56,7 @@ fun SplashScreen(
         Text(
             text = "URLS",
             modifier = Modifier.align(Alignment.Center),
-            color = Color(0xFF0091EA),
+            color = Color(R.color.main_color),
             fontWeight = FontWeight.Bold,
             fontSize = 50.sp
         )

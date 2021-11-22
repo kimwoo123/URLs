@@ -21,6 +21,8 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.keelim.free.MyApplication
 import com.keelim.free.databinding.ActivityAuthBinding
 import com.keelim.free.ui.main.MenuActivity
@@ -63,24 +65,9 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun tokenCheck() {
-        val pref = getSharedPreferences("token", MODE_PRIVATE)
-        val token = pref.getString("token", "")
-        if (token!!.isNotEmpty()) {
-            biometricPrompt.authenticate(
-                BiometricPrompt.PromptInfo.Builder()
-                    .setTitle("Biometric login for my app")
-                    .setSubtitle("Log in using your biometric credential")
-                    .setNegativeButtonText("Use account password")
-                    .build()
-            )
+        Firebase.auth.currentUser?.let{
+            viewModel.setTokenCheck()
         }
-    }
-
-    private fun logout() {
-        AuthUI.getInstance()
-            .signOut(this)
-            .addOnCompleteListener {
-            }
     }
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
@@ -142,6 +129,13 @@ class AuthActivity : AppCompatActivity() {
                     .show()
             }
         }
+    }
+
+    private fun logout() {
+        AuthUI.getInstance()
+            .signOut(this)
+            .addOnCompleteListener {
+            }
     }
 
     private fun initBio() {

@@ -20,6 +20,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:neumorph_shadowElevation="12dp" />
 
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_margin="40dp"
+        android:src="@drawable/favicon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <soup.neumorphism.NeumorphTextView
         android:id="@+id/auth_description"

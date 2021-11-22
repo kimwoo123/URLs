@@ -15,8 +15,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.Free"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
-            android:exported="true"/>
         <activity
             android:name=".ui.main.detail.DetailActivity"
             android:exported="false" />
@@ -48,9 +46,6 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".ui.main.open.OpenActivity"
-            android:exported="true" />
-        <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -62,9 +57,6 @@
         <activity
             android:name=".ui.auth.AuthActivity"
             android:exported="true" />
-        <activity
-            android:name=".ui.splash.TutorialActivity"
-            android:exported="false" />
         <activity
             android:name=".ui.main.search.SearchResultsActivity"
             android:exported="true" />
@@ -79,9 +71,6 @@
                 android:value="androidx.startup" />
             <meta-data
                 android:name="com.keelim.free.initializer.CoilInitializer"
-                android:value="androidx.startup" />
-            <meta-data
-                android:name="com.keelim.free.initializer.PlutoInitializer"
                 android:value="androidx.startup" />
         </provider>
     </application>

@@ -130,28 +130,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/section1" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/section3"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recommend_recycler"
         android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toStartOf="@id/btn_home"
-        android:layout_height="350dp"
-        android:layout_marginTop="10dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="5dp"
-        android:padding="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_recommend">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recommend_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_recommend">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-    </com.google.android.material.card.MaterialCardView>
+        app:layout_constraintBottom_toTopOf="@id/progress"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/title_recommend"
+        tools:listitem="@layout/item_recommend" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_home"
@@ -159,7 +147,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title_recommend"
-        app:layout_constraintStart_toEndOf="@id/section3"
+        app:layout_constraintStart_toEndOf="@id/recommend_recycler"
         android:layout_marginStart="10dp"
         android:backgroundTint="@color/orange"
         android:textColor="@color/white"
@@ -170,9 +158,9 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/recommend_recycler"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/section3" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

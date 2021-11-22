@@ -91,7 +91,6 @@ class PersonalFragment : Fragment() {
                         showOn()
                     }
                     is UrlState2.Success -> {
-                        requireActivity().showToast(it.data.toString())
                         personalAdapter.submitList(it.data)
                     }
                     is UrlState2.UnInitialized -> {
