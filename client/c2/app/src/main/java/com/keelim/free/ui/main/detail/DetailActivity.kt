@@ -56,10 +56,13 @@ class DetailActivity : AppCompatActivity() {
         }
         val snapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(detailRecycler)
+
+        btnUp.setOnClickListener {
+            detailRecycler.layoutManager!!.scrollToPosition(0)
+        }
     }
 
     private fun initData() {
-        showToast("폴더 아이디: $folderID")
         viewModel.init(folderID!!)
     }
 
@@ -68,14 +71,14 @@ class DetailActivity : AppCompatActivity() {
             viewModel.state.collect {
                 when (it) {
                     is DataState.Error -> showToast(it.message)
-                    is DataState.Loading -> showToast("로딩 중입니다.")
+                    is DataState.Loading -> Unit
                     is DataState.Success -> {
                         if (it.data.isEmpty()) {
                             binding.tvNoData.visibility = View.VISIBLE
                         }
                         detailAdapter.submitList(it.data)
                     }
-                    is DataState.UnInitialized -> showToast("로딩 중입니다.")
+                    is DataState.UnInitialized -> Unit
                 }
             }
         }
