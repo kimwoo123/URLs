@@ -124,7 +124,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 
       if (response) {
         console.log(response);
-        const mid = response.urls[response.urls.length - 1].memos_id;
+        const mid = response.urls[0].memos_id;
         const response2 = await newMemo(token, mid, {
           highlight: request.memo,
           content: request.memo,

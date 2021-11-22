@@ -22,8 +22,8 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Recommendation',
-        component: () => import('src/pages/Logined/Recommendation.vue'),
+        name: 'AllUrls',
+        component: () => import('pages/Logined/AllUrls.vue'),
         beforeEnter: (to, from, next) => {
           vuexStore.dispatch('urls/CLOSE_MEMO')
           vuexStore.dispatch('urls/DELETE_URL_SEARCH')
@@ -31,9 +31,9 @@ const routes = [
         },
       },
       {
-        path: 'allurls',
-        name: 'AllUrls',
-        component: () => import('pages/Logined/AllUrls.vue'),
+        path: 'recommendation',
+        name: 'Recommendation',
+        component: () => import('src/pages/Logined/Recommendation.vue'),
         beforeEnter: (to, from, next) => {
           vuexStore.dispatch('urls/CLOSE_MEMO')
           vuexStore.dispatch('urls/DELETE_URL_SEARCH')
