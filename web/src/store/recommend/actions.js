@@ -8,7 +8,6 @@ export async function SEARCH_TAG({ commit }, queryData) {
 }
 
 export async function DELETE_TAG_SEARCH_RESULT({ commit }) {
-  console.log("딜리트!!!");
   commit("setSearchResult", []);
 }
 

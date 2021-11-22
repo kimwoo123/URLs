@@ -22,3 +22,7 @@ export function setSearchResult(state, urls) {
 export function changeSearchMode(state) {
   state.searchMode = !state.searchMode;
 }
+
+export function setRecommendLoading(state) {
+  state.recommendLoading = false
+}
