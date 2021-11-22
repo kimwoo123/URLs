@@ -49,9 +49,6 @@ class DashFragment : Fragment() {
     }
 
     private fun initViews() = with(binding) {
-        searchBar.setOnClickListener {
-            findNavController().navigate(R.id.searchFragment)
-        }
         recommendRecycler.apply {
             itemAnimator = SpringAddItemAnimator()
             adapter = recommendAdapter.apply {

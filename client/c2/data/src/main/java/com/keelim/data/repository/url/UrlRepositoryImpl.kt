@@ -253,7 +253,7 @@ class UrlRepositoryImpl @Inject constructor(
                     change
                 ))
                 Timber.d("제대로 된 응답 ${response.body()}")
-                val result = response.body()!!.urls.last().memosId
+                val result = response.body()!!.urls.first().memosId
                 return@withContext result
             } catch (e: Exception) {
                 Timber.e(e)
@@ -268,7 +268,7 @@ class UrlRepositoryImpl @Inject constructor(
                 memo,
                 memo
             ))
-            val result = response.body()!!.urls.last().memosId
+            val result = response.body()!!.urls.first().memosId
             return@withContext result
         } catch (e: Exception) {
             Timber.e(e)

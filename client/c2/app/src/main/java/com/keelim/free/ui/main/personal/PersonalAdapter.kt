@@ -33,7 +33,6 @@ class PersonalAdapter(
             } else {
                 permission.text = "개인 폴더 입니다."
             }
-            title.text = item.folder_id
             description.text = item.folder_name
             if(item.shared){
                 permission.text =  "팀 공유 폴더"

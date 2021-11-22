@@ -10,6 +10,7 @@ import android.webkit.URLUtil
 import android.widget.ArrayAdapter
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.constraintlayout.motion.widget.TransitionBuilder.validate
 import androidx.core.view.doOnLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -182,12 +183,13 @@ class PersistBottomSheetFragment(
                         it.trim()
                     }.toSet()
                     set.forEach { tag ->
+                        if (tag.isEmpty()) return@forEach
                         tags.addView(
                             Chip(requireActivity()).apply {
                                 text = tag
                                 setChipBackgroundColorResource(
                                     arrayOf(
-                                        com.keelim.free.R.color.bg_orange, com.keelim.free.R.color.orange, com.keelim.free.R.color.orange_w,
+                                        R.color.bg_orange, R.color.orange, R.color.orange_w,
                                     ).random()
                                 )
                             })

@@ -27,18 +27,7 @@ class SplashActivity : ComponentActivity() {
     override fun onBackPressed() {}
 
     private fun goNext() {
-        val pref = getSharedPreferences("checkFirst", MODE_PRIVATE)
-        val checkFirst = pref.getBoolean("checkFirst", false)
-        if (checkFirst.not()) {
-            val editor = pref.edit().apply {
-                putBoolean("checkFirst", true)
-                commit()
-            }
-            startActivity(Intent(this, TutorialActivity::class.java))
-            finish()
-        } else {
-            startActivity(Intent(this, AuthActivity::class.java))
-            finish()
-        }
+        startActivity(Intent(this, AuthActivity::class.java))
+        finish()
     }
 }

@@ -4,8 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.material.MaterialTheme.colors
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +12,6 @@ import com.google.android.material.chip.Chip
 import com.keelim.data.model.open.Url
 import com.keelim.free.R
 import com.keelim.free.databinding.ItemDetailBinding
-import com.keelim.free.ui.main.detail.memo.MemoFragment
 
 class DetailAdapter(
     val click_move: (Url) -> Unit,
@@ -30,9 +27,6 @@ class DetailAdapter(
 
         fun bind(item: Url) = with(binding) {
             header.text = item.url
-            move.setOnClickListener {
-                click_move(item)
-            }
             if(item.thumbnail.isEmpty()){
                 thumbnail.visibility = View.GONE
             } else{
@@ -49,6 +43,9 @@ class DetailAdapter(
             }
             memo.setOnClickListener {
                 click_memo(item.memos_id)
+            }
+            root.setOnClickListener{
+                click_move(item)
             }
         }
     }

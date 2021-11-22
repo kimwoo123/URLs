@@ -8,6 +8,11 @@
             android:id="@+id/notificationFragment"
             android:icon="@drawable/ic_baseline_circle_notifications_24"
             android:title="@string/menu_notification" />
+
+        <item
+            android:id="@+id/recommendationFragment"
+            android:icon="@drawable/gitlab"
+            android:title="추천 URL" />
     </group>
 
     <group
@@ -28,6 +33,5 @@
             android:id="@+id/serviceFragment"
             android:icon="@drawable/gitlab"
             android:title="서비스 이동하기" />
-
     </group>
 </menu>

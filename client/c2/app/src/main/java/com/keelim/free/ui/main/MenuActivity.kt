@@ -14,6 +14,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.firebase.auth.ktx.auth
@@ -107,7 +108,10 @@ class MenuActivity : AppCompatActivity() {
     private fun initViews() = with(binding) {
         persistBottomSheetFragment = PersistBottomSheetFragment.show(supportFragmentManager, R.id.view_bottom_sheet)
         with(headerBinding){
-            imageView.load(auth.photoUrl)
+            imageView.load(auth.photoUrl){
+                crossfade(true)
+                CircleCropTransformation()
+            }
             headerUsername.text = auth.displayName
             headerEmail.text = auth.email
         }
