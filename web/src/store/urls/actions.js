@@ -131,6 +131,7 @@ export async function CREATE_URL({ commit }, urlData) {
     localStorage.setItem('needRecommend', true)
     commit("setFolderNow", result.data);
     commit("setUrl", result.data.urls);
+    commit("recommend/setRecommendLoading", null, { root: true })
   });
 }
 
