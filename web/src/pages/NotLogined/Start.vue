@@ -61,7 +61,7 @@
 
     <div class="function-container">
       <!-- url입력/태그 추천 -->
-      <div id="function1" class="function-box">
+      <div id="function1" class="function-box function-box-up">
         <div class="row justify-center">
           <div class="img-box">
             <img :src="img[0]" alt="" id="img-first" />
@@ -112,7 +112,7 @@
       </div>
 
       <!-- 공유/메모/하이라이트 -->
-      <div id="function2" class="function-box">
+      <div id="function2" class="function-box function-box-up">
         <div class="row justify-center">
           <div class="img-box small-display-on">
             <img :src="img[3]" alt="" id="img-second1" />
@@ -168,7 +168,7 @@
       </div>
 
       <!-- 플랫폼 -->
-      <div id="function3" class="function-box">
+      <div id="function3" class="function-box function-box-up">
         <div class="row justify-center">
           <div class="img-box">
             <img :src="img[6]" alt="" id="img-third" />
@@ -228,11 +228,29 @@
 
 <script>
 import GoogleLoginButton from '../../components/buttons/GoogleLoginButton.vue'
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 export default {
   components: { GoogleLoginButton },
   setup() {
+    onMounted(() => {
+      const saTriggerMargin = 250;
+      const saElementList = document.querySelectorAll('.function-box');
+
+      const saFunc = function() {
+        for (const element of saElementList) {
+          if (!element.classList.contains('function-box-show')) {
+            if (window.innerHeight > element.getBoundingClientRect().top + saTriggerMargin) {
+              element.classList.add('function-box-show');
+            }
+          }
+        }
+      }
+
+      window.addEventListener('load', saFunc);
+      window.addEventListener('scroll', saFunc);
+    }); 
+
     const img = [
       require("../../assets/explain/1.png"),
       require("../../assets/explain/2.png"),
@@ -477,6 +495,15 @@ $tertiary: #ff538f;
   display: flex;
   justify-content: center;
   margin: 16vw 0px;
+  opacity: 0;
+  transition: all .8s ease;
+}
+.function-box-up {
+  transform: translate(0, 100px);
+}
+.function-box-show {
+  opacity: 1;
+  transform: none;
 }
 .small-display-off {
   display: block;
