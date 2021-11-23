@@ -41,7 +41,6 @@ export default {
           const userid = $store.state.user.userid
           await $router.push({ name: 'AllUrls', params: { id: userid }})
         }).catch((error) => {
-          console.log('팝업로그인실패', error)
           const errorCode = error.code;
           const errorMessage = error.errorMessage;
           const email = error.email;

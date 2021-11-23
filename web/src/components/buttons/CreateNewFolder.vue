@@ -97,7 +97,6 @@ export default {
           folder_name : folder_name
         }
         closeDialog()
-        console.log('is open', isOpen)
         await $store.dispatch('urls/CREATE_FOLDER', folderData)
         // console.log('폴더아이디', $store.getters['urls/folderNow.']._id)
         closeDialog()

@@ -66,11 +66,8 @@ export default {
 
     const recommendCheck = localStorage.getItem('needRecommend')
     if (recommendCheck === null || recommendCheck === 'true') {
-      console.log(recommendCheck, '추천이 필요한 유저입니다')
       localStorage.setItem('needRecommend', false)
       $store.dispatch("recommend/GET_RECOMMEND_URL", 10);
-    } else {
-      console.log(recommendCheck, '추천하지 않아도 되는 유저입니다.')
     }
 
     const recommendUrls = computed({
@@ -82,8 +79,6 @@ export default {
     });
 
     const clickImg = (url, e) => {
-      console.log(e)
-      console.log('here')
       openURL(toRaw(url).url);
     };
 

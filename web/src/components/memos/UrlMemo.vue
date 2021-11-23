@@ -135,7 +135,6 @@ export default {
         memo_id: props.memoItem._id,
         content: content.value
       };
-      console.log(memoData);
       $store.dispatch("urls/PUT_URL_MEMO", memoData);
       toggleUpdating();
     };

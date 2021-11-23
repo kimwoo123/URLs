@@ -93,10 +93,6 @@ export async function PUT_URL_MEMO({ commit }, memoData) {
     .then(async result => {
       commit("setUrlMemo", result.data.memos);
     })
-    .catch(error => {
-      console.log("에러다");
-      console.log(error);
-    });
 }
 
 export async function DELETE_URL_MEMO({ commit }, memoData) {
@@ -107,7 +103,6 @@ export async function DELETE_URL_MEMO({ commit }, memoData) {
 
 export async function GET_FOLDER_URL_SEARCH({ commit }, urlData) {
   if (urlData.folder_id == "") {
-    console.log("전체 페이지에서 검색은 잠시만...");
   } else {
     await urls.urlFindFolder(urlData).then(async result => {
       commit("setSearchData", result.data);
