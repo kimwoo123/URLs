@@ -28,7 +28,6 @@ export default {
   data() {
     return {
       routes,
-      checkedReleasesIds: [],
       fetchedReleases: [],
       folders: [],
       urls: [],
@@ -38,18 +37,7 @@ export default {
 
   methods: {
     initComponent() {
-      this.checkedReleasesIds = this.$store.getters.getCheckedReleasesIds;
       this.token = this.$store.getters.getToken;
-    },
-
-    async fetchWorkSpace() {
-      this.loading = true;
-      const response = await mainApi.getWorkspace();
-      const payload = {
-        urls: response.data,
-      };
-      this.save(payload, 'updated');
-      this.loading = false;
     },
 
     async fetchFolders() {
@@ -64,25 +52,6 @@ export default {
         }));
       }
       console.log(response);
-      console.log('fetchFolder :', this.folders);
-      this.save(
-        {
-          folders: this.folders,
-        },
-        'updated',
-      );
-    },
-
-    async fetchTestFolders() {
-      this.loading = true;
-      const response = await mainApi.getFoldersTest();
-      if (response && response.data) {
-        this.folders = response.data.map(folder => ({
-          folder_id: folder.folder_id,
-          folder_name: folder.folder_name,
-          shared: folder.shared,
-        }));
-      }
       console.log('fetchFolder :', this.folders);
       this.save(
         {
@@ -120,21 +89,15 @@ export default {
     defaultActive() {
       return this.$route.path;
     },
-
-    hasNewRelease() {
-      return this.checkedReleasesIds.length < this.fetchedReleases.length;
-    },
   },
 
   created() {
     this.fetchReleaseNotes();
-    this.fetchWorkSpace();
     this.initComponent();
-    // this.fetchTestFolders();
+    this.fetchFolders();
     this.$root.$on('loaded:sider', () => {
       this.initComponent();
     });
-    this.fetchFolders();
   },
 
   beforeDestroy() {
@@ -152,14 +115,5 @@ export default {
   width: $sider-width;
   height: $sider-height;
   background-color: #f2f6fc;
-
-  /deep/ .sider-badge {
-    display: inline;
-
-    .el-badge__content {
-      right: 15px;
-      top: 5px;
-    }
-  }
 }
 </style>
