@@ -10,6 +10,7 @@ from pymongo import ReturnDocument
 from .token import get_current_user
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
+from pprint import pprint
 
 folder_url = APIRouter()
 
@@ -71,6 +72,7 @@ async def find_all_folder_url_me(user: User = Depends(get_current_user)):
             for url in folder["urls"]:
                 url["folder_id"] = folder["_id"]
                 url["folder_name"] = db.folder.find_one({"_id": ObjectId(folder["_id"])})["folder_name"]
+                url["memos_count"] = len(db.memo.find_one({"_id": ObjectId(url["memos_id"])})["memos"])
                 result.append(url)
         result.sort(key=lambda x: ObjectId(x["memos_id"]).generation_time, reverse=True)
         return serializeList_folder(result)
@@ -101,6 +103,7 @@ async def find_all_folder_url_me(pattern, user: User = Depends(get_current_user)
             for url in folder["urls"]:
                 url["folder_id"] = folder["_id"]
                 url["folder_name"] = db.folder.find_one({"_id": ObjectId(folder["_id"])})["folder_name"]
+                url["memos_count"] = len(db.memo.find_one({"_id": ObjectId(url["memos_id"])})["memos"])
                 result.append(url)
         result.sort(key=lambda x: ObjectId(x["memos_id"]).generation_time, reverse=True)
 
@@ -121,7 +124,11 @@ async def find_one_folder_url(folder_id, pattern):
         }}
     ])
     if folder is not None:
-        return serializeList(folder)
+        folder = serializeList(folder)[0]
+        for idx, url in enumerate(folder["urls"]):
+            memo = db.memo.find_one({"_id": ObjectId(folder["urls"][idx]["memos_id"])})
+            folder["urls"][idx]["memos_count"] = len(memo["memos"])
+        return folder
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {folder_id} not found")
 
 
