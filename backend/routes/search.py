@@ -44,6 +44,6 @@ async def search_tag(searchText: str, folder: str):
     for url in res['hits']['hits'][0]['inner_hits']['urls']['hits']['hits']:
         url["_source"]["memos_count"] = len(db.memo.find_one({"_id": ObjectId(url["_source"]["memos_id"])})["memos"])
         result.append(url)
-    return [result]
+    return result
   except:
     return '검색 결과가 없습니다'
