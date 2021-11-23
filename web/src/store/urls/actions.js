@@ -27,12 +27,10 @@ export async function GET_FOLDER_ULR({ commit }, folderId) {
     await urls
       .folderDetail(folderId)
       .then(async result => {
-        console.log("폴더디테일조회!");
         await commit("setUrl", result.data.urls);
         await commit("setFolderNow", result.data);
       })
       .catch(async error => {
-        console.log("폴더디테일조회! 에러", folderId);
         console.log(error);
         await commit("setUrl", []);
         await commit("setFolderNow", {});
@@ -155,13 +153,20 @@ export async function DELETE_URL({ commit }, urlData) {
     });
 }
 
-export async function DELETE_URL_BY_TIMER({ commit }, urlData) {
+export async function DELETE_URL_BY_TIMER(
+  { commit, dispatch, getters },
+  urlData
+) {
+  const folderId = getters.folderNow._id;
   await urls
     .urlDelete(urlData)
     .then(result => {
       commit("deleteWillDeleteURL", urlData);
-      commit("setFolderNow", result.data);
-      commit("setUrl", result.data.urls);
+      if (folderId !== "") {
+        commit("setFolderNow", result.data);
+      } else {
+        dispatch("GET_ALL_URL");
+      }
     })
     .catch(err => {
       commit("deleteWillDeleteURL", urlData);
