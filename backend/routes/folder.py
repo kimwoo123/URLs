@@ -71,6 +71,7 @@ async def update_folder(id, folder_in: FolderIn, current_user: User = Depends(ge
                     {"email": user["email"], "folders.folder_id": ObjectId(id)},
                     {"$set": {"folders.$.folder_name": folder_in.folder_name}}
                 )
+            folder["urls"] = folder["urls"][::-1]
             return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")
 
@@ -97,6 +98,6 @@ async def delete_folder(id, current_user: User = Depends(get_current_user)):
                     {"email": user["email"]},
                     {"$pull": {"folders": {"folder_id": ObjectId(id)}}}
                 )
-
+            folder["urls"] = folder["urls"][::-1]
             return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {id} not found")

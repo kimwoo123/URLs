@@ -184,7 +184,8 @@ async def update_folder_url(folder_id, url_in: UrlIn, current_user: User = Depen
             await tag_count_decrease(old_folder["urls"][0]["tags"], user_id=current_user["_id"])
             # 새로 생기는 태그 count 증가
             await tag_count_increase(url_in.tags, user_id=current_user["_id"])
-
+            
+            folder["urls"] = folder["urls"][::-1]
             return serializeDict(folder)
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"url is not in the folder")
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder is not in my folder")
