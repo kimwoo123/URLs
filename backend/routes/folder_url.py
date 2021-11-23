@@ -128,7 +128,7 @@ async def find_one_folder_url(folder_id, pattern):
         for idx, url in enumerate(folder["urls"]):
             memo = db.memo.find_one({"_id": ObjectId(folder["urls"][idx]["memos_id"])})
             folder["urls"][idx]["memos_count"] = len(memo["memos"])
-        return folder
+        return [folder]
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {folder_id} not found")
 
 
