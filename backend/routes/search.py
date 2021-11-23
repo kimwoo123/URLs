@@ -1,5 +1,7 @@
 from elasticsearch import Elasticsearch
 from fastapi import APIRouter
+from config.db import db
+from bson import ObjectId
 
 search = APIRouter()
 es = Elasticsearch(hosts="elastic:k5b201eagle@k5b201.p.ssafy.io", port=9200)
@@ -38,31 +40,10 @@ async def search_tag(searchText: str, folder: str):
     }
   )
   try:
-    print(res['hits']['hits'][0]['inner_hits']['urls']['hits']['hits'])
-    return res['hits']['hits'][0]['inner_hits']['urls']['hits']['hits']
+    result = []
+    for url in res['hits']['hits'][0]['inner_hits']['urls']['hits']['hits']:
+        url["_source"]["memos_count"] = len(db.memo.find_one({"_id": ObjectId(url["_source"]["memos_id"])})["memos"])
+        result.append(url)
+    return [result]
   except:
     return '검색 결과가 없습니다'
-  
-    # {
-    #   "query": {
-    #     "bool": {
-    #       "must": [
-    #         {
-    #           "match": {
-    #             "_id": folder
-    #           }
-    #         }
-    #       ],
-    #       "filter": [
-    #         {
-    #           "match": {
-    #             "urls.tags": {
-    #               "query": searchText,
-    #               "fuzziness": "1"
-    #             }
-    #           }
-    #         }
-    #       ]
-    #     }
-    #   }
-    # }

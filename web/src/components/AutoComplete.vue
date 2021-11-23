@@ -27,7 +27,6 @@ export default {
 
     watch(selectTag, val => {
       if (val !== "") {
-        console.log(val);
         let queryData = { searchText: val, folderId: $route.params.folder_id };
         $store.dispatch("recommend/SEARCH_TAG", queryData);
       }
