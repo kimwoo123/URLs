@@ -64,6 +64,7 @@ async def create_folder_user(folder_id, user_in: UserIn, current_user: User = De
     db.user.find_one_and_update({"_id": ObjectId(target_user["_id"])}, {"$push": {"folders": taget_user_folder}})
 
     if folder is not None:
+        folder["urls"] = folder["urls"][::-1]
         return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {folder_id} not found")
 
@@ -83,6 +84,7 @@ async def update_folder_user(folder_id, user_in: UserIn, current_user: User = De
         return_document=ReturnDocument.AFTER
     )
     if folder is not None:
+        folder["urls"] = folder["urls"][::-1]
         return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {folder_id} or useremail not found")
 
@@ -114,6 +116,7 @@ async def delete_folder_user(folder_id, email, current_user: User = Depends(get_
                 {"_id": current_user["_id"], "folders.folder_id": ObjectId(folder_id)}, 
                 {"$set": {"folders.$.shared": False}},
             )
+        folder["urls"] = folder["urls"][::-1]
         return serializeDict(folder)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {folder_id} not found")
 
