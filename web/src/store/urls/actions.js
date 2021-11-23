@@ -185,3 +185,14 @@ export async function DELETE_FOLDER_USER({ commit, dispatch }, folderUserData) {
     commit("setFolderNow", result.data);
   });
 }
+
+export async function LEAVE_FOLDER({ commit, dispatch }, folderData) {
+  await urls.leaveFolder(folderData.folderId)
+  .then(() => {
+    dispatch("GET_FOLDER");
+    vueRouter.push({
+      name: "AllUrls",
+      params: { id: folderData.userId }
+    });
+  })
+}

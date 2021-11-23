@@ -65,6 +65,9 @@
                 </q-item-section>
 
               </q-item>
+              <q-card-actions align="right" class="text-primary">
+                <q-btn flat v-if="myPermission !==2" label="그룹 탈퇴하기" @click="leaveFolder" type="submit" />
+              </q-card-actions>
             </q-list>
           </div>
         </q-card-section>
@@ -77,6 +80,7 @@
 import { ref, computed, watch } from "vue";
 import { useQuasar } from "quasar";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router" 
 import folderUserPermissionSelect from "../select/folderUserPermissionSelect.vue";
 
 export default {
@@ -84,6 +88,7 @@ export default {
   props: ["folderData"],
   setup(props) {
     const $store = useStore();
+    const $route = useRoute();
     const isOpen = ref(false);
 
     const myPermission = computed({
@@ -136,8 +141,15 @@ export default {
       $store.dispatch("urls/ADD_FOLDER_USER", folderUserData);
     };
 
+    const leaveFolder = () => {
+      const folderData = {
+          folderId: props.folderData._id,
+          userId: $route.params.id
+      } 
+      $store.dispatch("urls/LEAVE_FOLDER", folderData)
+    }
+
     const resetForm = () => {
-      console.log("리셋");
       email.value = "";
       selectedOption.value = { label: "읽기", value: 0 };
     };
@@ -153,7 +165,8 @@ export default {
       options,
 
       AddUser,
-      resetForm
+      resetForm,
+      leaveFolder
     };
   }
 };

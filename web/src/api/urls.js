@@ -95,3 +95,7 @@ export function memoPut(memoData) {
 export function memoDelete(memoData) {
   return api.delete(`/memo/${memoData.memos_id}/${memoData.memo_id}`);
 }
+
+export function leaveFolder(folderId) {
+  return api.delete(`/folder/${folderId}/me`)
+}
