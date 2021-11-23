@@ -90,7 +90,7 @@
       </q-card-section>
     </q-card>
 
-    <q-dialog v-model="tagAddMode" persistent>
+    <q-dialog v-model="tagAddMode">
       <q-card style="min-width: 250px">
         <q-card-section>
           <div class="text-h6">태그 추가</div>
@@ -124,20 +124,6 @@
       </q-card>
     </q-dialog>
   </main>
-
-  <!-- <q-dialog v-model="isOpen">
-    <q-card>
-      <q-card-section class="row items-center">
-        <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
-        <span class="q-ml-sm">URL을 삭제하시면 되돌릴 수 없어요!</span>
-      </q-card-section>
-
-      <q-card-actions align="right">
-        <q-btn flat label="취소" color="grey" v-close-popup />
-        <q-btn flat label="URL 삭제" color="primary" v-close-popup />
-      </q-card-actions>
-    </q-card>
-  </q-dialog> -->
 </template>
 
 <script>
