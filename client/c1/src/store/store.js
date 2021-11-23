@@ -13,7 +13,6 @@ export const store = new Vuex.Store({
     serviceType: null,
     themeType: null,
     badgeType: 'percent',
-    checkedReleasesIds: [],
     fetchedReleases: [],
     photoURL: null,
     baseURL: 'https://k5b201.p.ssafy.io/',
@@ -47,10 +46,6 @@ export const store = new Vuex.Store({
 
     getBadgeType(state) {
       return state.badgeType;
-    },
-
-    getCheckedReleasesIds(state) {
-      return state.checkedReleasesIds;
     },
 
     getFetchedReleases(state) {
