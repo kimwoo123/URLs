@@ -10,6 +10,7 @@ from pymongo import ReturnDocument
 from .token import get_current_user
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
+from pprint import pprint
 
 folder_url = APIRouter()
 
@@ -71,6 +72,7 @@ async def find_all_folder_url_me(user: User = Depends(get_current_user)):
             for url in folder["urls"]:
                 url["folder_id"] = folder["_id"]
                 url["folder_name"] = db.folder.find_one({"_id": ObjectId(folder["_id"])})["folder_name"]
+                url["memos_count"] = len(db.memo.find_one({"_id": ObjectId(url["memos_id"])})["memos"])
                 result.append(url)
         result.sort(key=lambda x: ObjectId(x["memos_id"]).generation_time, reverse=True)
         return serializeList_folder(result)
@@ -101,6 +103,7 @@ async def find_all_folder_url_me(pattern, user: User = Depends(get_current_user)
             for url in folder["urls"]:
                 url["folder_id"] = folder["_id"]
                 url["folder_name"] = db.folder.find_one({"_id": ObjectId(folder["_id"])})["folder_name"]
+                url["memos_count"] = len(db.memo.find_one({"_id": ObjectId(url["memos_id"])})["memos"])
                 result.append(url)
         result.sort(key=lambda x: ObjectId(x["memos_id"]).generation_time, reverse=True)
 
@@ -121,7 +124,11 @@ async def find_one_folder_url(folder_id, pattern):
         }}
     ])
     if folder is not None:
-        return serializeList(folder)
+        folder = serializeList(folder)[0]
+        for idx, url in enumerate(folder["urls"]):
+            memo = db.memo.find_one({"_id": ObjectId(folder["urls"][idx]["memos_id"])})
+            folder["urls"][idx]["memos_count"] = len(memo["memos"])
+        return [folder]
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {folder_id} not found")
 
 
@@ -183,21 +190,21 @@ async def update_folder_url(folder_id, url_in: UrlIn, current_user: User = Depen
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder is not in my folder")
 
 
-@folder_url.delete('/folder/{folder_id}/url', summary="폴더 내 특정 url 삭제")
-async def delete_folder_url(folder_id, url, current_user: User = Depends(get_current_user)):
+@folder_url.put('/folder/{folder_id}/url/delete', summary="폴더 내 특정 url 삭제")
+async def delete_folder_url(folder_id, url_in: UrlIn, current_user: User = Depends(get_current_user)):
     tmp = db.folder.find_one(
-        {"_id": ObjectId(folder_id), "urls.url": url},
+        {"_id": ObjectId(folder_id), "urls.url": url_in.url},
         {"urls.$":1}
     )
     if tmp is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {url} not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"folder {url_in.url} not found")
 
     memos_id = tmp["urls"][0]["memos_id"]
     await tag_count_decrease(tmp["urls"][0]["tags"], user_id=current_user["_id"])
     
     folder = db.folder.find_one_and_update(
         {"_id": ObjectId(folder_id)},
-        {"$pull": {"urls": {"url": url}}}, 
+        {"$pull": {"urls": {"url": url_in.url}}}, 
         return_document=ReturnDocument.AFTER
     )
     db.memo.delete_one({"_id": ObjectId(memos_id)})
