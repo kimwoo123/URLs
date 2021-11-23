@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh LpR fFf">
+  <q-layout view="hHh LpR lFr">
     <q-header bordered class="bg-white text-black">
       <q-toolbar class="q-py-sm">
         <!-- <q-btn flat @click="drawer = !drawer" round dense icon="menu" /> -->
@@ -74,6 +74,15 @@
         <q-btn fab icon="keyboard_arrow_up" color="primary" />
       </q-page-scroller>
     </q-page-container>
+    <div id="footer">
+      <p>Copyright © Team. EAGLE_EYE All Rights Reserved.</p>
+      <p>김재현 김문희 김우석 이다은 이두호</p>
+      <p class="icon">
+        <q-btn flat round padding="3px" icon="img:https://img.icons8.com/material-rounded/24/000000/github.png" />
+        <q-btn flat round padding="3px" icon="img:https://img.icons8.com/material-rounded/50/000000/instagram-new.png" />
+        <q-btn flat round padding="3px" icon="img:https://img.icons8.com/ios-glyphs/24/000000/twitter--v1.png" />
+      </p>
+    </div>
   </q-layout>
 </template>
 
@@ -173,5 +182,24 @@ a:visited {
 .navbar-logo {
   height: 16px;
   widows: 100%;
+}
+
+#footer {
+  width: 100%;
+  height: 130px;
+  border-top: 1px solid $lightgray;
+  background-color: white;
+  color: $darkgray;
+  padding-top: 35px;
+  margin: 150px 0 0;
+  p {
+    margin: 0 auto;
+    text-align: center;
+    font-size: 12px;
+  }
+  button {
+    margin-top: 5px;
+    margin-right: 3px;
+  } 
 }
 </style>
