@@ -26,7 +26,7 @@
 - 다양한 플랫폼 제공
   - 반응형 PC 웹페이지
   - 안드로이드 앱
-  - 크롬 익스텐션https://3dicons.co/
+  - 크롬 익스텐션
 
 <br/>
 
@@ -58,13 +58,45 @@
 
 ## 📱 안드로이드
 
+### 1. 로그인
 
+![앱로그인](README.assets/앱로그인.gif)
+
+### 2. url 추가
+
+![앱url추가](README.assets/앱url추가.gif)
+
+### 3. url 추가 (메모 드래그 해서 추가)
+
+![앱url추가(메모함께)](README.assets/앱url추가(메모함께).gif)
+
+### 3. url 확인
+
+![앱url확인](README.assets/앱url확인.gif)
+
+### 4. 추천 url
+
+![앱추천](README.assets/앱추천.gif)
 
 <br/>
 
 ## 📟 크롬 익스텐션
 
-ㅁ
+### 1. URL 추가 
+
+![익스텐션url추가](README.assets/익스텐션url추가.gif)
+
+### 2. 폴더 확인 및 이동
+
+![익스텐션폴더확인](README.assets/익스텐션폴더확인.gif)
+
+### 3. 하이라이트
+
+![익스텐션하이라이트](README.assets/익스텐션하이라이트.gif)
+
+### 4. 공지사항 / 정보
+
+![익스텐션공지사항](README.assets/익스텐션공지사항.gif)
 
 <br/>
 
