@@ -167,7 +167,6 @@ export default {
     let timer = null;
     const StartTimeOut = () => {
       timer = setTimeout(() => {
-        console.log("타이머로 영구삭제!");
         $store.dispatch("urls/DELETE_URL_BY_TIMER", urlData);
       }, 6000);
     };
