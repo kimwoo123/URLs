@@ -1,61 +1,62 @@
-# S05P31B201
+# URLS : 똑똑하게 저장하고 나누는 방법
 
-![image-1.png](assets/image-1.png)
+- 서비스 명 : URLS
+- 개발 기간 : 2021.10. ~ 2021.11. (6주)
+- 팀명 : EAGLE_EYE
 
-## 프로젝트 명: URLS - 똑똑하게 저장하고 나누는 방법
+| 김재현 팀장 | 김문희 |   김우석   | 이다은 | 이두호 |
+| :---------: | :----: | :--------: | :----: | :----: |
+|             |        |            |        |        |
+|   Client    |   FE   | DevOps. FE |   BE   |   AI   |
 
-## 팀명: 이글 아이팀
+<br/>
 
-## Preview
+# 주요 기능
 
-![image-1.png](assets/image-1.png)
+- url 저장 및 공유
+  - 개인/공유 폴더로 url 관리 및 공유
+  - url 저장 시 카테고리 및 태그를 함께 저장 가능
+  - url 주소/태그 검색 기능
+- url 추천 시스템
+  - url 입력시 관련한 태그 추천
+  - 저장한 url을 기반으로 사용자 성향을 분석하여 url 추천
+- 메모 및 하이라이트
+  - PC 웹페이지 / 안드로이드 앱에서 url 마다 메모 작성 가능
+  - 크롬 익스텐션에서 url의 문단을 하이라이트 하여 표시 가능
+- 다양한 플랫폼 제공
+  - 반응형 PC 웹페이지
+  - 안드로이드 앱
+  - 크롬 익스텐션
 
-![image-2.png](assets/image-2.png)
+<br/>
 
-![image-3.png](assets/image-3.png)
+# 구현
 
-![image-5.png](assets/image-5.png)
+## 웹
 
-## 기술 스택
+gif 찍어서 올릴예정
 
-![image-4.png](assets/image-4.png)
+## 안드로이드
 
-### Cient
-- Android
-- chrome-extensions
+ㅁ
 
-### Frontend
-- Vue with Quasar
+## 크롬 익스텐션
 
-### Backend
-- FastAPI
+ㅁ
 
-### Infra
-- Kubernetes
-- mongo db 
-- elasticsearch
-- Nginx
+<br/>
 
-## 팀원
+# 기술스택
 
-- 김재현 (client)
-- 김문희 (FE)
-- 김우석 (DevOps. FE)
-- 이다은 (BE)
-- 이두호 (AI)
+![image-20211123130120928](README.assets/image-20211123130120928.png)
 
-## Git Flow
+- Client : Android, chrome-extensions
+- Frontend : Vue with Quasar
+- Backend : FastAPI
+- Infra : Kubernetes, mongoDB, elasticsearch, Nginx
 
-![우린 Git-flow를 사용하고 있어요 | 우아한형제들 기술블로그](assets/git-flow_overall_graph.png)
+<br/>
 
-## Git Convention
+# 수상
 
-- **ADD :** 코드나 테스트, 예제, 문서 등의 추가가 있을 때 사용합니다
-- **REMOVE :** 코드의 삭제가 있을 때 사용
-- **UPDATE :** 원래도 정상적으로 동작하고 있었지만, 수정, 추가, 보완을 한다는 개념입니다.
-- **RENAME :** 파일/폴더 이름 변경이 있을 때 사용합니다.
-- **FIX :** 보통 올바르지 않은 동작을 고친 경우에 사용합니다.
-- **MOVE :** 코드/폴더 의 이동이 있을 때 사용합니다.
-- **SET :** 변수 값을 변경하는 등의 작은 수정에 주로 사용합니다.
-- **REFACTOR :** 리팩토링할 때 사용합니다.
-- **DOCS :** 사이트/문서 업그레이드 할 때 사용합니다.
+- 
