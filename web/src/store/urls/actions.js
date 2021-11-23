@@ -11,7 +11,6 @@ export async function GET_FOLDER({ commit }) {
 
 export async function GET_ALL_URL({ commit }) {
   await urls.urlFindAll().then(async result => {
-    console.log(result)
     const allFolderData = {
       _id: '',
       folder_name: '모든 Urls',
