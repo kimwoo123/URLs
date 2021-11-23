@@ -15,10 +15,7 @@
       </template>
     </div>
 
-    <div
-      class="row q-pa-md items-start q-gutter-lg justify-center"
-      v-else
-    >
+    <div class="row q-pa-md items-start q-gutter-lg justify-center" v-else>
       <template
         v-for="urlItem in searchData[0].urls"
         :key="urlItem.memos_id"
@@ -27,25 +24,23 @@
         <folder-url-card :urlItem="urlItem" />
       </template>
     </div>
-
   </main>
 </template>
 
 <script>
 import { computed, watch, onUnmounted } from "vue";
-import { useStore } from 'vuex'
+import { useStore } from "vuex";
 import { useRoute, onBeforeRouteLeave } from "vue-router";
 import FolderUrlCard from "src/components/cards/FolderUrlCard.vue";
 import FolderHeader from "src/components/FolderHeader.vue";
-
 
 export default {
   components: { FolderUrlCard, FolderHeader },
 
   setup() {
     const $route = useRoute();
-    const $store = useStore()
-    $store.dispatch('urls/GET_ALL_URL')
+    const $store = useStore();
+    $store.dispatch("urls/GET_ALL_URL");
 
     const searchData = computed({
       get: () => $store.state.urls.searchData
@@ -55,21 +50,19 @@ export default {
       get: () => $store.getters["urls/folderNow"]
     });
 
-    onBeforeRouteLeave(() => {
-      const deleteList = $store.getters['urls/willDeleteURL']
-      deleteList.forEach(element => {
-        $store.dispatch('urls/DELETE_URL', element)
-      })
-    })
+    // onBeforeRouteLeave(() => {
+    //   const deleteList = $store.getters['urls/willDeleteURL']
+    //   deleteList.forEach(element => {
+    //     $store.dispatch('urls/DELETE_URL', element)
+    //   })
+    // })
 
     return {
       folderData,
       searchData
     };
   }
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
