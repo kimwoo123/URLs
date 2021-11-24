@@ -13,6 +13,7 @@
             <google-login-button color="white"/>
             <div style="margin: 20px 0 0" class="row justify-center">
               <q-btn
+                @click="goToExtension"
                 rounded
                 flat
                 size="12px"
@@ -21,6 +22,7 @@
                 icon="img:data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iMzAiIGhlaWdodD0iMzAiCnZpZXdCb3g9IjAgMCAxNzIgMTcyIgpzdHlsZT0iIGZpbGw6IzAwMDAwMDsiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0ibm9uemVybyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS1kYXNoYXJyYXk9IiIgc3Ryb2tlLWRhc2hvZmZzZXQ9IjAiIGZvbnQtZmFtaWx5PSJub25lIiBmb250LXdlaWdodD0ibm9uZSIgZm9udC1zaXplPSJub25lIiB0ZXh0LWFuY2hvcj0ibm9uZSIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOiBub3JtYWwiPjxwYXRoIGQ9Ik0wLDE3MnYtMTcyaDE3MnYxNzJ6IiBmaWxsPSJub25lIj48L3BhdGg+PGcgZmlsbD0iI2ZmZmZmZiI+PHBhdGggZD0iTTg2LDE3LjJjLTIyLjUwOTA3LDAgLTQyLjQzNzI0LDEwLjg2MjA3IC01NC45ODE3NywyNy41ODA0N2wyNC44OTI5NywyNC44OTI5N2M1LjgyNTA3LC0xMC43MTU2IDE3LjAzOTc0LC0xOC4wNzM0NCAzMC4wODg4LC0xOC4wNzM0NGM3LjY5NDEzLDAgMTQuNzI1MjYsMi42MDk5MiAyMC40NTg1OSw2Ljg3NTUyaDQxLjQ2NTg5bC0zMS4xNDE0LDEyLjQ1MjA4YzIuMjQxNzMsNC41Njk0NyAzLjYxNjkyLDkuNjQyOTMgMy42MTY5MiwxNS4wNzIzOWMwLDExLjMwNjEzIC01LjUzMDYxLDIxLjI1Nzk0IC0xMy45NDE0MSwyNy41MjQ0OGgwLjE3OTE3bC0yNy4yODkzMiw0MC45Mzk1OGMyLjE4NDQsMC4yMTIxMyA0LjQwNDA5LDAuMzM1OTQgNi42NTE1NiwwLjMzNTk0YzM4LjAwMDUzLDAgNjguOCwtMzAuNzk5NDcgNjguOCwtNjguOGMwLC0zOC4wMDA1MyAtMzAuNzk5NDcsLTY4LjggLTY4LjgsLTY4Ljh6TTMwLjk5NTgzLDQ0Ljc5MTY3Yy04LjYyMjkzLDExLjQ5NTMzIC0xMy43OTU4MywyNS43MjgzMyAtMTMuNzk1ODMsNDEuMjA4MzNjMCwzNS43MTI5MyAyNy4yMTc5Miw2NS4wNTMgNjIuMDM2NDYsNjguNDUyODZsMTEuNTExNDYsLTM0LjUzNDM3Yy0xLjU3MDkzLDAuMjE3ODcgLTMuMTI1MzgsMC40ODE1MSAtNC43NDc5MiwwLjQ4MTUxYy0xOC45OTQ1MywwIC0zNC40LC0xNS40MDU0NyAtMzQuNCwtMzQuNHpNODYsNjMuMDY2NjdjLTEyLjY2NTczLDAgLTIyLjkzMzMzLDEwLjI2NzYgLTIyLjkzMzMzLDIyLjkzMzMzYzAsMTIuNjY1NzMgMTAuMjY3NiwyMi45MzMzMyAyMi45MzMzMywyMi45MzMzM2MxMi42NjU3MywwIDIyLjkzMzMzLC0xMC4yNjc2IDIyLjkzMzMzLC0yMi45MzMzM2MwLC0xMi42NjU3MyAtMTAuMjY3NiwtMjIuOTMzMzMgLTIyLjkzMzMzLC0yMi45MzMzM3oiPjwvcGF0aD48L2c+PC9nPjwvc3ZnPg=="
               />
               <q-btn 
+                @click="goToApk"
                 rounded
                 flat
                 size="12px"
@@ -247,6 +249,7 @@
 <script>
 import GoogleLoginButton from '../../components/buttons/GoogleLoginButton.vue'
 import { ref, onMounted } from "vue";
+import { openURL } from 'quasar'
 
 export default {
   components: { GoogleLoginButton },
@@ -307,12 +310,22 @@ export default {
       }
     };
 
+    const goToApk = () => {
+      openURL("https://drive.google.com/file/d/1HcHA_76-MXtGzML7XIWQFabDVyqx6OgJ/view?usp=sharing");
+    };
+
+    const goToExtension = () => {
+      openURL("https://drive.google.com/file/d/1iSKSFrTiIACSBrpY24Jts6y4R_yFuczU/view?usp=sharing");
+    };
+
     return {
       slide: ref(1),
       autoplay: ref(true),
       scroll,
       explainOnOff,
-      img
+      img,
+      goToExtension,
+      goToApk
     };
   }
 };
