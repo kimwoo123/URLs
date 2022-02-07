@@ -120,7 +120,7 @@
 - Client : Android, chrome-extensions
 - Frontend : Vue with Quasar
 - Backend : FastAPI
-- Infra : Kubernetes, mongoDB, elasticsearch, Nginx
+- Infra : Kubernetes, mongoDB, elasticsearch, nginx
 
 <br/>
 
