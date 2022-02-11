@@ -29,7 +29,7 @@ volumes: [
                                 docker push ${frontrepo}:${env.BUILD_NUMBER}
                             """
                         } catch (e) {
-                            error "e"
+                            error "frontend build fail"
                         }
                     }
                     dir ('backend') {
@@ -39,7 +39,7 @@ volumes: [
                                 docker push ${backrepo}:${env.BUILD_NUMBER}
                             """
                         } catch (e) {
-                            error "backend fail"                    
+                            error "backend build fail"                    
                         }
                     }
                 }
