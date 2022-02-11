@@ -6,15 +6,11 @@ volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
 ]) {
     node(POD_LABEL) {
-        def frontrepo = "eypk9673/eagle-web-front"
-        def backrepo = "eypk9673/eagle-back"
+        def frontrepo = "eypk9673/eagle-front2"
+        def backrepo = "eypk9673/eagle-back2"
 
         stage ('Checkout github branch') {
-            mattermostSend (
-                color: "#439FE0",
-                message: "Build START: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-            )
-            checkout scm
+            git branch: 'develop', credentialsId: 'githubcred', url: 'https://github.com/kimwoo123/URLs'
         }
 
         stage ('Build and Push docker image') {
@@ -26,57 +22,37 @@ volumes: [
                     passwordVariable: 'DOCKER_HUB_PASSWORD'
                 ]])  {
                     sh ('echo ${DOCKER_HUB_PASSWORD} | docker login -u $DOCKER_HUB_USER --password-stdin')
-                    parallel([
-                      "Frontend": {
-                        dir ('web') {
-                            try {
-                                sh """
-                                    docker build -t ${frontrepo}:${env.BUILD_NUMBER} .
-                                    docker push ${frontrepo}:${env.BUILD_NUMBER}
-                                """
-                            } catch (e) {
-                                mattermostSend (
-                                    color: "danger", 
-                                    message: "Frontend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                                )
-                                error "Frontend Build failed"
-                            }
+                    dir ('web') {
+                        try {
+                            sh """
+                                docker build -t ${frontrepo}:${env.BUILD_NUMBER} --network=host .
+                                docker push ${frontrepo}:${env.BUILD_NUMBER}
+                            """
+                        } catch (e) {
+                            error "e"
                         }
-                      },
-                      "Backend": {
-                        dir ('backend') {
-                            try {
-                                sh """
-                                    docker build -t ${backrepo}:${env.BUILD_NUMBER} .
-                                    docker push ${backrepo}:${env.BUILD_NUMBER}
-                                """
-                            } catch (e) {
-                                mattermostSend (
-                                    color: "danger", 
-                                    message: "Backend Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                                )
-                                error "Backtend Build failed"
-                            }
+                    }
+                    dir ('backend') {
+                        try {
+                            sh """
+                                docker build -t ${backrepo}:${env.BUILD_NUMBER} --network=host .
+                                docker push ${backrepo}:${env.BUILD_NUMBER}
+                            """
+                        } catch (e) {
+                            error "backend fail"                    
                         }
-                      }
-                    ])
-                  }
-            }
-			  }
+                    }
+                }
+    		}
+        }
 		    
         stage('Apply kubernetes') {
             container('kubectl') {
                 sh """
-                     kubectl set image deployment web-front web-front=${frontrepo}:${env.BUILD_NUMBER} -n default
-                     kubectl set image deployment eagle-back eagle-back=${backrepo}:${env.BUILD_NUMBER} -n default
+                     kubectl set image deployment web-front web-front=${frontrepo}:${env.BUILD_NUMBER} -n ingress-nginx
+                     kubectl set image deployment eagle-back eagle-back=${backrepo}:${env.BUILD_NUMBER} -n ingress-nginx
                 """
             }
-        }
-        stage('done') {
-            mattermostSend (
-                color: "good", 
-                message: "Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-            )
         }
     }
 }
